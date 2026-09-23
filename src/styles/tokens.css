@@ -1,0 +1,35 @@
+/* Change these tokens to recalibrate the whole publication. */
+:root {
+  --paper: #f4f0e7;
+  --paper-raised: #faf7f0;
+  --paper-deep: #eae5da;
+  --ink: #282923;
+  --muted: #747369;
+  --accent: #a63828;
+  --line: #d8d3c7;
+  --soft-line: #e4dfd3;
+  --serif: 'Noto Serif SC', 'Source Han Serif SC', 'Songti SC', 'STSong', 'SimSun', serif;
+  --sans: 'Microsoft YaHei', 'PingFang SC', sans-serif;
+  --latin: Georgia, 'Times New Roman', serif;
+  --mono: 'Courier New', monospace;
+  --page-width: 1320px;
+  --gutter: clamp(24px, 5vw, 80px);
+  --header-height: 82px;
+}
+:root[data-theme='light'] {
+  --paper: #fcfcf9;
+  --paper-raised: #fff;
+  --paper-deep: #f0f0eb;
+  --line: #dbddd4;
+  --soft-line: #e8e9e3;
+}
+:root[data-theme='night'] {
+  --paper: #242722;
+  --paper-raised: #2c2f29;
+  --paper-deep: #1d201c;
+  --ink: #ece7dc;
+  --muted: #b2b0a5;
+  --accent: #e48c71;
+  --line: #494c43;
+  --soft-line: #393d34;
+}

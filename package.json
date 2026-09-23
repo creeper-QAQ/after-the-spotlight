@@ -1,0 +1,36 @@
+{
+  "name": "after-the-spotlight",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "predev": "node scripts/versions.mjs save before-dev",
+    "dev": "vite --host 127.0.0.1",
+    "prebuild": "node scripts/versions.mjs save before-build",
+    "build": "tsc -b && vite build",
+    "preview": "vite preview --host 127.0.0.1",
+    "backup": "node scripts/versions.mjs save",
+    "versions": "node scripts/versions.mjs list",
+    "restore": "node scripts/versions.mjs restore",
+    "test:versions": "node --test tests/versions.test.mjs",
+    "test:browser": "node tests/browser.mjs",
+    "format": "prettier --write src scripts tests vite.config.ts",
+    "format:check": "prettier --check src scripts tests vite.config.ts"
+  },
+  "dependencies": {
+    "react": "19.3.0",
+    "react-dom": "19.3.0",
+    "three": "0.186.0"
+  },
+  "devDependencies": {
+    "@types/node": "26.6.2",
+    "@types/react": "19.3.0",
+    "@types/react-dom": "19.3.0",
+    "@types/three": "0.186.0",
+    "@vitejs/plugin-react": "6.1.1",
+    "playwright": "1.63.0",
+    "prettier": "3.9.8",
+    "typescript": "7.0.2",
+    "vite": "8.3.0"
+  }
+}

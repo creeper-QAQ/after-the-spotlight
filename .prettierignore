@@ -1,0 +1,6 @@
+node_modules
+dist
+.versions
+.recoveries
+artifacts
+package-lock.json
