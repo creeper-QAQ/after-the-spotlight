@@ -1,5 +1,6 @@
 import { useEffect, useRef } from 'react';
 import { sources, type SourceTopic } from '../content/story';
+import { dataset } from '../content/data';
 import { Icon } from './Icon';
 
 export function SourceDialog({
@@ -24,6 +25,15 @@ export function SourceDialog({
     };
   }, [topic]);
   const source = topic ? sources[topic] : null;
+  const listedSources = dataset.sources.filter((item) =>
+    topic === 'catalogue'
+      ? item.id === 'anhui-project-delivery'
+      : topic === 'people'
+        ? item.id === 'anhui-inheritor-delivery'
+        : topic === 'reports'
+          ? !item.id.startsWith('anhui-')
+          : true,
+  );
   return (
     <dialog
       ref={dialog}
@@ -58,8 +68,21 @@ export function SourceDialog({
               </div>
             </article>
           ))}
+          {topic !== 'craft' && listedSources.length > 0 && (
+            <div className="reported-sources">
+              <h3>资料入口与复核状态</h3>
+              {listedSources.map((item) => (
+                <a key={item.id} href={item.url} target="_blank" rel="noreferrer">
+                  <span>{item.title}</span>
+                  <small>
+                    {item.note} · 核对日期 {item.accessedAt}
+                  </small>
+                </a>
+              ))}
+            </div>
+          )}
           <div className="dialog-foot">
-            <span className="status-dot" /> 视觉初版 · 数据待核验
+            <span className="status-dot" /> 安徽交付表已清洗 · 逐条来源与缺席组员数据待补
           </div>
         </div>
       )}

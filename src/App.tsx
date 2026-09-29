@@ -1,9 +1,23 @@
 import { useEffect, useRef, useState } from 'react';
 import { chapters, introduction, type SourceTopic } from './content/story';
 import { Icon } from './components/Icon';
-import { ModelView } from './components/ModelView';
+import { Overture } from './components/Overture';
+import { SealAtlas } from './components/SealAtlas';
+import { ContinuityLoom } from './components/ContinuityLoom';
 import { SourceDialog } from './components/SourceDialog';
-import { Overview, Craft, People, After } from './components/Sections';
+import {
+  Attention,
+  ParticipationContext,
+  CaseFollowup,
+  CraftContext,
+  PeopleContext,
+  Verdict,
+} from './components/Narrative';
+import { InkFluid } from './effects/InkFluid';
+import { HeritageDecor } from './effects/HeritageDecor';
+import { SplatGallery } from './effects/SplatGallery';
+import { ViralBurst } from './effects/ViralBurst';
+import { useEditorialMotion } from './effects/useEditorialMotion';
 
 function readPreference(key: string, fallback: string) {
   try {
@@ -25,10 +39,13 @@ export default function App() {
   const [systemReduced, setSystemReduced] = useState(
     () => matchMedia('(prefers-reduced-motion: reduce)').matches,
   );
-  const [heroRotation, setHeroRotation] = useState(0);
   const settings = useRef<HTMLDialogElement>(null);
   const settingsTrigger = useRef<HTMLButtonElement>(null);
   const motion = motionChoice === 'system' ? !systemReduced : motionChoice === 'on';
+  useEditorialMotion(motion);
+  useEffect(() => {
+    document.documentElement.dataset.chapter = active;
+  }, [active]);
 
   useEffect(() => {
     const preference = matchMedia('(prefers-reduced-motion: reduce)');
@@ -93,10 +110,12 @@ export default function App() {
 
   return (
     <>
-      <a href="#overview" className="skip-link">
+      <HeritageDecor />
+      <InkFluid motion={motion} theme={theme} />
+      <a href="#phenomenon" className="skip-link">
         跳到正文
       </a>
-      <header className="site-header">
+      <header className={`site-header ${active === 'intro' ? 'header-overture' : ''}`}>
         <a className="brand" href="#intro" onClick={() => setMenuOpen(false)}>
           <span className="brand-seal">见</span>
           <span>
@@ -138,76 +157,7 @@ export default function App() {
         <div className="reading-progress" style={{ transform: `scaleX(${progress})` }} />
       </header>
       <main>
-        <section id="intro" className="hero">
-          <div className="hero-topline">
-            <span>
-              <i className="status-dot" />
-              {introduction.eyebrow}
-            </span>
-            <span className="edition mono">VISUAL EDITION / 2026</span>
-          </div>
-          <div className="hero-layout">
-            <div className="hero-copy">
-              <span className="hero-english">
-                AFTER THE
-                <br />
-                SPOTLIGHT.
-              </span>
-              <h1>
-                被看见
-                <span className="title-bottom">
-                  之<span className="accent">后</span>
-                  <span className="title-seal">
-                    非遗
-                    <br />
-                    观察
-                  </span>
-                </span>
-              </h1>
-              <div className="hero-deck">
-                <p>
-                  {introduction.subtitle}
-                  <br />
-                  {introduction.question}
-                </p>
-              </div>
-              <a className="begin-link" href="#overview">
-                <span className="round-arrow">
-                  <Icon name="down" size={19} />
-                </span>
-                循着光，往里走<span className="mono">SCROLL TO EXPLORE</span>
-              </a>
-            </div>
-            <div className="hero-art">
-              <div className="hero-orbit" aria-hidden="true" />
-              <span className="art-axis axis-top">HUANGSHAN · ANHUI</span>
-              <span className="art-axis axis-right">一 盏 灯 的 来 处</span>
-              <ModelView motion={motion} rotation={heroRotation} className="hero-model" />
-              <div className="hero-art-caption">
-                <span>
-                  <span className="tiny-cross">+</span> 鱼灯 · 形与光的相遇
-                </span>
-                <button
-                  className="text-button"
-                  aria-label="旋转首页鱼灯"
-                  onClick={() => setHeroRotation((r) => r + Math.PI / 4)}
-                >
-                  <Icon name="rotate" size={15} /> 拖动探索
-                </button>
-              </div>
-              <span className="model-disclaimer">原创三维示意 · 非实物复原</span>
-            </div>
-          </div>
-          <div className="hero-bottom">
-            <span className="hero-bottom-index mono">安徽 / 鱼灯 × 徽墨</span>
-            <p>
-              当一门手艺走进屏幕，
-              <br className="mobile-break" />
-              它的故事才刚刚开始。
-            </p>
-            <span className="small-tag">视觉初版 · 数据待核验</span>
-          </div>
-        </section>
+        <Overture motion={motion} />
         <div className="opening-note">
           <span className="vertical-label">从看见到传承</span>
           <p>{introduction.description}</p>
@@ -215,38 +165,25 @@ export default function App() {
             续
           </span>
         </div>
-        <Overview onSource={setTopic} />
-        <Craft onSource={setTopic} motion={motion} />
-        <People onSource={setTopic} />
-        <After onSource={setTopic} />
-        <section className="ending">
-          <span className="eyebrow">THE STORY CONTINUES</span>
-          <h2>
-            让看见，
-            <br />
-            成为<span>继续。</span>
-          </h2>
-          <p>
-            灯火之外，纸墨之间。
-            <br />
-            关于传承的答案，仍在具体的人与日常里。
-          </p>
-          <button className="ending-source" onClick={() => setTopic('method')}>
-            阅读研究方法与来源 <Icon name="arrow" />
-          </button>
-          <span className="ending-character" aria-hidden="true">
-            续
-          </span>
-        </section>
+        <Attention onSource={setTopic} />
+        <ViralBurst motion={motion} />
+        <SplatGallery motion={motion} />
+        <SealAtlas onSource={() => setTopic('catalogue')} />
+        <ParticipationContext onSource={setTopic} />
+        <CaseFollowup />
+        <CraftContext onSource={setTopic} motion={motion} />
+        <PeopleContext onSource={setTopic} />
+        <Verdict onSource={setTopic} />
+        <ContinuityLoom />
       </main>
       <footer className="site-footer">
         <a className="footer-brand" href="#intro">
-          被看见之后<span>一部关于非遗的数据新闻</span>
+          被看见之后<span>一卷关于非遗的互动叙事</span>
         </a>
         <p>
-          视觉初版 V0.1
+          未完的长卷 V0.7
           <br />
-          模型为原创示意，正式数据与案例资料待核验。
+          模型为原创示意；安徽名录图依据组员交付表，逐条原文复核待补。
         </p>
         <div className="footer-actions">
           <button

@@ -1,135 +1,153 @@
-import { fileURLToPath } from 'node:url';
 import { chromium } from 'playwright';
-import { mkdir, writeFile } from 'node:fs/promises';
 import assert from 'node:assert/strict';
+import { mkdir } from 'node:fs/promises';
 
-const out = new URL('../artifacts/', import.meta.url);
-await mkdir(out, { recursive: true });
+await mkdir('artifacts', { recursive: true });
 const browser = await chromium.launch({
-  executablePath:
-    process.env.BROWSER_PATH || 'C:/Program Files (x86)/Microsoft/Edge/Application/msedge.exe',
+  executablePath: 'C:/Program Files (x86)/Microsoft/Edge/Application/msedge.exe',
   headless: true,
-  args: ['--enable-unsafe-swiftshader', '--no-first-run', '--disable-background-networking'],
+  args: ['--enable-unsafe-swiftshader', '--no-first-run'],
 });
 const errors = [];
-const page = await browser.newPage({
-  viewport: { width: 1440, height: 1000 },
-  deviceScaleFactor: 1,
-});
-page.on('pageerror', (error) => errors.push(error.message));
-const url = process.env.PREVIEW_URL || 'http://127.0.0.1:5173';
-await page.goto(url, { waitUntil: 'networkidle' });
-await page.waitForSelector('.hero-model[data-status="ready"]', { timeout: 30000 });
-await page.screenshot({ path: fileURLToPath(new URL('desktop-hero.png', out)) });
-await page.screenshot({ path: fileURLToPath(new URL('desktop-full.png', out)), fullPage: true });
-assert.equal(await page.locator('h1').count(), 1);
-assert.equal(await page.locator('section[id]').count(), 5);
-await page.getByRole('button', { name: '按地区', exact: true }).click();
-assert.equal(
-  await page.getByRole('button', { name: '按地区', exact: true }).getAttribute('aria-pressed'),
-  'true',
-);
-assert.match(await page.locator('.dot-chart').getAttribute('aria-label'), /按地区/);
-await page.getByRole('button', { name: '数据口径与来源' }).click();
-assert.equal(await page.locator('.source-dialog').evaluate((el) => el.open), true);
-await page.keyboard.press('Escape');
-assert.equal(await page.locator('.source-dialog').evaluate((el) => el.open), false);
-assert.match(await page.locator(':focus').innerText(), /数据口径与来源/);
-await page.getByRole('button', { name: '展开结构', exact: true }).click();
-assert.equal(
-  await page.getByRole('button', { name: '合拢结构', exact: true }).getAttribute('aria-pressed'),
-  'true',
-);
-await page.getByRole('button', { name: '徽墨02', exact: true }).click();
-await page.waitForSelector('.craft-exhibit [data-model="ink"][data-status="ready"]');
-assert.match(await page.locator('.craft-narrative h3').innerText(), /一方墨/);
-await page.locator('#craft').screenshot({ path: fileURLToPath(new URL('desktop-ink.png', out)) });
-await page.getByRole('button', { name: '阅读设置', exact: true }).click();
-await page.getByRole('button', { name: '夜读', exact: true }).click();
-assert.equal(await page.locator('html').getAttribute('data-theme'), 'night');
-await page.getByRole('button', { name: '减少动态', exact: true }).click();
-assert.equal(await page.locator('html').getAttribute('data-motion'), 'off');
-await page.getByRole('button', { name: '关闭阅读设置' }).click();
-await page.reload({ waitUntil: 'networkidle' });
-assert.equal(await page.locator('html').getAttribute('data-theme'), 'night');
-assert.equal(await page.locator('html').getAttribute('data-motion'), 'off');
-await page.screenshot({ path: fileURLToPath(new URL('desktop-night.png', out)) });
-
-const mobile = await browser.newPage({
-  viewport: { width: 390, height: 844 },
-  deviceScaleFactor: 1,
-  isMobile: true,
-  hasTouch: true,
-  reducedMotion: 'reduce',
-});
-mobile.on('pageerror', (error) => errors.push(error.message));
-await mobile.goto(url, { waitUntil: 'networkidle' });
-await mobile.waitForSelector('.hero-model[data-status="ready"]');
-assert.equal(await mobile.locator('html').getAttribute('data-motion'), 'off');
-assert.equal(
-  await mobile.evaluate(() => document.documentElement.scrollWidth <= innerWidth),
-  true,
-  'mobile horizontal overflow',
-);
-await mobile.screenshot({ path: fileURLToPath(new URL('mobile-hero.png', out)) });
-await mobile.screenshot({ path: fileURLToPath(new URL('mobile-full.png', out)), fullPage: true });
-await mobile.getByRole('button', { name: '打开目录' }).click();
-await mobile.getByRole('navigation').getByRole('link', { name: '02走近手艺' }).click();
-assert.equal(await mobile.locator('#menu-button').getAttribute('aria-expanded'), 'false');
-assert.match(mobile.url(), /#craft$/);
-await mobile.getByRole('button', { name: '展开结构', exact: true }).click();
-assert.equal(await mobile.getByRole('button', { name: '合拢结构', exact: true }).count(), 1);
-await mobile
-  .locator('#craft')
-  .screenshot({ path: fileURLToPath(new URL('mobile-exploded.png', out)) });
-for (const width of [320, 768, 1024, 1920]) {
-  await mobile.setViewportSize({ width, height: 900 });
-  await mobile.waitForTimeout(100);
+async function check(width, height, mobile = false) {
+  const page = await browser.newPage({
+    viewport: { width, height },
+    isMobile: mobile,
+    hasTouch: mobile,
+    reducedMotion: mobile ? 'reduce' : 'no-preference',
+  });
+  page.on('pageerror', (error) => errors.push(error.message));
+  await page.goto('http://127.0.0.1:5173', { waitUntil: 'networkidle' });
+  await page.waitForSelector('.overture-player svg', { timeout: 30000 });
+  assert.equal(await page.locator('h1').count(), 1);
+  assert.equal(await page.locator('section[id]').count(), 11);
   assert.equal(
-    await mobile.evaluate(() => document.documentElement.scrollWidth <= innerWidth),
+    await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth),
     true,
     `${width}px horizontal overflow`,
   );
+  assert.match(
+    await page.locator('#after .verdict-note').innerText(),
+    /目前不能说“走红带来了传承”/,
+  );
+  assert.match(await page.locator('#phenomenon').innerText(), /超15万/);
+  const catalogue = page.locator('.catalogue-viz');
+  await page.locator('.catalogue-annex > summary').click();
+  assert.match(await catalogue.innerText(), /99 条安徽申报地区或单位子项/);
+  assert.match(await catalogue.innerText(), /72 个不同官方项目编号/);
+  assert.equal(await catalogue.locator('.real-bar').count(), 10);
+  await catalogue.getByRole('button', { name: '按批次' }).click();
+  assert.equal(await catalogue.locator('.real-bar').count(), 5);
+  await catalogue.locator('summary').click();
+  await catalogue.getByRole('searchbox').fill('徽墨');
+  assert.match(await catalogue.innerText(), /当前显示 3 \/ 99 条/);
+  await catalogue.getByRole('searchbox').fill('');
+  await catalogue.getByRole('button', { name: '按类别' }).click();
+  const roster = page.locator('.delivery-people-explorer');
+  assert.match(await roster.innerText(), /119 位有出生年份 · 24 位未公布/);
+  await roster.getByRole('button', { name: '出生年代' }).click();
+  assert.match(await roster.innerText(), /只统计有出生年份的 119 人/);
+  await roster.getByRole('button', { name: '项目关联' }).click();
+  assert.match(await roster.innerText(), /CR022 的具体子项归属待复核/);
+  await roster.locator('summary').click();
+  await roster.getByRole('searchbox').fill('周美洪');
+  assert.match(await roster.innerText(), /匹配 1 \/ 143 人/);
+  assert.equal(await roster.getByRole('link', { name: /官方详情页/ }).count(), 1);
+  const leads = page.locator('.delivery-lead-desk');
+  await page.locator('.leads-annex > summary').click();
+  assert.match(await leads.innerText(), /30 条线索笔记/);
+  assert.match(await leads.innerText(), /14 个不同网页链接/);
+  assert.equal(await leads.locator('.delivery-lead-list article').count(), 15);
+  await leads.getByRole('button', { name: '徽墨' }).click();
+  assert.equal(await leads.locator('.delivery-lead-list article').count(), 15);
+  await leads.getByRole('button', { name: '工艺' }).click();
+  assert.ok((await leads.locator('.delivery-lead-list article').count()) > 0);
+  await catalogue.screenshot({ path: `artifacts/${mobile ? 'mobile' : 'desktop'}-catalogue.png` });
+  await roster.screenshot({ path: `artifacts/${mobile ? 'mobile' : 'desktop'}-people.png` });
+  await leads.screenshot({ path: `artifacts/${mobile ? 'mobile' : 'desktop'}-leads.png` });
+  const burst = page.locator('#viral-burst');
+  const burstBounds = await burst.evaluate((node) => ({
+    top: node.offsetTop,
+    height: node.offsetHeight,
+  }));
+  await page.evaluate(
+    (y) => scrollTo({ top: y, behavior: 'instant' }),
+    burstBounds.top + (burstBounds.height - height) * 0.36,
+  );
+  await page.waitForTimeout(100);
+  assert.equal(await burst.locator('.viral-stage').getAttribute('data-phase'), '1');
+  assert.match(await burst.locator('.viral-fact').innerText(), /超15万/);
+  const beforeSpread = mobile ? await burst.locator('.viral-canvas').screenshot() : null;
+  await page.evaluate(
+    (y) => scrollTo({ top: y, behavior: 'instant' }),
+    burstBounds.top + (burstBounds.height - height) * 0.63,
+  );
+  await page.waitForTimeout(1600);
+  assert.equal(await burst.locator('.viral-stage').getAttribute('data-phase'), '2');
+  assert.equal(await burst.locator('.viral-copy').count(), 1);
+  assert.match(await burst.locator('.viral-fact').innerText(), /300余场/);
+  assert.match(await burst.locator('.viral-secondary').innerText(), /超1500人次/);
+  assert.match(
+    await burst.locator('.viral-fact a').getAttribute('href'),
+    /news\.cn\/local\/20251107/,
+  );
+  if (beforeSpread)
+    assert.notDeepEqual(beforeSpread, await burst.locator('.viral-canvas').screenshot());
+  assert.match(await burst.locator('.viral-bottom').innerText(), /不编码人数/);
+  await burst.getByRole('button', { name: '轻点画面，试着点亮一束光' }).click();
+  assert.match(await burst.locator('.viral-pulse-indicator').innerText(), /已点亮 1 次光波/);
+  await page.screenshot({ path: `artifacts/${mobile ? 'mobile' : 'desktop'}-viral-burst.png` });
+  await page.evaluate(
+    (y) => scrollTo({ top: y, behavior: 'instant' }),
+    burstBounds.top + (burstBounds.height - height) * 0.92,
+  );
+  await page.waitForTimeout(120);
+  assert.equal(await burst.locator('.viral-stage').getAttribute('data-phase'), '3');
+  assert.match(await burst.locator('.viral-copy').innerText(), /还有谁留下/);
+  const wall = page.locator('.evidence-investigation');
+  assert.equal(await wall.locator('.evidence-pin').count(), 3);
+  assert.equal(await wall.locator('.evidence-pin a').count(), 3);
+  await wall.locator('.evidence-step').last().scrollIntoViewIfNeeded();
+  await page.waitForTimeout(100);
+  assert.equal(await wall.locator('.evidence-step.is-active').getAttribute('data-step'), '2');
+  assert.equal(await wall.locator('.evidence-thread path').last().getAttribute('opacity'), '1');
+  if (mobile) {
+    const board = await wall.locator('.evidence-board').boundingBox();
+    assert.ok(
+      board && board.y >= 60 && board.y < 80,
+      'mobile evidence board stays visible while scrolling',
+    );
+  }
+  await page.screenshot({ path: `artifacts/${mobile ? 'mobile' : 'desktop'}-evidence-active.png` });
+  await wall.getByRole('button', { name: '徽墨制作' }).click();
+  assert.match(await wall.innerText(), /证据空白/);
+  assert.match(await wall.innerText(), /申易鑫持续授课/);
+  assert.equal(await wall.locator('.evidence-pin a').count(), 2);
+  await page
+    .locator('#case-followup')
+    .screenshot({ path: `artifacts/${mobile ? 'mobile' : 'desktop'}-evidence-wall.png` });
+  await page.getByRole('button', { name: /数据口径与来源/ }).click();
+  assert.equal(await page.locator('.source-dialog').evaluate((node) => node.open), true);
+  await page.keyboard.press('Escape');
+  await page.screenshot({
+    path: `artifacts/${mobile ? 'mobile' : 'desktop'}-full.png`,
+    fullPage: true,
+  });
+  if (mobile) {
+    await page.setViewportSize({ width: 320, height: 800 });
+    assert.equal(
+      await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth),
+      true,
+      '320px horizontal overflow',
+    );
+  }
+  await page.close();
 }
-
-const fallback = await browser.newPage({ viewport: { width: 390, height: 844 } });
-await fallback.addInitScript(() => {
-  const original = HTMLCanvasElement.prototype.getContext;
-  HTMLCanvasElement.prototype.getContext = function (type, ...args) {
-    if (String(type).includes('webgl')) return null;
-    return original.call(this, type, ...args);
-  };
-});
-await fallback.goto(url, { waitUntil: 'networkidle' });
-await fallback.waitForSelector('.hero-model[data-status="fallback"]');
-assert.equal(await fallback.getByRole('heading', { name: /在热闹之外/ }).count(), 1);
-await fallback.screenshot({ path: fileURLToPath(new URL('mobile-fallback.png', out)) });
-assert.deepEqual(errors, [], 'browser runtime errors');
-await writeFile(
-  new URL('browser-results.json', out),
-  JSON.stringify(
-    {
-      passed: true,
-      url,
-      checks: [
-        'desktop model ready',
-        'chapter structure',
-        'chart mode switching',
-        'source modal and focus return',
-        'model expansion',
-        'ink model switching',
-        'theme and motion persistence',
-        '320/390/768/1024/1920px no overflow',
-        'mobile navigation',
-        'system reduced motion',
-        'WebGL fallback',
-      ],
-      errors,
-      testedAt: new Date().toISOString(),
-    },
-    null,
-    2,
-  ),
-);
-console.log('Browser checks passed. Screenshots saved to artifacts/.');
-await browser.close();
+try {
+  await check(1440, 1000);
+  await check(390, 844, true);
+  assert.deepEqual(errors, []);
+  console.log('Narrative, scroll evidence wall, source links and responsive layout pass.');
+} finally {
+  await browser.close();
+}

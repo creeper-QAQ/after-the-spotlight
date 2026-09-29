@@ -1,104 +1,125 @@
 import { useState } from 'react';
-import { dataset } from '../content/data';
+import heritage from '../content/heritage.json';
 import { Icon } from './Icon';
 
 const modes = [
   { id: 'category', name: '按类别' },
-  { id: 'region', name: '按地区' },
+  { id: 'region', name: '按申报地区' },
   { id: 'batch', name: '按批次' },
 ] as const;
 type Mode = (typeof modes)[number]['id'];
 
-// Purely visual layout fixtures; never imported into the research dataset.
-function position(i: number, mode: Mode) {
-  if (mode === 'category')
-    return {
-      x: 53 + Math.floor(i / 24) * 127 + (i % 6) * 15,
-      y: 76 + Math.floor((i % 24) / 6) * 25,
-    };
-  if (mode === 'region')
-    return {
-      x: 77 + (i % 20) * 26,
-      y: 44 + Math.floor(i / 20) * 25 + Math.sin((i % 20) * 0.4) * 24,
-    };
-  return {
-    x: 60 + Math.floor(i / 24) * 130 + (i % 4) * 17,
-    y: 200 - Math.floor((i % 24) / 4) * 21,
-  };
-}
-
 export function CatalogueViz({ onSource }: { onSource: () => void }) {
   const [mode, setMode] = useState<Mode>('category');
+  const [query, setQuery] = useState('');
+  const [selected, setSelected] = useState<string | null>(null);
+  const rows = heritage.catalogue;
   const counts = Object.entries(
-    dataset.catalogue.reduce<Record<string, number>>((all, row) => {
+    rows.reduce<Record<string, number>>((all, row) => {
       all[row[mode]] = (all[row[mode]] || 0) + 1;
       return all;
     }, {}),
+  ).sort((a, b) => b[1] - a[1] || a[0].localeCompare(b[0], 'zh-CN'));
+  const shown = mode === 'region' ? counts.slice(0, 10) : counts;
+  const max = Math.max(...shown.map(([, count]) => count), 1);
+  const matches = rows.filter(
+    (row) =>
+      (!selected || row[mode] === selected) &&
+      [row.name, row.project_code, row.region, row.protecting_unit]
+        .join(' ')
+        .toLocaleLowerCase()
+        .includes(query.trim().toLocaleLowerCase()),
   );
-  const hasData = dataset.catalogue.length > 0;
   return (
     <div className="catalogue-viz">
       <div className="viz-toolbar">
         <div>
-          <span className="eyebrow">DATA EXPLORER / 01</span>
-          <h3>换一个角度，看见非遗</h3>
+          <span className="eyebrow">ANHUI CATALOGUE / 交付表</span>
+          <h3>安徽国家级项目的名录分布</h3>
         </div>
-        <div className="segmented" aria-label="点阵呈现方式">
+        <div className="segmented" aria-label="名录统计维度">
           {modes.map((item) => (
-            <button key={item.id} onClick={() => setMode(item.id)} aria-pressed={mode === item.id}>
+            <button
+              key={item.id}
+              onClick={() => {
+                setMode(item.id);
+                setSelected(null);
+              }}
+              aria-pressed={mode === item.id}
+            >
               {item.name}
             </button>
           ))}
         </div>
       </div>
+      <div className="delivery-statline" aria-label="名录规模">
+        <span>
+          <b>{rows.length}</b> 条安徽申报地区或单位子项
+        </span>
+        <span>
+          <b>{new Set(rows.map((row) => row.project_code)).size}</b> 个不同官方项目编号
+        </span>
+      </div>
       <div className="viz-stage" aria-live="polite">
-        {hasData ? (
-          <div className="real-bars">
-            {counts.map(([label, count]) => (
-              <div className="real-bar" key={label}>
-                <span>{label}</span>
-                <div>
-                  <i style={{ width: `${(count / dataset.catalogue.length) * 100}%` }} />
-                </div>
-                <b>{count}</b>
-              </div>
-            ))}
-          </div>
-        ) : (
-          <>
-            <svg
-              className="dot-chart"
-              viewBox="0 0 690 250"
-              role="img"
-              aria-label={`${modes.find((m) => m.id === mode)?.name}的点阵布局示意，不代表真实统计数据`}
+        <div className="real-bars delivery-bars">
+          {shown.map(([label, count]) => (
+            <button
+              className="real-bar"
+              key={label}
+              onClick={() => setSelected(selected === label ? null : label)}
+              aria-pressed={selected === label}
+              aria-label={`${label}，${count}条子项；点击筛选记录`}
             >
-              {[60, 110, 160, 210].map((y) => (
-                <line key={y} x1="24" x2="670" y1={y} y2={y} className="chart-grid" />
-              ))}
-              {Array.from({ length: 120 }, (_, i) => {
-                const p = position(i, mode);
-                return (
-                  <circle
-                    key={i}
-                    cx={p.x}
-                    cy={p.y}
-                    r="4.4"
-                    className={`data-dot tone-${Math.floor(i / 24)}`}
-                    style={{ transitionDelay: `${(i % 12) * 12}ms` }}
-                  />
-                );
-              })}
-            </svg>
-            <div className="viz-note">
-              <span className="outlined-dot" /> 布局示意 · 不代表真实数量或分布
-            </div>
-          </>
+              <span>{label}</span>
+              <div>
+                <i style={{ width: `${(count / max) * 100}%` }} />
+              </div>
+              <b>{count}</b>
+            </button>
+          ))}
+        </div>
+        {mode === 'region' && (
+          <p className="delivery-chart-note">
+            图中显示子项数最多的 10 个原文申报地区或单位；全部 62 个名称可在下方查阅。
+          </p>
         )}
       </div>
+      <p className="delivery-chart-note">
+        每条横条按子项计数，横轴从零开始。认定批次只表示列入名录的时间，不表示热度变化。
+      </p>
+      <details className="delivery-records">
+        <summary>
+          查阅 {selected ? `${selected}的` : '全部'}原始名录记录 <span>↘</span>
+        </summary>
+        <div className="delivery-search-row">
+          <input
+            type="search"
+            value={query}
+            onChange={(event) => setQuery(event.target.value)}
+            placeholder="搜索名称、编号、地区或保护单位"
+            aria-label="搜索安徽名录记录"
+          />
+          {selected && <button onClick={() => setSelected(null)}>清除图表筛选</button>}
+        </div>
+        <p className="delivery-chart-note">
+          当前显示 {matches.length} / {rows.length} 条。逐条官网原文核对仍待补。
+        </p>
+        <div className="delivery-record-list">
+          {matches.map((row) => (
+            <article key={row.id}>
+              <span>
+                {row.project_code} · {row.category} · {row.batch}
+              </span>
+              <strong>{row.name}</strong>
+              <small>
+                {row.region} · 保护单位：{row.protecting_unit}
+              </small>
+            </article>
+          ))}
+        </div>
+      </details>
       <div className="viz-footer">
-        <span>
-          {hasData ? `已接入 ${dataset.catalogue.length} 条名录记录` : '正式数据待核验后呈现'}
-        </span>
+        <span>交付表经结构清洗 · 逐条官网原文复核待补</span>
         <button className="text-button" onClick={onSource}>
           数据口径与来源 <Icon name="source" size={15} />
         </button>

@@ -58,10 +58,7 @@ export function buildInk(): CraftModel {
   group.rotation.set(-0.16, -0.38, -0.2);
   return {
     group,
-    setExpansion(amount) {
-      face.position.z = 0.237 + amount * 0.9;
-      border.scale.setScalar(1 + amount * 0.17);
-    },
+    setExpansion() {},
     animate() {},
   };
 }
