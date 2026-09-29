@@ -4,7 +4,7 @@
 
 ## 目标与边界
 
-将《被看见之后》网站公开上线约 10～15 天，保留现有 React/Vite 页面、Three.js/WebGL 互动、B 站背景音轨代理和 DeepSeek 回访信。网站托管、后台接口和公开网址必须使用 Cloudflare 免费套餐，不购买域名，不启用 Workers Paid 或其他付费 Cloudflare 产品。
+将《被看见之后》网站源代码保存到 GitHub 私有仓库，并通过 Cloudflare 的 Git 集成公开上线约 10～15 天。保留现有 React/Vite 页面、Three.js/WebGL 互动、B 站背景音轨代理和 DeepSeek 回访信。网站托管、自动构建、后台接口和公开网址必须使用免费套餐，不购买域名，不启用 Workers Paid 或其他付费 Cloudflare 产品。
 
 DeepSeek API 继续使用用户已有余额，其模型调用费用不计入“托管 0 元”约束。部署结束后应能直接停用或删除 Worker，避免网站继续公开访问。
 
@@ -18,7 +18,14 @@ DeepSeek API 继续使用用户已有余额，其模型调用费用不计入“�
 - 其他导航请求回退到 `index.html`，保留单页应用行为。
 - 正式地址使用 Cloudflare 免费分配的 `*.workers.dev` 子域名。
 
-不采用“GitHub Pages + 独立 Worker API”，因为它需要处理跨域、两个发布入口和项目子路径，短期比赛使用没有收益。也不把 DeepSeek Key 放入浏览器端，因为公开前端无法保护密钥。
+Cloudflare Worker 连接 GitHub 私有仓库并开启 Workers Builds：
+
+- `main` 是生产分支；只有已验证、允许公开的版本进入该分支，推送后自动更新正式网站。
+- `develop` 是持续开发分支；推送后自动生成或更新独立预览地址，不覆盖正式网站。
+- 本地保存不会触发上线；只有提交并推送到 GitHub 后才触发 Cloudflare 构建。
+- 其他临时分支按需生成预览，不直接进入生产。
+
+不采用 GitHub Pages。GitHub 只保存和审阅源代码；Cloudflare 统一运行静态资源和 API，避免跨域、两个发布入口和项目子路径问题。也不把 DeepSeek Key 放入浏览器端，因为公开前端无法保护密钥。
 
 ## 代码结构
 
@@ -32,6 +39,7 @@ DeepSeek API 继续使用用户已有余额，其模型调用费用不计入“�
 - `vite.config.ts`：继续提供本地开发路由，但调用共享处理逻辑。
 - `wrangler.jsonc`：仅声明 Worker、静态目录、SPA 回退和 `/api/*` 优先路由，不保存密钥。
 - `tests/server/*.test.mjs`：以可控的上游响应验证两个 API。
+- Git 分支：`develop` 承载未完成修改，`main` 承载正式发布状态。
 
 具体文件名可在实现时按 TypeScript/测试加载约束做小幅调整，但组件边界保持不变。
 
@@ -44,6 +52,7 @@ DeepSeek Key 只存在于本地忽略文件和 Cloudflare Secret 中，不写入
 ## 免费额度与防误付费
 
 - Cloudflare 账号保持 Workers Free，不启用 Workers Paid。
+- Workers Builds 保持免费套餐，不启用付费构建额度。
 - 使用 `workers.dev` 地址，不购买或绑定自定义域名。
 - 静态资源按免费静态资源方式提供；只有 `/api/*` 执行 Worker。
 - 复用现有的输入长度和最大输出限制，限制单次 DeepSeek 成本。
@@ -70,17 +79,21 @@ DeepSeek 自身按用户已有余额结算。若需要进一步控制模型费�
 3. 修复当前浏览器回归中已观察到的音轨导致 `networkidle` 超时和 AI 句末标点断言问题，使相关测试结果可解释且稳定。
 4. 运行格式检查、版本工具测试、完整生产构建和浏览器测试。
 5. 本地以 Worker 运行时预览，验证首页、静态资源、两个 API 及无密钥场景。
-6. 部署后从公开 `workers.dev` 地址复测桌面、手机、WebGL 降级、音轨和 DeepSeek 回信。
-7. 扫描构建产物，确认 DeepSeek Key 不存在于 `dist`。
+6. 推送 `develop`，在 Cloudflare Preview 地址复测桌面、手机、WebGL 降级、音轨和 DeepSeek 回信。
+7. Preview 验收后合并到 `main`，确认生产构建由该提交触发。
+8. 从公开 `workers.dev` 正式地址再次验证核心页面和两个 API。
+9. 扫描构建产物，确认 DeepSeek Key 不存在于 `dist`。
 
 只有公开地址验证通过后才视为上线完成。
 
 ## 授权与发布
 
-通过 Cloudflare 官方 Wrangler OAuth 发起浏览器授权。用户自行在 Cloudflare 页面登录并点击允许；不向代理提供账号密码。授权后创建或更新一个 Workers Free 项目，并通过 Secret 命令上传 DeepSeek Key。
+先将经过公开范围审查的代码提交到 GitHub 私有仓库。仓库不得包含 `.env.local`、构建缓存、本地备份、原始调查文件、未经授权素材或个人信息。GitHub 授权只授予该项目所需仓库权限。
 
-网站源代码继续进入 GitHub 仓库，但首轮短期上线采用本机 Wrangler 直接部署，避免额外配置 Cloudflare 对 GitHub 的账号权限。若 10～15 天内需要更新，重新构建并直接部署即可。
+通过 Cloudflare 官方 OAuth 发起浏览器授权。用户自行在 Cloudflare 页面登录并点击允许；不向代理提供账号密码。随后在 Cloudflare 后台授权 GitHub 集成只访问目标仓库，创建 Workers Free 项目，将 `main` 设为生产分支并启用其他分支的 Preview Builds。
+
+生产构建命令和部署命令由 Cloudflare Workers Builds 执行。DeepSeek Key 通过 Cloudflare Secret 单独配置，不作为 GitHub Secret 或构建变量复制到仓库。后续更新先推送 `develop` 检查预览，再合并到 `main` 自动发布。
 
 ## 下线与恢复
 
-比赛展示结束后，优先在 Cloudflare 后台禁用 `workers.dev` 路由或删除该 Worker；这不会删除本地项目或 GitHub 仓库。上线前和上线后的代码状态都保存在项目版本快照中，任何迁移问题均可从命名备份恢复检查。
+比赛展示结束后，优先在 Cloudflare 后台禁用 `workers.dev` 路由并断开 GitHub 自动构建；需要彻底清理时再删除 Worker。这不会删除本地项目或 GitHub 私有仓库。上线前和上线后的代码状态都保存在 Git 提交和项目版本快照中，任何迁移问题均可从命名备份恢复检查。
