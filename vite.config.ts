@@ -1,0 +1,17 @@
+import { defineConfig } from 'vite';
+import react from '@vitejs/plugin-react';
+export default defineConfig({
+  plugins: [react()],
+  resolve: { dedupe: ['three'] },
+  base: './',
+  build: {
+    rollupOptions: {
+      output: { manualChunks: (id) => (id.includes('/node_modules/three/') ? 'three' : undefined) },
+    },
+  },
+  server: {
+    port: 5173,
+    strictPort: true,
+    watch: { ignored: ['**/.versions/**', '**/.recoveries/**', '**/artifacts/**'] },
+  },
+});

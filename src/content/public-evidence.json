@@ -1,0 +1,523 @@
+{
+  "edition": "V1.1",
+  "checkedAt": "2026-10-01",
+  "method": "围绕安徽鱼灯与徽墨，目的性选取10份公开报道或现场记录，每份对应一组与本文问题相关的证据片段，按被关注、到访体验、实名制作教学、同一批体验者跨期追踪四项编码。计数单位为来源片段组，同组允许支持多个项目。实心表示所选片段明确支持，空心表示该片段未提供；不代表文章全文没有相关信息。不是随机抽样，不估计行业总体比例，也不证明传播导致传承。",
+  "codingProtocol": {
+    "unit": "一份来源对应一组相关片段，共10组；不是10个人，也不是10个行业样本。",
+    "selection": "从围绕鱼灯与徽墨收集的公开资料中，选取能核对传播指标、实际体验、实名制作教学或就业条件的原发报道与现场记录；同篇来源只占一组，指标条目不另算报道。没有预设全网检索全集，不声称穷尽全部报道。",
+    "review": "逐条对照公开原文与口径备注；尚未开展独立双人编码一致性检验。判断依据可由读者沿链接复核。",
+    "rules": [
+      {
+        "id": "attention",
+        "include": "片段明确记载平台播放、粉丝等关注指标。",
+        "exclude": "只写好看、火热或订单增加，不据此推定播放和观看人数。"
+      },
+      {
+        "id": "participation",
+        "include": "片段记载已发生的现场到访、制作体验或实际接待人次。",
+        "exclude": "仅预约课程、预订产品或计划接待，不当作实际到场。"
+      },
+      {
+        "id": "namedPractice",
+        "include": "片段能识别具体制作者、授课者，或具名负责人记述的制作与带徒实践。",
+        "exclude": "仅列学校、工坊总量或笼统写有人传承，不自动算实名路径。"
+      },
+      {
+        "id": "sameVisitorFollowup",
+        "include": "片段通过姓名或可连接的编号，记录同一批体验者的首次体验及之后的学习、制作或拜师行为。",
+        "exclude": "师傅跨年授课、不同批游客的两次到访、企业经营延续，均不替代体验者追踪。"
+      }
+    ]
+  },
+  "retention": {
+    "value": null,
+    "reason": "这些公开片段没有连接同一批体验者的首次体验与半年或一年后的学习记录；缺少可比的参加人数、回访人数和持续学习人数。未知不等于没有人留下。"
+  },
+  "sources": [
+    {
+      "id": "pub-douyin-2025",
+      "publisher": "扬子晚报·紫牛新闻",
+      "title": "抖音春节非遗数据报告：非遗视频春节播放破1679亿，相声、英歌最受欢迎",
+      "publishedAt": "2025-02-18",
+      "url": "https://www.yangtse.com/news/community/202502/t20250218_188027.html",
+      "checkedAt": "2026-09-30",
+      "alternateUrl": "https://m.gmw.cn/toutiao/2025-02/18/content_37857670.htm",
+      "alternatePublisher": "光明网",
+      "alternateCheckedAt": "2026-10-01",
+      "verification": "已核对正文；转述抖音平台报告，未取得后台明细。各指标窗口分别保留。另核对光明网同报告转载，作为备用阅读入口，不另算独立来源。"
+    },
+    {
+      "id": "pub-pan-2024",
+      "publisher": "上观新闻",
+      "title": "在长三角过年，接着嬉鱼接着舞龙",
+      "publishedAt": "2024-02-09",
+      "url": "https://www.jfdaily.com/wx/detail.do?id=714855",
+      "checkedAt": "2026-10-01",
+      "verification": "已核对原始实访；潘敏学艺、2023专职研学和2024合作店属于瞻淇路径，不能归作汪满田学徒。"
+    },
+    {
+      "id": "pub-fish-2025",
+      "publisher": "新华社",
+      "title": "“一尾鱼灯”点亮乡村文化",
+      "publishedAt": "2025-11-07",
+      "url": "https://www.news.cn/local/20251107/75ca609714dd4898a437a1fde157d554/c.html",
+      "checkedAt": "2026-10-01",
+      "verification": "已核对现场报道；村、个人工坊、县域和瞻淇经营方自报数据分别标注。订单未独立审计。"
+    },
+    {
+      "id": "pub-wang-2025",
+      "publisher": "安徽经济网·安徽经济报",
+      "title": "鱼跃灯耀非遗绽新颜",
+      "publishedAt": "2025-04-09",
+      "url": "https://www.ahjjw.com.cn/html/wenhua/2025/0409/460064.html",
+      "checkedAt": "2026-09-30",
+      "verification": "已核对采访正文；汪华武所述2024预订200多只是个人口径，非全村总量。"
+    },
+    {
+      "id": "pub-ink-2026",
+      "publisher": "人民日报",
+      "title": "一缕徽墨香 玩转新消费（老字号焕新记）",
+      "publishedAt": "2026-08-05",
+      "url": "https://paper.people.com.cn/rmrb/pc/content/202608/05/content_30173219.html",
+      "checkedAt": "2026-10-01",
+      "verification": "已核对原文；全年接待、年内累计、暑期日均与工艺时间分开。企业资料不等于访客追踪。"
+    },
+    {
+      "id": "pub-shen-2025a",
+      "publisher": "新华社",
+      "title": "文旅新探丨古民居里遇见最美徽州年",
+      "publishedAt": "2025-01-31",
+      "url": "https://www.news.cn/20250131/1a41a736b9e64bf4814b81a09c4007ee/c.html",
+      "checkedAt": "2026-09-30",
+      "verification": "已核对现场报道；申易鑫原为民宿管家、学习徽墨后每周授课。首次学习及认定日期未公开。"
+    },
+    {
+      "id": "pub-shen-2025b",
+      "publisher": "新华社",
+      "title": "文旅有新事：“行走的思政课” 探寻文旅新“富矿”",
+      "publishedAt": "2025-02-21",
+      "url": "https://www.xinhuanet.com/ci/20250221/be2b79c8eac24bd1ae35cde855b4d29d/c.html",
+      "checkedAt": "2026-09-30",
+      "verification": "已核对正文；申易鑫师承程国胜，寒假预订6期、每期8个家庭是课程名额而非学徒数。"
+    },
+    {
+      "id": "pub-shen-2026",
+      "publisher": "新华社",
+      "title": "看见古村｜安徽西递：见山见水见徽韵",
+      "publishedAt": "2026-06-05",
+      "url": "https://www.news.cn/ci/20260605/a332d9b628c34fc48844c76e43929a47/c.html",
+      "checkedAt": "2026-10-01",
+      "verification": "已核对现场报道；同名同技艺的申易鑫在西递教游客描金，支持其跨年教学，不追踪此前住客。"
+    },
+    {
+      "id": "pub-work-2026",
+      "publisher": "黄山日报·中安在线",
+      "title": "千年文房如何再启风华——文房四宝产业一线调研",
+      "publishedAt": "2026-08-17",
+      "url": "https://api.app.anhuinews.com/appcontent/9505198.html",
+      "canonicalUrl": "https://ah.anhuinews.com/hs/whly/202608/t20260817_9504744.html",
+      "checkedAt": "2026-09-30",
+      "verification": "已核对同文客户端正文；薪资、五险及技艺班为企业负责人自述，最高月薪不是平均工资。"
+    },
+    {
+      "id": "pub-factory-2026",
+      "publisher": "人民日报",
+      "title": "创新模式，把车间变成体验空间（人物故事）",
+      "publishedAt": "2026-04-21",
+      "url": "https://paper.people.com.cn/rmrb/pc/attachement/202604/21/04951d5f-be92-4db3-b845-652a7bb7e5ca.pdf",
+      "checkedAt": "2026-09-30",
+      "verification": "已核对报纸原版；周健在四车间学习后推动体验转型。与其他报道回厂年存在差异，正文不采精确回厂年。"
+    }
+  ],
+  "measures": [
+    {
+      "id": "keyword-views",
+      "stage": "attention",
+      "label": "黄山、鱼灯、歙县等关键词相关视频播放",
+      "valueText": "17.1",
+      "unit": "亿次",
+      "period": "2025年春节报告窗口（1月7日—2月12日）",
+      "scope": "抖音多个关键词相关视频合集",
+      "sourceId": "pub-douyin-2025",
+      "interpretation": "相关内容进入了广泛的公众视野。",
+      "limitation": "非独立观看人数，也非汪满田单一话题；不能与线下接待数相除。"
+    },
+    {
+      "id": "ink-visits",
+      "stage": "participation",
+      "label": "老胡开文墨厂全年研学接待",
+      "valueText": "19",
+      "unit": "万人次",
+      "period": "2025年全年",
+      "scope": "安徽歙县老胡开文墨厂，单一工厂",
+      "sourceId": "pub-ink-2026",
+      "interpretation": "研学已经进入工厂的日常经营。",
+      "limitation": "同一人可多次到访；不是19万名学徒，也没有公开其中持续学习者的数量。"
+    },
+    {
+      "id": "ink-visits-growth",
+      "stage": "participation",
+      "label": "同厂研学接待同比增长",
+      "valueText": "10",
+      "unit": "%",
+      "period": "2025年全年与2024年全年比较",
+      "scope": "老胡开文墨厂研学接待量",
+      "sourceId": "pub-ink-2026",
+      "interpretation": "在报道给出的同厂同比口径下，接待规模增加。",
+      "limitation": "不推算未公布的精确2024基数；不能解释为技艺学习者增长率。"
+    },
+    {
+      "id": "ink-summer",
+      "stage": "participation",
+      "label": "暑期日均研学接待",
+      "valueText": "超700",
+      "unit": "人／日",
+      "period": "2026年暑期，截至8月5日报道",
+      "scope": "老胡开文墨厂研学团队接待",
+      "sourceId": "pub-ink-2026",
+      "interpretation": "暑期形成稳定的参访需求。",
+      "limitation": "不是每天700个团队；不能全年外推，也不能换算学徒数。"
+    },
+    {
+      "id": "ink-youth",
+      "stage": "participation",
+      "label": "暑期研学接待中的青少年占比",
+      "valueText": "超80",
+      "unit": "%",
+      "period": "2026年暑期，截至8月5日报道",
+      "scope": "同厂所述研学客群，原文为超八成",
+      "sourceId": "pub-ink-2026",
+      "interpretation": "年轻人正在接触制作现场。",
+      "limitation": "研学客群结构不是工人年龄结构，也不是拜师或留存比例。"
+    },
+    {
+      "id": "ink-drying",
+      "stage": "craft-time",
+      "label": "传统制墨的晾墨等待",
+      "valueText": "半年以上",
+      "unit": "时间",
+      "period": "2026年8月5日报道所述工艺",
+      "scope": "老胡开文墨厂传统制墨流程",
+      "sourceId": "pub-ink-2026",
+      "interpretation": "做成一方墨，需要材料在真实时间里变化。",
+      "limitation": "生产等待不是学习周期；屏幕里的快进不能代表实物当天完成。"
+    },
+    {
+      "id": "ink-processes",
+      "stage": "craft-time",
+      "label": "传统制墨大工序",
+      "valueText": "8",
+      "unit": "道",
+      "period": "2026年8月5日报道所述工艺",
+      "scope": "同厂工序细分上百步骤",
+      "sourceId": "pub-ink-2026",
+      "interpretation": "完整工艺远多于互动体验的四个阶段。",
+      "limitation": "本站四关合并动作与时间，不是完整技艺教程。"
+    },
+    {
+      "id": "fish-orders-count",
+      "stage": "practice",
+      "label": "汪华武所述预订鱼灯",
+      "valueText": "200多",
+      "unit": "只",
+      "period": "2024年，2025年4月9日报道回顾",
+      "scope": "汪满田汪华武个人制作／预订口径",
+      "sourceId": "pub-wang-2025",
+      "interpretation": "制作在节庆之外也连接到订单。",
+      "limitation": "预订不等于交付；非全村总量，不与重叠期间订单金额相加。"
+    },
+    {
+      "id": "fish-orders-value",
+      "stage": "practice",
+      "label": "汪华武工坊接到的订单金额",
+      "valueText": "近40",
+      "unit": "万元",
+      "period": "2024年以来至2025年11月7日报道",
+      "scope": "汪满田汪华武工坊",
+      "sourceId": "pub-fish-2025",
+      "interpretation": "师傅持续制作有了跨期经营记录。",
+      "limitation": "订单金额不是利润或到账收入，不能证明游客变成了学徒。"
+    },
+    {
+      "id": "fish-workshops",
+      "stage": "practice",
+      "label": "歙县成立的鱼灯工坊",
+      "valueText": "24",
+      "unit": "家",
+      "period": "2025年11月7日报道时",
+      "scope": "歙县全县，非汪满田单村",
+      "sourceId": "pub-fish-2025",
+      "interpretation": "鱼灯制作有了常态化的空间。",
+      "limitation": "工坊存量不能当作新增数，也不能当作游客留存人数。"
+    },
+    {
+      "id": "fish-talents",
+      "stage": "practice",
+      "label": "纳入歙县非遗人才库的鱼灯手艺人",
+      "valueText": "61",
+      "unit": "人",
+      "period": "2025年11月7日报道时",
+      "scope": "歙县三项鱼灯相关技艺县域口径",
+      "sourceId": "pub-fish-2025",
+      "interpretation": "报道同时记载带徒补贴，教学获得制度支持。",
+      "limitation": "不是61名由研学转来的新学徒，不限于汪满田。"
+    },
+    {
+      "id": "fish-schools",
+      "stage": "practice",
+      "label": "鱼灯制作进入第二课堂的中小学",
+      "valueText": "8",
+      "unit": "所",
+      "period": "2025年11月7日报道时",
+      "scope": "歙县全县",
+      "sourceId": "pub-fish-2025",
+      "interpretation": "学校为反复接触手艺提供另一种入口。",
+      "limitation": "学校数量不是学生数；报道未给出学生后续独立制作人数。"
+    },
+    {
+      "id": "fish-makers",
+      "stage": "practice",
+      "label": "汪满田村鱼灯匠人",
+      "valueText": "20多",
+      "unit": "位",
+      "period": "2025年11月7日报道时",
+      "scope": "汪满田村，其中8位为县级代表性传承人",
+      "sourceId": "pub-fish-2025",
+      "interpretation": "回到村里，制作仍由具体的人承担。",
+      "limitation": "这是报道时存量，非传播后新增学徒。"
+    },
+    {
+      "id": "ink-course",
+      "stage": "participation",
+      "label": "民宿寒假预订体验课",
+      "valueText": "6",
+      "unit": "期",
+      "period": "2025年寒假，2月21日报道时",
+      "scope": "黟县龙江村民宿，每期8个家庭",
+      "sourceId": "pub-shen-2025b",
+      "interpretation": "申易鑫的教学有了具体课程安排。",
+      "limitation": "预订不是到课，也不计算48名学徒或48个去重家庭。"
+    },
+    {
+      "id": "work-insurance",
+      "stage": "practice",
+      "label": "新工人入职保障",
+      "valueText": "工资＋五险",
+      "unit": "保障",
+      "period": "2026年8月17日报道时",
+      "scope": "歙县老胡开文墨厂负责人自述",
+      "sourceId": "pub-work-2026",
+      "interpretation": "学艺还需要可持续的生活条件。",
+      "limitation": "企业自述未独立审计；不据此推算平均工资、留存率或学成时间。"
+    },
+    {
+      "id": "fish-related-workers",
+      "label": "歙县从事鱼灯相关行业的人",
+      "valueText": "1400余",
+      "unit": "人",
+      "period": "2025年11月7日报道时",
+      "scope": "歙县全县三项非遗鱼灯的相关行业；不是汪满田村制灯匠人或新入行学徒",
+      "sourceId": "pub-fish-2025",
+      "interpretation": "报道提供县域鱼灯相关行业的从业规模，包含相关行业，未列职业分类明细。",
+      "limitation": "不能当作专职制作人数、由游客转成的新人数量或传播带来的新增就业。",
+      "stage": "practice"
+    },
+    {
+      "id": "fish-young-workers",
+      "label": "鱼灯相关行业从业者中35岁以下占比",
+      "valueText": "超50",
+      "unit": "%",
+      "period": "2025年11月7日报道时",
+      "scope": "分母为歙县三项非遗鱼灯相关行业从业者；报道未给出去重名单与职业分类",
+      "sourceId": "pub-fish-2025",
+      "interpretation": "原文记为“超五成”，等价于超过50%。县域相关行业已包含较多年轻从业者，是当时年龄结构的一个侧面。",
+      "limitation": "35岁以下不等于新学徒；不能说明他们由短视频或一次体验入行，也不能计算体验者留存。",
+      "stage": "practice"
+    }
+  ],
+  "people": [
+    {
+      "id": "pan-min",
+      "name": "潘敏",
+      "craft": "瞻淇鱼灯",
+      "place": "学艺在瞻淇，教学走进徽州古城",
+      "role": "把手艺变成日常工作",
+      "intro": "她先向瞻淇村老人学习制作，后来把扎骨、糊纸、绘鳞纹教给来访者。公开记录中的她，跨过了不同年份与教学场景。",
+      "milestones": [
+        {
+          "date": "学艺起点未详",
+          "text": "因接触嬉鱼表演，向瞻淇老人学做鱼灯；报道没有给出第一次学习的年份。",
+          "sourceId": "pub-pan-2024"
+        },
+        {
+          "date": "2023年",
+          "text": "成为徽州古城西街非遗馆制作老师，专职从事研学。",
+          "sourceId": "pub-pan-2024"
+        },
+        {
+          "date": "2024年2月",
+          "text": "参与瞻淇主街新开的合作研学店；采访同时记录她对节后客流的顾虑。",
+          "sourceId": "pub-pan-2024"
+        },
+        {
+          "date": "2025年11月",
+          "text": "新华社在斗山街“鱼你有约”店记录她手把手教客人制作；同年5月获县级民间“守艺人”称号。",
+          "sourceId": "pub-fish-2025"
+        }
+      ],
+      "takeaway": "她的教学路径接上了。支撑它的，是能反复开工、授课的场所与工作。",
+      "limit": "这些报道支持潘敏跨期教学；不证明同一门店连续经营，也没有跟踪同一批客人的后来。"
+    },
+    {
+      "id": "shen-yixin",
+      "name": "申易鑫",
+      "craft": "徽墨制作",
+      "place": "黟县龙江村 → 西递",
+      "role": "从接触手艺，到继续教人",
+      "intro": "民宿管家接触到制墨，跟随师傅学艺，后来成为县级代表性传承人。让这条路有说服力的，是不同年份里仍可找到他的教学现场。",
+      "milestones": [
+        {
+          "date": "2025年1月报道",
+          "text": "从民宿管家开始接触徽墨，到成为县级代表性传承人、每周回民宿授课；学艺起点与认定日期未详。",
+          "sourceId": "pub-shen-2025a"
+        },
+        {
+          "date": "2025年2月",
+          "text": "后续报道补充：师承省级代表性传承人程国胜，寒假已有6期体验课预订，每期8个家庭。",
+          "sourceId": "pub-shen-2025b"
+        },
+        {
+          "date": "2026年6月",
+          "text": "新华社又在西递体验坊记录他指导游客给徽墨描金。",
+          "sourceId": "pub-shen-2026"
+        }
+      ],
+      "takeaway": "从学习走向授课，是一条实名可追踪的个人路径。",
+      "limit": "没有完整学成时间，也没有首次体验者成为学徒的分母；不能将这一个人的路径推广为游客的普遍结果。"
+    },
+    {
+      "id": "wang-huawu",
+      "name": "汪华武",
+      "craft": "汪满田鱼灯",
+      "place": "歙县汪满田村",
+      "role": "灯会散场，工坊仍在做灯",
+      "intro": "在镜头之外，竹骨仍在师傅手里成形。订单记录能让我们观察制作怎样进入日常，也提醒我们：经营延续与新人的学艺，需要分别核对。",
+      "milestones": [
+        {
+          "date": "2024年／翌年报道",
+          "text": "安徽经济报采访回顾其个人2024年预订200多只鱼灯，尺寸从0.5米到3米。",
+          "sourceId": "pub-wang-2025"
+        },
+        {
+          "date": "2025年11月",
+          "text": "新华社记录其工坊正在赶制订单；自2024年以来接到近40万元订单。",
+          "sourceId": "pub-fish-2025"
+        }
+      ],
+      "takeaway": "跨期订单支持工坊继续制作。传承还要问：谁在一起做，谁正在学。",
+      "limit": "两次报道的统计区间重叠、单位不同，不能相加；金额不是利润，也不证明到访者转为学徒。"
+    }
+  ],
+  "coverage": [
+    {
+      "id": "C01",
+      "sourceId": "pub-douyin-2025",
+      "label": "平台报告窗口",
+      "attention": true,
+      "participation": false,
+      "namedPractice": false,
+      "sameVisitorFollowup": false,
+      "note": "选取关键词播放量片段；线下订单不编码为实际到访。"
+    },
+    {
+      "id": "C02",
+      "sourceId": "pub-pan-2024",
+      "label": "潘敏学习与研学",
+      "attention": false,
+      "participation": true,
+      "namedPractice": true,
+      "sameVisitorFollowup": false,
+      "note": "选取实访学艺、专职研学与接待场景；未连接同一批游客。"
+    },
+    {
+      "id": "C03",
+      "sourceId": "pub-fish-2025",
+      "label": "鱼灯工坊与教学",
+      "attention": true,
+      "participation": true,
+      "namedPractice": true,
+      "sameVisitorFollowup": false,
+      "note": "选取潘敏账号、现场制作、工坊订单片段；没有访客跨期记录。"
+    },
+    {
+      "id": "C04",
+      "sourceId": "pub-wang-2025",
+      "label": "汪华武订单",
+      "attention": false,
+      "participation": false,
+      "namedPractice": true,
+      "sameVisitorFollowup": false,
+      "note": "编码所选个人预订量片段，不将订单当访客。"
+    },
+    {
+      "id": "C05",
+      "sourceId": "pub-ink-2026",
+      "label": "墨厂研学与工艺",
+      "attention": false,
+      "participation": true,
+      "namedPractice": true,
+      "sameVisitorFollowup": false,
+      "note": "选取研学接待、具名厂主实践与晾墨周期；无同一访客回访。"
+    },
+    {
+      "id": "C06",
+      "sourceId": "pub-shen-2025a",
+      "label": "申易鑫每周授课",
+      "attention": false,
+      "participation": true,
+      "namedPractice": true,
+      "sameVisitorFollowup": false,
+      "note": "有住客体验与老师的学习背景，无住客后续。"
+    },
+    {
+      "id": "C07",
+      "sourceId": "pub-shen-2025b",
+      "label": "师承与课程安排",
+      "attention": false,
+      "participation": false,
+      "namedPractice": true,
+      "sameVisitorFollowup": false,
+      "note": "预订课程片段不编码为实际到课。"
+    },
+    {
+      "id": "C08",
+      "sourceId": "pub-shen-2026",
+      "label": "西递描金现场",
+      "attention": false,
+      "participation": true,
+      "namedPractice": true,
+      "sameVisitorFollowup": false,
+      "note": "现场教学可以连接老师身份，不能连接此前游客身份。"
+    },
+    {
+      "id": "C09",
+      "sourceId": "pub-work-2026",
+      "label": "学艺与就业条件",
+      "attention": false,
+      "participation": false,
+      "namedPractice": true,
+      "sameVisitorFollowup": false,
+      "note": "选取具名负责人介绍师带徒、技艺班与保障，非访客追踪。"
+    },
+    {
+      "id": "C10",
+      "sourceId": "pub-factory-2026",
+      "label": "周健与车间转型",
+      "attention": false,
+      "participation": true,
+      "namedPractice": true,
+      "sameVisitorFollowup": false,
+      "note": "选取学习、车间开放与研学现场，没有同一学员跨期数据。"
+    }
+  ]
+}

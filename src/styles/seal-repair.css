@@ -1,0 +1,33 @@
+/* Physics owns only these properties; React retains each record's layout. */
+.seal-stage.layout-physics .heritage-seal {
+  left: var(--physics-left) !important;
+  top: var(--physics-top) !important;
+  transform: translate(-50%, -50%) rotate(var(--physics-rotation)) !important;
+}
+.seal-stage .heritage-seal:focus-visible {
+  outline: 3px solid var(--ink);
+  outline-offset: 4px;
+  z-index: 6;
+}
+@media (max-width: 650px) {
+  .seal-atlas .seal-stage {
+    height: 850px;
+    margin-top: 28px;
+  }
+  .seal-atlas .heritage-seal {
+    width: 36px;
+    height: 42px;
+  }
+  .seal-atlas .heritage-seal.is-selected,
+  .seal-atlas .heritage-seal:hover {
+    transform: translate(-50%, -50%) rotate(var(--seal-rotation));
+  }
+  .seal-atlas .atlas-stage-caption {
+    bottom: 0;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .seal-atlas .heritage-seal {
+    transition: none;
+  }
+}
