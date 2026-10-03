@@ -1,9 +1,23 @@
 import { dataset, type IndicatorRecord } from '../content/data';
+import { lazy, Suspense } from 'react';
 import type { SourceTopic } from '../content/story';
-import { CatalogueViz } from './CatalogueViz';
-import { LeadDesk, PeopleExplorer } from './DeliveryExplorers';
 import { CraftStudio } from './CraftStudio';
 import { EvidenceWall } from './EvidenceWall';
+import { EvidenceSource } from './EvidenceSource';
+import { publicMeasure } from '../content/evidence';
+
+const CatalogueViz = lazy(() =>
+  import('./CatalogueViz').then((m) => ({ default: m.CatalogueViz })),
+);
+const LeadDesk = lazy(() => import('./DeliveryExplorers').then((m) => ({ default: m.LeadDesk })));
+const PeopleExplorer = lazy(() =>
+  import('./DeliveryExplorers').then((m) => ({ default: m.PeopleExplorer })),
+);
+const ReportObservatory = lazy(() =>
+  import('./ReportObservatory').then((m) => ({ default: m.ReportObservatory })),
+);
+
+const archiveLoading = <p role="status">正在翻开资料……</p>;
 
 type SourceAction = (topic: SourceTopic) => void;
 type Stage = IndicatorRecord['stage'];
@@ -83,7 +97,7 @@ function DataGap({ stage, onSource }: { stage: Stage; onSource: SourceAction }) 
     <div className="data-gap">
       <div className="data-gap-state">
         <span className="data-gap-dot" />
-        <strong>证据待核验</strong>
+        <strong>线索仍在寻找</strong>
         <small>{item.label}</small>
       </div>
       <div className="data-gap-detail">
@@ -101,9 +115,9 @@ export function Attention({ onSource }: { onSource: SourceAction }) {
   const records = indicatorsAt('attention');
   return (
     <section id="phenomenon" className="section story-section story-attention">
-      <StageMark number="01" label="先界定热度" />
+      <StageMark number="01" label="灯火如何被看见" />
       <div className="story-lead">
-        <span className="eyebrow">THE CLAIM / 一个需要核对的说法</span>
+        <span className="eyebrow">THE ATTENTION / 从屏幕上的热闹说起</span>
         <h2>
           “爆火”之后，
           <br />
@@ -111,9 +125,11 @@ export function Attention({ onSource }: { onSource: SourceAction }) {
         </h2>
         <div>
           <p>
-            屏幕上的刷屏、活动现场的人潮和手艺的延续，常被连成同一个故事。但它们记录的是不同的事。调查从最前面的一环开始：被看见，具体是怎样被记录的？
+            一尾鱼灯游进短视频，远方的人也看见了村里的夜色。转发、收藏、相约出发，热闹从屏幕漫向长街。故事的开头，是一门手艺忽然被许多人看见。
           </p>
-          <p>只有在相同平台、相同指标和明确时间范围内，热度变化才有可比较的基础。</p>
+          <p>
+            播放与搜索留下了关注的痕迹。把平台、时间与统计口径放在一起，才能看清这阵热闹的来路。
+          </p>
         </div>
       </div>
       <div className="story-evidence-head">
@@ -126,7 +142,7 @@ export function Attention({ onSource }: { onSource: SourceAction }) {
         <DataGap stage="attention" onSource={onSource} />
       )}
       <p className="story-method-note">
-        即使找到播放或搜索数据，也只能先说明关注的规模与变化；它不能单独证明人们走进现场，更不能证明技艺得到传承。
+        播放数字记下了目光停留的瞬间。有人是否因此走进村庄、坐到师傅身旁，还要沿着现场的记录往下找。
       </p>
       <a className="story-next" href="#viral-burst">
         看看这股关注如何进入公众视野 <span>↓</span>
@@ -145,23 +161,25 @@ export function ParticipationContext({ onSource }: { onSource: SourceAction }) {
       <div className="story-lead compact">
         <span className="eyebrow">从全国视野，回到具体现场</span>
         <h2>
-          地图记录的是项目，
+          从名录上的名字，
           <br />
-          <em>现场记录的才是参与。</em>
+          <em>走到亲手制作的现场。</em>
         </h2>
         <div>
           <p>
-            名录告诉我们哪些技艺被认定和保护，它不能告诉我们一次走红之后有多少人开始接触手艺。因此，这里把“名录背景”和“现场参与”分成两层证据。
+            翻开名录，一门门手艺有了名字与归属。再往前走，才是点灯的长街、飘着墨香的工坊，以及第一次拿起工具的人。
           </p>
         </div>
       </div>
       <details className="research-annex catalogue-annex">
         <summary>
           <span>资料附页 / 安徽名录统计</span>
-          <small>按类别、地区与批次继续查阅</small>
+          <small>点击展开 · 按类别、地区与批次查阅</small>
           <b>＋</b>
         </summary>
-        <CatalogueViz onSource={() => onSource('catalogue')} />
+        <Suspense fallback={archiveLoading}>
+          <CatalogueViz onSource={() => onSource('catalogue')} />
+        </Suspense>
       </details>
       <div className="story-layer">
         <div className="story-layer-label">
@@ -179,20 +197,23 @@ export function ParticipationContext({ onSource }: { onSource: SourceAction }) {
             <DataGap stage="participation" onSource={onSource} />
           )}
           <p className="story-method-note">
-            到访人次、体验报名和独立参与者的单位不同。缺少同一批人的追踪记录时，不能把现场人数除以播放量，称为“转化率”。
+            人次记下现场的热闹，人数记下走进来的人。一个人可以来很多回；从屏幕到工坊的路，也需要前后相接的记录。
           </p>
         </div>
       </div>
       <a className="story-next" href="#case-followup">
         把镜头交给同一个案例 <span>↓</span>
       </a>
+      <Suspense fallback={archiveLoading}>
+        <ReportObservatory />
+      </Suspense>
     </section>
   );
 }
 
 export function CaseFollowup() {
   return (
-    <section id="case-followup" className="section story-section story-case">
+    <section id="case-followup-archive" className="section story-section story-case">
       <StageMark number="03" label="把时间拉长" />
       <div className="story-lead">
         <span className="eyebrow">FOLLOW ONE CASE / 追踪同一项技艺</span>
@@ -203,24 +224,36 @@ export function CaseFollowup() {
         </h2>
         <div>
           <p>
-            像整理案卷一样，把公开报道钉在同一面墙上。沿红线往下看：先出现的是关注，接着是一次体验，最后是已有匠人的持续制作。关键在于，这三张卡是否记录了同一批人。
+            把不同时间的报道放在一起，热闹之后的日常渐渐显出来：有人来体验，有人继续接单，也有人每周教课。沿着这些记录，我们继续寻找当初那些来体验的人。
           </p>
         </div>
       </div>
       <EvidenceWall />
       <details className="research-annex leads-annex">
         <summary>
-          <span>打开资料案卷</span>
-          <small>鱼灯与徽墨 · 30 条采集线索</small>
+          <span>资料案卷</span>
+          <small>点击展开 · 鱼灯与徽墨 30 条采集线索</small>
           <b>＋</b>
         </summary>
-        <LeadDesk />
+        <Suspense fallback={archiveLoading}>
+          <LeadDesk />
+        </Suspense>
       </details>
     </section>
   );
 }
 
-export function CraftContext({ onSource }: { onSource: SourceAction; motion: boolean }) {
+export function CraftContext({
+  onSource,
+  motion,
+  kind,
+  onKindChange,
+}: {
+  onSource: SourceAction;
+  motion: boolean;
+  kind?: 'fish' | 'ink';
+  onKindChange?: (kind: 'fish' | 'ink') => void;
+}) {
   return (
     <section id="craft" className="section story-section story-craft-context">
       <div className="story-lead compact">
@@ -232,13 +265,19 @@ export function CraftContext({ onSource }: { onSource: SourceAction; motion: boo
         </h2>
         <div>
           <p>
-            制作体验帮我们看清镜头里容易省略的工序。它说明“参与”可以有不同深度；判断是否传承，还需要真实学习和持续制作的记录。
+            镜头里一闪而过的竹骨与墨料，到了手上，都有各自的难处。试着做一回，才会想问：从第一次动手，到能独自完成，要走过多少练习？
           </p>
         </div>
       </div>
-      <CraftStudio onSource={() => onSource('craft')} />
+      <CraftStudio
+        motion={motion}
+        activeKind={kind}
+        onKindChange={onKindChange}
+        onSource={() => onSource('craft')}
+      />
       <p className="story-method-note">
-        画面操作与完成状态只属于屏幕体验，不代表真实工时、技能掌握或传承成效。
+        这里以四个互动阶段认识工艺，不代表完成培训。人民日报记录，徽墨实际制作包含八道大工序，晾墨需半年以上；这是材料制作时间，不是学徒培养周期。
+        <EvidenceSource id="pub-ink-2026" compact />
       </p>
     </section>
   );
@@ -253,15 +292,17 @@ export function PeopleContext({ onSource }: { onSource: SourceAction }) {
         <h2>
           真正留下的，
           <br />
-          <em>应当能找到人和时间。</em>
+          <em>是把手艺做下去的人。</em>
         </h2>
         <div>
           <p>
-            “传承”需要具体的人持续学习、制作或教学。名录上的名字是调查入口；师徒关系、活跃状态和后续实践都需要单独核实。
+            手艺有人教、有人学，也有人靠它过日子。循着名录上的名字走近，才有机会看见谁在开工、谁在授课，谁接过了上一辈的工具。
           </p>
         </div>
       </div>
-      <PeopleExplorer />
+      <Suspense fallback={archiveLoading}>
+        <PeopleExplorer />
+      </Suspense>
       {people.length ? (
         <div className="person-ledger">
           {people.map((person) => (
@@ -277,10 +318,8 @@ export function PeopleContext({ onSource }: { onSource: SourceAction }) {
         </div>
       ) : (
         <div className="people-gap">
-          <span>人物记录待核验</span>
-          <p>
-            需要记录：谁在教、谁在学、做了多久、材料来自哪里。暂不展示示意人物或推测的关系连线。
-          </p>
+          <span>寻找做手艺的人</span>
+          <p>谁在教，谁在学，又坚持了多久？这些人的日常，是接下来要寻找的记录。</p>
           <button onClick={() => onSource('people')}>查看人物资料口径 ↗</button>
         </div>
       )}
@@ -289,7 +328,7 @@ export function PeopleContext({ onSource }: { onSource: SourceAction }) {
           <span className="eyebrow">COUNT WITH CONTEXT / 人才与实践的一个侧面</span>
           <IndicatorList stage="continuity" />
           <p>
-            县域人才库人数只反映登记口径，不能直接说明走红后新增了多少学习者，也不能当成汪满田单一项目的人数。
+            县域人才库记下当地登记在册的人才。这个数字属于整个县域；具体到一门手艺，还要回到各自的学习与制作记录。
           </p>
         </div>
       )}
@@ -298,6 +337,9 @@ export function PeopleContext({ onSource }: { onSource: SourceAction }) {
 }
 
 export function Verdict({ onSource }: { onSource: SourceAction }) {
+  const views = publicMeasure('keyword-views');
+  const visits = publicMeasure('ink-visits');
+  const talents = publicMeasure('fish-talents');
   const attention = indicatorsAt('attention').length > 0;
   const participation =
     indicatorsAt('participation').length > 0 ||
@@ -307,15 +349,15 @@ export function Verdict({ onSource }: { onSource: SourceAction }) {
   );
   const states = [attention, participation, continuity];
   const findings = [
-    '鱼灯有报道和单账号粉丝口径；没有平台热度曲线，徽墨暂无可比关注数据。',
-    '报道记录一户住客制作鱼灯、徽墨民宿开设体验；没有完整参与人数。',
-    '鱼灯工坊继续接单，申易鑫每周授课；这不是对前述体验者的追踪。',
+    '春节相关视频的播放与账号粉丝，留下了鱼灯被关注的痕迹；这些记录各有时间与口径。',
+    `鱼灯有人来体验，老胡开文墨厂2025年研学接待${visits.valueText}${visits.unit}。接待记录记的是人次，同一人可多次到访。`,
+    '鱼灯工坊继续接单，申易鑫每周授课。师傅的日常有迹可循，来体验的人后来如何，记录还没有接上。',
   ];
   return (
     <section id="after" className="section story-section story-verdict">
       <StageMark number="04" label="回到开篇的问题" />
       <div className="story-lead">
-        <span className="eyebrow">THE VERDICT / 证据允许我们说到哪一步</span>
+        <span className="eyebrow">AFTER THE CROWD / 人潮散去，手艺留下</span>
         <h2>
           被看见之后，
           <br />
@@ -323,15 +365,15 @@ export function Verdict({ onSource }: { onSource: SourceAction }) {
         </h2>
         <div>
           <p>
-            把三段证据放回一起，并不意味着它们自动构成因果关系。每一步都要核对统计对象、时间和来源；缺少连接材料的地方，结论就应停下来。
+            屏幕上的关注、工坊里的体验、师傅的日常，各自留下了记录。把它们放在一起，我们看见了手艺与更多人的相遇，也看见了一个仍需追问的后来。
           </p>
         </div>
       </div>
-      <div className="verdict-table" role="table" aria-label="三段证据核对表">
+      <div className="verdict-table" role="table" aria-label="四类证据核对表">
         <div className="verdict-head" role="row">
           <span role="columnheader">调查环节</span>
-          <span role="columnheader">当前资料状态</span>
-          <span role="columnheader">能够判断什么</span>
+          <span role="columnheader">记录的来处</span>
+          <span role="columnheader">沿线看见的事</span>
         </div>
         {stages.map((stage, index) => (
           <div className="verdict-row" role="row" key={stage.id}>
@@ -340,18 +382,51 @@ export function Verdict({ onSource }: { onSource: SourceAction }) {
               {stage.label}
             </strong>
             <span role="cell" className={states[index] ? 'has-source' : ''}>
-              {states[index] ? '已接入带来源记录' : '证据待核验'}
+              {states[index] ? '有报道可循' : '线索仍在寻找'}
             </span>
             <p role="cell">{states[index] ? findings[index] : stage.needed}</p>
           </div>
         ))}
+        <div className="verdict-row verdict-unknown" role="row">
+          <strong role="cell">
+            <i>04</i>体验者持续学习
+          </strong>
+          <span role="cell">仍未知</span>
+          <p role="cell">
+            缺少同一批体验者的首次体验与后续回访记录，无法计算持续学习的比例。未知不等于没有人留下。
+          </p>
+        </div>
       </div>
       <div className="verdict-note">
-        <span>当前调查结论 / WHAT WE CAN SAY</span>
+        <span>热闹之后 / 我们已经知道</span>
         <p>
-          公开报道可以证明：鱼灯获得关注，有住客动手体验，既有工坊后来仍在制作；徽墨民宿有体验与持续授课。但这些记录没有追踪同一批体验者的后续学习，因此目前不能说“走红带来了传承”。
+          <b>手艺确实被看见了。</b>
+          黄山等关键词相关视频在2025年春节报告窗口播放{views.valueText}
+          {views.unit}；汪满田的工坊在鱼灯节后仍在接单。
         </p>
-        <p>下一步最需要的不是更大的播放数字，而是同一批人隔一段时间后是否仍在学习、制作或教学。</p>
+        <p>
+          <b>也确实有人走近了现场。</b>
+          老胡开文墨厂2025年研学接待{visits.valueText}
+          {visits.unit}；申易鑫每周到民宿授课；{talents.valueText}
+          位鱼灯手艺人进了歙县人才库。
+        </p>
+        <p>
+          <b>年轻人也在鱼灯相关行业中工作。</b>
+          新华社报道，歙县相关行业从业者中，35岁以下占比
+          {publicMeasure('fish-young-workers').valueText}
+          {publicMeasure('fish-young-workers').unit}
+          。这是县域年龄结构，不能说明这些人从一次体验走向了学艺。
+        </p>
+        <p>
+          <b>但"看见"和"传承"之间，还差一段没接上的路。</b>
+          那户做灯的住客、那些来研学的人，后来有没有继续学、继续做？体验者持续学习的比例仍未知，现有报道还没有接上同一批人的回访。
+        </p>
+        <p>
+          热闹之后，我们继续问：谁来接着做？播放留下关注的记录，下一次开工和授课，才让实践有了跨期的线索。
+        </p>
+        <p>
+          我们想继续寻找那些来过的人：过了一季、一年，谁还在学，谁开始独自制作，谁又教会了别人？
+        </p>
         <button onClick={() => onSource('method')}>阅读研究方法与来源 ↗</button>
       </div>
     </section>

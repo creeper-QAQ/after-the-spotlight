@@ -13,7 +13,7 @@ page.on('console', (msg) => {
   if (msg.type() === 'error') console.log('console:', msg.text());
 });
 try {
-  await page.goto('http://127.0.0.1:5173', { waitUntil: 'networkidle' });
+  await page.goto('http://127.0.0.1:5173', { waitUntil: 'domcontentloaded' });
   await page.waitForSelector('.ink-fluid[data-status="ready"]');
   await page.locator('#phenomenon').scrollIntoViewIfNeeded();
   await page.waitForTimeout(1500);
@@ -25,12 +25,19 @@ try {
   await page.screenshot({ path: 'artifacts/v02-ink-click.png' });
   assert.match(await page.locator('#phenomenon').innerText(), /播放 ≠ 到访 ≠ 学习/);
   const bounds = await page
-    .locator('#participation')
-    .evaluate((el) => ({ top: el.offsetTop, height: el.offsetHeight }));
+    .locator('#map-context')
+    .evaluate((el) => ({ top: el.getBoundingClientRect().top + scrollY, height: el.offsetHeight }));
   await page.evaluate((y) => scrollTo({ top: y, behavior: 'instant' }), bounds.top + 50);
   await page.waitForSelector('.splat-experience[data-status="ready"]', { timeout: 60000 });
   await page.waitForTimeout(1000);
   assert.equal(await page.locator('.splat-canvas').getAttribute('data-phase'), 'map');
+  assert.equal(
+    await page.locator('.splat-canvas').getAttribute('data-map-layout'),
+    'random-visual',
+  );
+  assert.equal(await page.locator('.splat-canvas').getAttribute('data-map-points'), '620');
+  const firstMapSeed = await page.locator('.splat-canvas').getAttribute('data-map-seed');
+  assert.match(await page.locator('.map-status').innerText(), /随机视觉点位.*随机重排/s);
   const mapImage = await page.screenshot({ path: 'artifacts/v03-china-map.png' });
   await page.evaluate(
     (y) => scrollTo({ top: y, behavior: 'instant' }),
@@ -51,20 +58,24 @@ try {
   await page.evaluate((y) => scrollTo({ top: y, behavior: 'instant' }), bounds.top + 30);
   await page.waitForTimeout(1800);
   assert.equal(await page.locator('.splat-canvas').getAttribute('data-phase'), 'map');
-  await page.locator('#people').scrollIntoViewIfNeeded();
+  await page.locator('#case-followup').scrollIntoViewIfNeeded();
   assert.equal(await page.locator('.relationship-map').count(), 0);
   await page.screenshot({ path: 'artifacts/v02-people.png' });
-  assert.match(await page.locator('.verdict-table').innerText(), /不是对前述体验者的追踪/);
+  assert.match(await page.locator('.verdict-table').innerText(), /同一批体验者/);
   const mobile = await browser.newPage({
     viewport: { width: 390, height: 844 },
     isMobile: true,
     hasTouch: true,
   });
   mobile.on('pageerror', (e) => errors.push(e.message));
-  await mobile.goto('http://127.0.0.1:5173', { waitUntil: 'networkidle' });
-  await mobile.getByRole('button', { name: '从全国，看见被记录的技艺。', exact: true }).click();
+  await mobile.goto('http://127.0.0.1:5173', { waitUntil: 'domcontentloaded' });
+  await mobile.getByRole('button', { name: '从一张地图，走向具体的手艺。', exact: true }).click();
   await mobile.waitForSelector('.splat-experience[data-status="ready"]', { timeout: 60000 });
   await mobile.waitForTimeout(1000);
+  assert.notEqual(
+    await mobile.locator('.splat-canvas').getAttribute('data-map-seed'),
+    firstMapSeed,
+  );
   await mobile.screenshot({ path: 'artifacts/v03-mobile-map.png' });
   await mobile.getByRole('button', { name: '再走近一盏鱼灯。', exact: true }).click();
   await mobile.waitForSelector('.splat-experience[data-status="ready"]', { timeout: 60000 });
@@ -80,14 +91,14 @@ try {
     reducedMotion: 'reduce',
   });
   reduced.on('pageerror', (e) => errors.push(e.message));
-  await reduced.goto('http://127.0.0.1:5173', { waitUntil: 'networkidle' });
-  await reduced.locator('#participation').scrollIntoViewIfNeeded();
+  await reduced.goto('http://127.0.0.1:5173', { waitUntil: 'domcontentloaded' });
+  await reduced.locator('#map-context').scrollIntoViewIfNeeded();
   await reduced.waitForSelector('.splat-experience[data-status="ready"]', { timeout: 60000 });
   await reduced.getByRole('button', { name: '再走近一盏鱼灯。', exact: true }).click();
   await reduced.waitForFunction(
     () => document.querySelector('.splat-canvas')?.getAttribute('data-phase') === 'fish',
   );
-  await reduced.getByRole('button', { name: '从全国，看见被记录的技艺。', exact: true }).click();
+  await reduced.getByRole('button', { name: '从一张地图，走向具体的手艺。', exact: true }).click();
   await reduced.waitForFunction(
     () => document.querySelector('.splat-canvas')?.getAttribute('data-phase') === 'map',
   );

@@ -1,6 +1,6 @@
 {
   "name": "after-the-spotlight",
-  "version": "0.5.0",
+  "version": "1.3.0",
   "private": true,
   "type": "module",
   "scripts": {
@@ -14,17 +14,27 @@
     "restore": "node scripts/versions.mjs restore",
     "test:versions": "node --test tests/versions.test.mjs",
     "test:browser": "node tests/browser.mjs",
+    "test:ai-reply": "node tests/ai-reply.mjs",
+    "test:evidence": "node tests/public-evidence.mjs && node tests/submission-facts.mjs",
+    "test:coverage": "node tests/coverage-reader.mjs",
+    "test:delivery": "node tests/submission-package.mjs",
+    "delivery": "node scripts/delivery.mjs",
     "test:scroll": "node tests/scroll.mjs",
     "format": "prettier --write src scripts tests vite.config.ts",
     "format:check": "prettier --check src scripts tests vite.config.ts",
     "test:effects": "node tests/effects.mjs",
-    "test:games": "node tests/games.mjs"
+    "test:games": "node tests/games.mjs",
+    "test:corpus": "node tests/corpus-audit.mjs && node tests/corpus-reader.mjs",
+    "test:media": "node tests/submission-media.mjs",
+    "test:reply": "node --test tests/local-reply.test.mjs && node tests/local-reply-browser.mjs"
   },
   "dependencies": {
     "@remotion/player": "^4.0.506",
     "@sparkjsdev/spark": "2.2.0",
+    "@types/matter-js": "^0.20.2",
     "3d-force-graph": "1.80.0",
     "gsap": "3.15.0",
+    "matter-js": "^0.20.0",
     "react": "19.3.0",
     "react-dom": "19.3.0",
     "remotion": "^4.0.506",

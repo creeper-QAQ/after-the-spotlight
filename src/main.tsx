@@ -12,6 +12,11 @@ import './styles/viral-burst.css';
 import './styles/craft-studio.css';
 import './styles/delivery.css';
 import './styles/unfinished-scroll.css';
+import './styles/reports.css';
+import './styles/editorial.css';
+import './styles/integrated-story.css';
+import './styles/corpus-audit.css';
+import './styles/question-kit.css';
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>

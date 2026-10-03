@@ -1,21 +1,17 @@
 import { useEffect, useRef, useState } from 'react';
-import { chapters, introduction, type SourceTopic } from './content/story';
+import { chapters, type SourceTopic } from './content/story';
 import { Icon } from './components/Icon';
 import { Overture } from './components/Overture';
+import { EditorialFindings } from './components/EditorialFindings';
+import { EvidenceReader } from './components/EvidenceReader';
+import { PeopleStories } from './components/PeopleStories';
 import { SealAtlas } from './components/SealAtlas';
-import { ContinuityLoom } from './components/ContinuityLoom';
+import { SplatGallery } from './effects/SplatGallery';
+import { FollowupGuide, ReadingArchive } from './components/ReadingArchive';
 import { SourceDialog } from './components/SourceDialog';
-import {
-  Attention,
-  ParticipationContext,
-  CaseFollowup,
-  CraftContext,
-  PeopleContext,
-  Verdict,
-} from './components/Narrative';
+import { Attention, CraftContext, Verdict } from './components/Narrative';
 import { InkFluid } from './effects/InkFluid';
 import { HeritageDecor } from './effects/HeritageDecor';
-import { SplatGallery } from './effects/SplatGallery';
 import { ViralBurst } from './effects/ViralBurst';
 import { useEditorialMotion } from './effects/useEditorialMotion';
 
@@ -29,6 +25,7 @@ function readPreference(key: string, fallback: string) {
 
 export default function App() {
   const [topic, setTopic] = useState<SourceTopic | null>(null);
+  const [caseKind, setCaseKind] = useState<'fish' | 'ink'>('fish');
   const [menuOpen, setMenuOpen] = useState(false);
   const [active, setActive] = useState('intro');
   const [progress, setProgress] = useState(0);
@@ -112,7 +109,7 @@ export default function App() {
     <>
       <HeritageDecor />
       <InkFluid motion={motion} theme={theme} />
-      <a href="#phenomenon" className="skip-link">
+      <a href="#findings" className="skip-link">
         跳到正文
       </a>
       <header className={`site-header ${active === 'intro' ? 'header-overture' : ''}`}>
@@ -158,32 +155,40 @@ export default function App() {
       </header>
       <main>
         <Overture motion={motion} />
-        <div className="opening-note">
-          <span className="vertical-label">从看见到传承</span>
-          <p>{introduction.description}</p>
-          <span className="opening-symbol" aria-hidden="true">
-            续
-          </span>
-        </div>
+        <EditorialFindings />
         <Attention onSource={setTopic} />
         <ViralBurst motion={motion} />
-        <SplatGallery motion={motion} />
+        <div className="story-join join-crowd-atlas">
+          <span>从屏幕里的声音，走向有名字的手艺</span>
+          <p>热闹让我们看见一盏灯。往下翻，安徽的百工各有名录、地方与来处。</p>
+        </div>
         <SealAtlas onSource={() => setTopic('catalogue')} />
-        <ParticipationContext onSource={setTopic} />
-        <CaseFollowup />
-        <CraftContext onSource={setTopic} motion={motion} />
-        <PeopleContext onSource={setTopic} />
+        <div className="story-join join-atlas-case">
+          <span>从百工中，取出两条调查线</span>
+          <p>鱼灯与徽墨，是这次追问的两个入口。先让视线从全国轮廓，聚到一盏具体的灯。</p>
+          <a href="#participation">带着问题，进入调查板 ↓</a>
+        </div>
+        <SplatGallery motion={motion} />
+        <EvidenceReader kind={caseKind} onKindChange={setCaseKind} />
+        <PeopleStories kind={caseKind} />
+        <CraftContext
+          onSource={setTopic}
+          motion={motion}
+          kind={caseKind}
+          onKindChange={setCaseKind}
+        />
         <Verdict onSource={setTopic} />
-        <ContinuityLoom />
+        <FollowupGuide />
+        <ReadingArchive onSource={setTopic} />
       </main>
       <footer className="site-footer">
         <a className="footer-brand" href="#intro">
           被看见之后<span>一卷关于非遗的互动叙事</span>
         </a>
         <p>
-          未完的长卷 V0.7
+          未完的长卷 V1.2 · 资料核对日期见来源说明
           <br />
-          模型为原创示意；安徽名录图依据组员交付表，逐条原文复核待补。
+          鱼灯与徽墨为原创工艺示意。安徽名录图据采集表整理，逐条原文核对情况见来源说明。
         </p>
         <div className="footer-actions">
           <button

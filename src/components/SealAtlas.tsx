@@ -1,5 +1,7 @@
 import { useEffect, useState, type CSSProperties } from 'react';
 import heritage from '../content/heritage.json';
+import { useSealPhysics } from '../effects/useSealPhysics';
+import '../styles/seal-repair.css';
 
 const rows = heritage.catalogue;
 const categories = [...new Set(rows.map((row) => row.category))];
@@ -16,10 +18,12 @@ const glyphs: Record<string, string> = {
   传统医药: '药',
   民俗: '俗',
 };
-type Layout = 'scatter' | 'category' | 'year';
+type Layout = 'physics' | 'scatter' | 'category' | 'year';
 
 export function SealAtlas({ onSource }: { onSource: () => void }) {
-  const [layout, setLayout] = useState<Layout>('scatter');
+  const [layout, setLayout] = useState<Layout>('physics');
+  const [reset, setReset] = useState(0);
+  const stage = useSealPhysics(layout === 'physics', reset);
   const [selected, setSelected] = useState(rows.findIndex((row) => row.name === '徽墨制作技艺'));
   const [compact, setCompact] = useState(() => matchMedia('(max-width: 650px)').matches);
   useEffect(() => {
@@ -30,6 +34,19 @@ export function SealAtlas({ onSource }: { onSource: () => void }) {
   }, []);
   const record = rows[selected];
   const point = (index: number) => {
+    if (compact && layout !== 'physics') {
+      const ordering = rows
+        .map((row, i) => ({ ...row, i }))
+        .sort((a, b) =>
+          layout === 'category'
+            ? categories.indexOf(a.category) - categories.indexOf(b.category)
+            : layout === 'year'
+              ? a.year - b.year
+              : a.i - b.i,
+        );
+      const position = ordering.findIndex((row) => row.i === index);
+      return { x: 8 + (position % 6) * 16.8, y: 4 + Math.floor(position / 6) * 5.65, rotate: 0 };
+    }
     if (layout === 'scatter') {
       const radius = Math.sqrt((index + 0.5) / rows.length) * 45;
       const angle = index * 2.399963;
@@ -87,6 +104,7 @@ export function SealAtlas({ onSource }: { onSource: () => void }) {
         <div aria-label="印谱排列方式">
           {(
             [
+              ['physics', '落印成堆'],
               ['scatter', '散落成卷'],
               ['category', '十类成谱'],
               ['year', '认定年轮'],
@@ -96,10 +114,14 @@ export function SealAtlas({ onSource }: { onSource: () => void }) {
               {label}
             </button>
           ))}
+          {layout === 'physics' && (
+            <button onClick={() => setReset((value) => value + 1)}>重新落下 ↻</button>
+          )}
         </div>
       </div>
       <div className="atlas-workspace">
         <div
+          ref={stage}
           className={`seal-stage layout-${layout}`}
           role="group"
           aria-label="99条安徽名录印记"
@@ -132,9 +154,21 @@ export function SealAtlas({ onSource }: { onSource: () => void }) {
                     '--seal-delay': `${(index % 13) * 16}ms`,
                   } as CSSProperties
                 }
+                data-seal-id={row.id}
                 aria-label={`${row.name}，${row.region}`}
                 aria-pressed={index === selected}
-                onClick={() => setSelected(index)}
+                onClick={() => {
+                  setSelected(index);
+                  if (compact)
+                    document.querySelector('.seal-record')?.scrollIntoView({
+                      behavior:
+                        matchMedia('(prefers-reduced-motion: reduce)').matches ||
+                        document.documentElement.dataset.motion === 'off'
+                          ? 'instant'
+                          : 'smooth',
+                      block: 'center',
+                    });
+                }}
               >
                 <span>{glyphs[row.category] || '艺'}</span>
                 <small>{String(index + 1).padStart(2, '0')}</small>
@@ -142,13 +176,15 @@ export function SealAtlas({ onSource }: { onSource: () => void }) {
             );
           })}
           <span className="atlas-stage-caption">
-            {layout === 'scatter'
-              ? '点一枚印，走近一门手艺'
-              : layout === 'category'
-                ? '按十大门类依次排布'
-                : compact
-                  ? '按认定年份依次排布'
-                  : '由外向内：2006 → 2021'}
+            {layout === 'physics'
+              ? '拖一枚印，松手落下 · 轻点查看详情'
+              : layout === 'scatter'
+                ? '点一枚印，走近一门手艺'
+                : layout === 'category'
+                  ? '按十大门类依次排布'
+                  : compact
+                    ? '按认定年份依次排布'
+                    : '由外向内：2006 → 2021'}
           </span>
         </div>
         <aside className="seal-record" aria-live="polite">
@@ -202,7 +238,7 @@ export function SealAtlas({ onSource }: { onSource: () => void }) {
       </div>
       <p className="atlas-note">
         每枚印记代表交付表的一条地区或单位子项，涉及 72
-        个官方项目编号。位置和旋转是艺术排布，不代表地理坐标；逐条官网复核待补。
+        个官方项目编号。印章以艺术方式排布，位置不对应地理坐标；原文核对范围见来源。
       </p>
     </section>
   );

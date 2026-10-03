@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import heritage from '../content/heritage.json';
 import { Icon } from './Icon';
+import { AnimatedMetric } from './AnimatedMetric';
 
 const modes = [
   { id: 'category', name: '按类别' },
@@ -54,10 +55,11 @@ export function CatalogueViz({ onSource }: { onSource: () => void }) {
       </div>
       <div className="delivery-statline" aria-label="名录规模">
         <span>
-          <b>{rows.length}</b> 条安徽申报地区或单位子项
+          <AnimatedMetric value={rows.length} /> 条安徽申报地区或单位子项
         </span>
         <span>
-          <b>{new Set(rows.map((row) => row.project_code)).size}</b> 个不同官方项目编号
+          <AnimatedMetric value={new Set(rows.map((row) => row.project_code)).size} />{' '}
+          个不同官方项目编号
         </span>
       </div>
       <div className="viz-stage" aria-live="polite">
@@ -72,7 +74,7 @@ export function CatalogueViz({ onSource }: { onSource: () => void }) {
             >
               <span>{label}</span>
               <div>
-                <i style={{ width: `${(count / max) * 100}%` }} />
+                <i style={{ width: '100%', '--bar-scale': count / max } as React.CSSProperties} />
               </div>
               <b>{count}</b>
             </button>
@@ -89,7 +91,7 @@ export function CatalogueViz({ onSource }: { onSource: () => void }) {
       </p>
       <details className="delivery-records">
         <summary>
-          查阅 {selected ? `${selected}的` : '全部'}原始名录记录 <span>↘</span>
+          点击展开 · 查阅 {selected ? `${selected}的` : '全部'}原始名录记录 <span>↘</span>
         </summary>
         <div className="delivery-search-row">
           <input
@@ -102,7 +104,7 @@ export function CatalogueViz({ onSource }: { onSource: () => void }) {
           {selected && <button onClick={() => setSelected(null)}>清除图表筛选</button>}
         </div>
         <p className="delivery-chart-note">
-          当前显示 {matches.length} / {rows.length} 条。逐条官网原文核对仍待补。
+          当前显示 {matches.length} / {rows.length} 条。原文核对范围见来源说明。
         </p>
         <div className="delivery-record-list">
           {matches.map((row) => (
@@ -119,7 +121,7 @@ export function CatalogueViz({ onSource }: { onSource: () => void }) {
         </div>
       </details>
       <div className="viz-footer">
-        <span>交付表经结构清洗 · 逐条官网原文复核待补</span>
+        <span>据安徽名录采集表整理 · 原文核对范围见来源</span>
         <button className="text-button" onClick={onSource}>
           数据口径与来源 <Icon name="source" size={15} />
         </button>

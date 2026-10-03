@@ -1,0 +1,229 @@
+.corpus-section {
+  min-height: 100px;
+}
+.corpus-audit {
+  margin: 45px 0 0;
+  padding: 35px 0;
+  border-top: 1px solid var(--line);
+}
+.corpus-audit h3 {
+  margin: 16px 0;
+  font-family: var(--serif);
+  font-size: clamp(28px, 3vw, 40px);
+  font-weight: 400;
+  line-height: 1.6;
+}
+.corpus-audit > p {
+  max-width: 860px;
+  font-size: 14px;
+  color: var(--muted);
+  line-height: 1.95;
+}
+.corpus-ruler {
+  display: grid;
+  grid-template-columns: repeat(47, minmax(0, 1fr));
+  gap: 5px;
+  margin: 30px 0 12px;
+}
+.corpus-ruler i {
+  display: block;
+  height: 27px;
+  border: 1px solid var(--line);
+  background: var(--paper-deep);
+}
+.corpus-ruler i.is-current {
+  background: var(--accent);
+  border-color: var(--accent);
+}
+.corpus-audit .corpus-ruler-caption {
+  font-size: 12px;
+}
+.corpus-explore {
+  display: grid;
+  grid-template-columns: minmax(250px, 0.85fr) minmax(0, 1.3fr);
+  gap: 40px;
+  margin: 30px 0;
+}
+.corpus-unit-bars {
+  display: grid;
+  gap: 6px;
+  align-content: start;
+}
+.corpus-unit-bars > button {
+  display: grid;
+  position: relative;
+  grid-template-columns: 1fr auto;
+  align-items: center;
+  gap: 12px;
+  min-height: 48px;
+  padding: 11px 13px 13px;
+  color: var(--ink);
+  border: 1px solid transparent;
+  background: transparent;
+  text-align: left;
+  font-size: 14px;
+}
+.corpus-unit-bars > button > i {
+  position: absolute;
+  bottom: 0;
+  left: 13px;
+  width: var(--unit-share);
+  max-width: calc(100% - 26px);
+  height: 3px;
+  background: var(--muted);
+  opacity: 0.65;
+}
+.corpus-unit-bars > button[aria-pressed='true'] {
+  border-color: var(--accent);
+  background: var(--paper-deep);
+  color: var(--accent);
+}
+.corpus-unit-bars > button[aria-pressed='true'] > i {
+  background: var(--accent);
+  opacity: 1;
+}
+.corpus-unit-bars small {
+  color: var(--muted);
+  font-weight: 400;
+  font-size: 12px;
+}
+.corpus-records {
+  padding: 22px 25px;
+  background: var(--paper-deep);
+  border-left: 1px solid var(--line);
+}
+.corpus-record-heading {
+  display: flex;
+  align-items: start;
+  justify-content: space-between;
+  gap: 14px;
+}
+.corpus-record-heading h4 {
+  margin: 0;
+  font-family: var(--serif);
+  font-size: 22px;
+  font-weight: 400;
+}
+.corpus-record-heading > span {
+  flex-shrink: 0;
+  font-size: 12px;
+  padding-top: 6px;
+  color: var(--accent);
+}
+.corpus-records p {
+  font-size: 12px;
+  line-height: 1.85;
+  color: var(--muted);
+}
+.corpus-records ol {
+  list-style: none;
+  margin: 20px 0 0;
+  padding: 0;
+}
+.corpus-records li {
+  display: grid;
+  grid-template-columns: 50px minmax(0, 1fr);
+  gap: 15px;
+  padding: 15px 0;
+  border-top: 1px solid var(--line);
+}
+.corpus-records li > .mono {
+  font-size: 11px;
+  color: var(--muted);
+  padding-top: 4px;
+}
+.corpus-records h5 {
+  font-size: 14px;
+  line-height: 1.8;
+  font-weight: 400;
+  margin: 0 0 5px;
+}
+.corpus-records li p {
+  margin: 3px 0;
+}
+.corpus-records li small {
+  display: block;
+  font-size: 11px;
+  line-height: 1.9;
+  color: var(--accent);
+  margin-top: 6px;
+}
+.corpus-records li a {
+  display: block;
+  font-size: 12px;
+  line-height: 1.9;
+  color: var(--muted);
+}
+.corpus-more {
+  min-height: 44px;
+  padding: 8px 0;
+  margin-top: 10px;
+  border: 0;
+  background: transparent;
+  color: var(--accent);
+  font-size: 12px;
+}
+.corpus-grain-note {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 25px;
+  align-items: center;
+  border-top: 1px solid var(--line);
+  padding: 20px 0;
+}
+.corpus-grain-note p {
+  margin: 0;
+  font-size: 14px;
+  line-height: 1.95;
+  color: var(--muted);
+}
+.corpus-grain-note b {
+  display: block;
+  color: var(--ink);
+  font-weight: 400;
+  font-family: var(--serif);
+  font-size: 20px;
+}
+.corpus-grain-note a {
+  font-size: 12px;
+  color: var(--accent);
+}
+.corpus-audit .corpus-method-note {
+  font-size: 12px;
+}
+@media (max-width: 700px) {
+  .corpus-explore {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 22px;
+  }
+  .corpus-unit-bars {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 6px 10px;
+  }
+  .corpus-unit-bars > button {
+    grid-template-columns: 1fr;
+    gap: 5px;
+    min-height: 68px;
+  }
+  .corpus-ruler {
+    grid-template-columns: repeat(24, minmax(0, 1fr));
+    gap: 3px;
+  }
+  .corpus-ruler i {
+    height: 21px;
+  }
+  .corpus-records {
+    padding: 18px;
+  }
+  .corpus-record-heading {
+    display: block;
+  }
+  .corpus-records li {
+    grid-template-columns: 42px minmax(0, 1fr);
+    gap: 10px;
+  }
+  .corpus-grain-note {
+    grid-template-columns: 1fr;
+    gap: 15px;
+  }
+}

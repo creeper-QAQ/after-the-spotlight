@@ -10,8 +10,16 @@ const questions = [
   '体验之后，能追到同一批人吗？',
 ];
 
-export function EvidenceWall() {
-  const [kind, setKind] = useState<Kind>('fish');
+export function EvidenceWall({
+  kind: chosenKind,
+  onKindChange,
+}: { kind?: Kind; onKindChange?: (kind: Kind) => void } = {}) {
+  const [localKind, setLocalKind] = useState<Kind>('fish');
+  const kind = chosenKind ?? localKind;
+  const setKind = (value: Kind) => {
+    setLocalKind(value);
+    onKindChange?.(value);
+  };
   const [active, setActive] = useState(0);
   const steps = useRef<(HTMLElement | null)[]>([]);
   const events = order.map((stage) =>
@@ -96,10 +104,14 @@ export function EvidenceWall() {
                 </div>
                 <div className="evidence-pin-content">
                   <small>
-                    {labels[index]} · {event?.date ?? '尚无记录'}
+                    {labels[index]} · {event?.date ?? '此处缺少记录'}
                   </small>
-                  <strong>{event?.actor ?? '证据空白'}</strong>
-                  <p>{event ? event.event : '尚未找到这项技艺进入公众视野的可核验传播记录。'}</p>
+                  <strong>{event?.actor ?? '寻找传播的起点'}</strong>
+                  <p>
+                    {event
+                      ? event.event
+                      : '这项技艺如何走进公众视野，现有资料还没有留下清楚的记录。'}
+                  </p>
                   {source && (
                     <a href={source.url} target="_blank" rel="noreferrer">
                       核对报道 ↗
@@ -111,7 +123,7 @@ export function EvidenceWall() {
           })}
           <div className="evidence-break">
             <i />
-            这根线暂时接不上：没有同一批体验者的后续记录
+            来体验的人，后来去了哪里？记录在这里留下一处空白。
           </div>
         </div>
         <div className="evidence-narration">
@@ -128,14 +140,15 @@ export function EvidenceWall() {
               <h3>{questions[index]}</h3>
               <p>
                 {events[index]?.event ??
-                  '这一步尚无可核验记录；不能因为另一项技艺走红，就替它补上热度。'}
+                  '每一门手艺都有自己的来路。关于这一段的传播，现有资料还没有给出答案。'}
               </p>
-              {index === 1 && <a href="#craft">试一次简化制作，理解“参与”的深浅 ↓</a>}
+              {index === 1 && <a href="#craft">亲手试一回，走近制作的过程 ↓</a>}
+              {index === 2 && <a href="#case-followup">沿着实名人物，把后来继续接上 ↓</a>}
               {index === 2 && (
                 <strong className="evidence-step-finding">
                   {kind === 'fish'
-                    ? '查到工坊持续制作；未查到那户体验者是否继续学习。'
-                    : '查到申易鑫持续授课；未查到住客体验之后的去向。'}
+                    ? '工坊仍在做灯。那户来体验的人家，后来还做过吗？'
+                    : '申易鑫每周授课。住客离开民宿之后，还会拿起制墨工具吗？'}
                 </strong>
               )}
             </article>

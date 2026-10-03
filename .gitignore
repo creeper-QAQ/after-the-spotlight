@@ -6,3 +6,4 @@ artifacts/
 .versions/
 .recoveries/
 *.log
+.env*.local

@@ -9,6 +9,7 @@ const browser = await chromium.launch({
   args: ['--enable-unsafe-swiftshader', '--no-first-run'],
 });
 const errors = [];
+const base = process.env.TEST_BASE_URL || 'http://127.0.0.1:5173';
 try {
   for (const [width, height] of [
     [1440, 1000],
@@ -22,7 +23,7 @@ try {
       hasTouch: width < 600,
     });
     page.on('pageerror', (error) => errors.push(error.message));
-    await page.goto('http://127.0.0.1:5173', { waitUntil: 'networkidle' });
+    await page.goto(base, { waitUntil: 'domcontentloaded' });
     await page.waitForSelector('.overture-player svg');
     assert.equal(await page.locator('h1').count(), 1);
     assert.equal(
@@ -47,28 +48,29 @@ try {
     await atlas.locator('.heritage-seal').last().press('ArrowRight');
     assert.match(await atlas.locator('.seal-record').innerText(), /桐城歌/);
     await atlas.getByRole('button', { name: '认定年轮' }).click();
+    await page.waitForFunction(
+      () =>
+        document.querySelectorAll('#seal-atlas .heritage-seal[aria-pressed="true"]').length === 1,
+    );
     assert.equal(await atlas.locator('.heritage-seal[aria-pressed="true"]').count(), 1);
     await atlas.getByRole('button', { name: '散落成卷' }).click();
     await atlas.screenshot({
       path: `artifacts/scroll-${width}-atlas.png`,
       style: '.site-header,.ink-drop-button{visibility:hidden}',
     });
+    await page.locator('.ai-annex > summary').click();
     const loom = page.locator('#continuity-loom');
-    await loom.getByRole('button', { name: '接下一针' }).click();
-    assert.equal(await loom.locator('.loom-scene').getAttribute('data-step'), '1');
-    await loom.getByRole('slider', { name: '牵线进度' }).focus();
-    await page.keyboard.press('End');
-    assert.equal(await loom.locator('.loom-scene').getAttribute('data-step'), '2');
-    await loom.getByRole('button', { name: '接下一针' }).click();
-    assert.match(await loom.innerText(), /故事还没结束/);
-    await loom.getByRole('button', { name: '后来，谁还在学？' }).click();
-    assert.match(await loom.getByRole('status').innerText(), /同一批学习者/);
+    await loom.locator('textarea').waitFor({ state: 'visible' });
+    assert.equal(await loom.locator('textarea').count(), 1);
+    await loom.locator('textarea').fill('半年后如何核对体验者是否继续学习？');
+    assert.equal(await loom.locator('textarea').inputValue(), '半年后如何核对体验者是否继续学习？');
+    await loom.getByRole('button', { name: '手艺怎样留在日常生活里？' }).click();
+    assert.equal(await loom.locator('textarea').inputValue(), '手艺怎样留在日常生活里？');
     await loom.screenshot({
       path: `artifacts/scroll-${width}-loom.png`,
       style: '.site-header,.ink-drop-button{visibility:hidden}',
     });
-    await loom.getByRole('button', { name: '重新牵线' }).click();
-    assert.equal(await loom.locator('.loom-scene').getAttribute('data-step'), '0');
+    assert.match(await loom.innerText(), /下一次回访/);
     assert.equal(
       await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth),
       true,
@@ -78,24 +80,29 @@ try {
   }
   const moving = await browser.newPage({ viewport: { width: 1440, height: 1000 } });
   moving.on('pageerror', (error) => errors.push(error.message));
-  await moving.goto('http://127.0.0.1:5173', { waitUntil: 'networkidle' });
-  await moving.getByRole('button', { name: '02 灯火' }).click();
-  await moving.getByRole('button', { name: '播放纸灯序幕' }).click();
+  await moving.goto(base, { waitUntil: 'domcontentloaded' });
+  await moving.waitForTimeout(300);
   await moving.waitForFunction(
-    () => Number(document.querySelector('.overture-player svg')?.getAttribute('data-frame')) > 183,
+    () => Number(document.querySelector('.overture-player svg')?.getAttribute('data-frame')) > 6,
+  );
+  await moving.waitForFunction(
+    () => Number(document.querySelector('input[aria-label="拖动纸灯序幕"]')?.value) > 0,
   );
   const running = await moving.getByRole('slider', { name: '拖动纸灯序幕' }).inputValue();
-  assert.notEqual(running, '180');
+  assert.notEqual(running, '0');
   await moving.getByRole('button', { name: '暂停纸灯序幕' }).click();
   const paused = await moving.getByRole('slider', { name: '拖动纸灯序幕' }).inputValue();
   await moving.waitForTimeout(150);
   assert.equal(await moving.getByRole('slider', { name: '拖动纸灯序幕' }).inputValue(), paused);
   await moving.getByRole('button', { name: '播放纸灯序幕' }).click();
-  await moving.locator('#seal-atlas').scrollIntoViewIfNeeded();
+  await moving.locator('#case-followup').scrollIntoViewIfNeeded();
   await moving.waitForTimeout(500);
   const offscreenFrame = await moving.locator('.overture-player svg').getAttribute('data-frame');
   await moving.waitForTimeout(250);
-  assert.equal(await moving.locator('.overture-player svg').getAttribute('data-frame'), offscreenFrame);
+  assert.equal(
+    await moving.locator('.overture-player svg').getAttribute('data-frame'),
+    offscreenFrame,
+  );
   await moving.close();
   assert.deepEqual(errors, []);
   await writeFile(

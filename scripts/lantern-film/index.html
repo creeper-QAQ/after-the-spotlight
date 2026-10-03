@@ -1,0 +1,26 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>原创鱼灯夜景 · 本地制作画面</title>
+    <style>
+      html,
+      body {
+        margin: 0;
+        background: #101d1b;
+        overflow: hidden;
+      }
+      canvas {
+        width: 100vw;
+        height: 100vh;
+        display: block;
+        object-fit: contain;
+      }
+    </style>
+  </head>
+  <body>
+    <canvas id="film" width="960" height="540"></canvas>
+    <script type="module" src="./scene.ts"></script>
+  </body>
+</html>

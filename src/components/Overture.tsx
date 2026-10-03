@@ -6,7 +6,7 @@ export function Overture({ motion }: { motion: boolean }) {
   const [player, setPlayer] = useState<PlayerRef | null>(null);
   const host = useRef<HTMLElement>(null);
   const [playing, setPlaying] = useState(motion);
-  const [frame, setFrame] = useState(180);
+  const [frame, setFrame] = useState(0);
   const [inView, setInView] = useState(true);
   useEffect(() => {
     const observer = new IntersectionObserver(([entry]) => setInView(entry.isIntersecting), {
@@ -19,8 +19,15 @@ export function Overture({ motion }: { motion: boolean }) {
     setPlaying(motion);
   }, [motion]);
   useEffect(() => {
-    if (playing && motion && inView) player?.play();
-    else player?.pause();
+    if (playing && motion && inView) {
+      const frame = requestAnimationFrame(() => player?.play());
+      const retry = window.setTimeout(() => player?.play(), 120);
+      return () => {
+        cancelAnimationFrame(frame);
+        clearTimeout(retry);
+      };
+    }
+    player?.pause();
   }, [playing, motion, inView, player]);
   useEffect(() => {
     const current = player;
@@ -63,7 +70,7 @@ export function Overture({ motion }: { motion: boolean }) {
             <br />
             手艺的故事，往后翻。
           </p>
-          <a href="#phenomenon" className="overture-enter">
+          <a href="#findings" className="overture-enter">
             <span>展开这卷故事</span>
             <b>↘</b>
           </a>
@@ -77,9 +84,11 @@ export function Overture({ motion }: { motion: boolean }) {
             compositionWidth={1000}
             compositionHeight={880}
             fps={30}
-            initialFrame={180}
+            initialFrame={0}
             loop
             autoPlay={motion}
+            initiallyMuted
+            acknowledgeRemotionLicense
             controls={false}
             clickToPlay={false}
             className="overture-player"

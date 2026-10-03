@@ -4,8 +4,8 @@ import type { createSplatViewer } from './splatViewer';
 
 const steps = [
   {
-    title: '从全国，看见被记录的技艺。',
-    text: '名录提供空间背景，却不能证明“爆火”带来了参与。红点目前只是动效占位，不能据此判断哪里更多。',
+    title: '从一张地图，走向具体的手艺。',
+    text: '轮廓交代空间，光点营造灯火的意象。它们不对应名录项目，不能据此判断哪个地方的非遗更多。',
   },
   {
     title: '让地图退后，把问题推近。',
@@ -13,7 +13,7 @@ const steps = [
   },
   {
     title: '再走近一盏鱼灯。',
-    text: '点云聚合成鱼灯，是从全国视野走入个案的转场。接下来追踪同一个案例的传播、参与和后续实践。',
+    text: '点云聚合成鱼灯，是从全国视野走入个案的转场。接下来，分别核对鱼灯与徽墨的关注、体验和实名实践。',
   },
 ];
 export function SplatGallery({ motion }: { motion: boolean }) {
@@ -79,7 +79,7 @@ export function SplatGallery({ motion }: { motion: boolean }) {
   }, [motion]);
   return (
     <section
-      id="participation"
+      id="map-context"
       ref={root}
       className={`splat-journey ${motion ? '' : 'is-static'}`}
       data-progress="0"
@@ -89,7 +89,7 @@ export function SplatGallery({ motion }: { motion: boolean }) {
           <div
             ref={host}
             className="splat-canvas"
-            aria-label="中国地图红点随滚动爆散并聚合成鱼灯；红点为动效占位，非真实非遗分布"
+            aria-label="中国地图随机视觉点随滚动爆散并聚合成鱼灯；点位非真实非遗分布"
           />
           {status !== 'ready' && (
             <div className="splat-loading">
@@ -102,7 +102,7 @@ export function SplatGallery({ motion }: { motion: boolean }) {
           )}
         </div>
         <div className="journey-copy">
-          <span className="eyebrow">02 / THE PARTICIPATION · 从屏幕到现场</span>
+          <span className="eyebrow">转场 / 从全国视野，走入安徽个案</span>
           <span className="journey-counter">
             0{step + 1}
             <small> / 03</small>
@@ -141,16 +141,16 @@ export function SplatGallery({ motion }: { motion: boolean }) {
         <div className="map-status" data-stage={step}>
           <span className="map-status-dot" />
           {step === 0
-            ? '非遗名录分布预留'
+            ? '全国轮廓 · 随机视觉点位'
             : step === 1
               ? '从全国视野，走近一个案例'
               : '鱼灯 · 原创模型聚合'}
           <small>
-            {step === 0 ? '红点为动效占位 · 非实际分布' : '视觉转场，不表示数量或统计转化'}
+            {step === 0 ? '每次载入随机重排 · 非实际分布' : '视觉转场，不表示数量或统计转化'}
           </small>
         </div>
         <div className="journey-bottom">
-          <span>底图：DataV.GeoAtlas · 红点待接入核验数据</span>
+          <span>底图：DataV.GeoAtlas · 红点为随机生成的视觉示意</span>
           <span>
             {motion ? '继续下滑 · 地图 → 爆散 → 鱼灯 ↓' : '减少动态 · 点击序号切换地图、散点与鱼灯'}
           </span>

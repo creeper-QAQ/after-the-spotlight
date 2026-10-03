@@ -1,5 +1,6 @@
 /** Published records only. Keep a source for every visible record; never put layout fixtures here. */
 import heritage from './heritage.json';
+import { publicEvidence, publicMeasure } from './evidence';
 export interface CatalogueRecord {
   id: string;
   name: string;
@@ -80,6 +81,22 @@ export const dataset: {
     },
   ],
   indicators: [
+    ...[
+      { id: 'fish-videos-2025', measureId: 'keyword-views', stage: 'attention' as const },
+      { id: 'ink-study-2025', measureId: 'ink-visits', stage: 'participation' as const },
+    ].map(({ id, measureId, stage }) => {
+      const fact = publicMeasure(measureId);
+      return {
+        id,
+        stage,
+        label: fact.label,
+        valueText: fact.valueText,
+        unit: fact.unit,
+        period: fact.period,
+        scope: fact.scope,
+        sourceId: fact.sourceId,
+      };
+    }),
     {
       id: 'panmin-followers-2025',
       stage: 'attention',
@@ -104,10 +121,10 @@ export const dataset: {
       id: 'she-fish-artisans',
       stage: 'continuity',
       label: '纳入歙县非遗人才库的鱼灯手艺人',
-      valueText: '61',
-      unit: '人',
-      period: '2025年11月报道时',
-      scope: '歙县三项鱼灯相关技艺的县域口径，并非汪满田单一项目',
+      valueText: publicMeasure('fish-talents').valueText,
+      unit: publicMeasure('fish-talents').unit,
+      period: publicMeasure('fish-talents').period,
+      scope: publicMeasure('fish-talents').scope,
       sourceId: 'xinhua-fish-2025',
     },
     {
@@ -139,7 +156,7 @@ export const dataset: {
       date: '2024-05-20',
       actor: '汪满田村鱼灯工坊',
       event:
-        '新华社报道汪满田鱼灯受到更多关注，鱼灯节后工坊仍有制作和订单。这是一条新闻观察，尚不是平台热度曲线。',
+        '新华社的报道把镜头带到汪满田：鱼灯受到关注，节后的工坊仍在做灯、接单。报道留下的是当地的见闻，平台上的热度另需统计记录。',
       sourceId: 'xinhua-fish-2024',
     },
     {
@@ -159,7 +176,7 @@ export const dataset: {
       date: '2025-11-07',
       actor: '汪华武的鱼灯工坊',
       event:
-        '新华社报道汪华武的工坊仍在制作并承接订单。它记录了既有匠人的后续实践，不能据此推断前一节点的住客继续学习。',
+        '节日过去，汪华武的工坊仍在做灯、接单。师傅的日常继续着；来体验的住客后来是否再学，报道没有续写。',
       sourceId: 'xinhua-fish-2025',
     },
     {
@@ -179,11 +196,18 @@ export const dataset: {
       date: '2025-01-31',
       actor: '申易鑫',
       event:
-        '同篇报道记下：申易鑫在接触徽墨制作技艺后成为县级代表性传承人，报道时每周到民宿授课。进入、学习与认定的具体日期仍待补。',
+        '报道中，申易鑫从接触徽墨制作走到县级代表性传承人的位置，并每周到民宿授课。这条学习之路的具体时间，还需更多资料补全。',
       sourceId: 'xinhua-ink-2025',
     },
   ],
   sources: [
+    ...publicEvidence.sources.map((source) => ({
+      id: source.id,
+      title: `${source.publisher} · ${source.title}`,
+      url: source.url,
+      accessedAt: source.checkedAt,
+      note: source.verification,
+    })),
     {
       id: 'anhui-project-delivery',
       title: '安徽国家级项目子项交付表（99条，结构清洗版）',

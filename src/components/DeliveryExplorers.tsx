@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import heritage from '../content/heritage.json';
+import { AnimatedMetric } from './AnimatedMetric';
 
 type PeopleMode = 'batch' | 'birth' | 'project';
 const projectByCode = new Map(heritage.catalogue.map((row) => [row.project_code, row.name]));
@@ -87,13 +88,14 @@ export function PeopleExplorer() {
       </div>
       <div className="delivery-statline">
         <span>
-          <b>{people.length}</b> 位交付表名录人物
+          <AnimatedMetric value={people.length} /> 位交付表名录人物
         </span>
         <span>
-          <b>{knownBirth}</b> 位有出生年份 · {people.length - knownBirth} 位未公布
+          <AnimatedMetric value={knownBirth} /> 位有出生年份 ·{' '}
+          <AnimatedMetric value={people.length - knownBirth} /> 位未公布
         </span>
         <span>
-          <b>{confirmedLinks.length}</b> 条子项关联 · 1 条待复核
+          <AnimatedMetric value={confirmedLinks.length} /> 条子项关联 · 1 条待复核
         </span>
       </div>
       <div
@@ -114,7 +116,7 @@ export function PeopleExplorer() {
           >
             <span>{mode === 'project' ? `${projectByCode.get(key) || key} · ${key}` : key}</span>
             <div>
-              <i style={{ width: `${(count / max) * 100}%` }} />
+              <i style={{ width: '100%', '--bar-scale': count / max } as React.CSSProperties} />
             </div>
             <b>{count}</b>
           </button>
@@ -129,7 +131,7 @@ export function PeopleExplorer() {
       </p>
       <details className="delivery-records">
         <summary>
-          查阅人物名录与官方详情页 <span>↘</span>
+          点击展开 · 查阅人物名录与官方详情页 <span>↘</span>
         </summary>
         <div className="delivery-search-row">
           <input

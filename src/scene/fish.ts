@@ -181,7 +181,17 @@ export function buildFish(): CraftModel {
     const shape = new THREE.Shape();
     coords.forEach(([x, y], i) => (i ? shape.lineTo(x, y) : shape.moveTo(x, y)));
     shape.closePath();
-    const mesh = new THREE.Mesh(new THREE.ShapeGeometry(shape), finPaper);
+    const mesh = new THREE.Mesh(
+      new THREE.ExtrudeGeometry(shape, {
+        depth: 0.045,
+        bevelEnabled: true,
+        bevelThickness: 0.012,
+        bevelSize: 0.012,
+        bevelSegments: 2,
+        steps: 1,
+      }),
+      finPaper,
+    );
     parent.add(mesh);
     tube(
       coords.map(([x, y]) => new THREE.Vector3(x, y, 0.01)),

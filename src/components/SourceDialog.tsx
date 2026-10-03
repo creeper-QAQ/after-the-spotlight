@@ -2,6 +2,8 @@ import { useEffect, useRef } from 'react';
 import { sources, type SourceTopic } from '../content/story';
 import { dataset } from '../content/data';
 import { Icon } from './Icon';
+import { publicEvidence } from '../content/evidence';
+import { EvidenceSource } from './EvidenceSource';
 
 export function SourceDialog({
   topic,
@@ -54,6 +56,25 @@ export function SourceDialog({
           </div>
           <h2 id="source-title">{source.title}</h2>
           <p className="dialog-description">{source.description}</p>
+          {(topic === 'method' || topic === 'reports' || topic === 'craft') && (
+            <div className="reported-sources">
+              <h3>本次公开记录核对 · {publicEvidence.edition}</h3>
+              <p>{publicEvidence.method}</p>
+              {publicEvidence.sources.map((item) => (
+                <div key={item.id}>
+                  <EvidenceSource id={item.id} />
+                  <p>
+                    {item.verification} · 核对日期 {item.checkedAt}
+                  </p>
+                  {item.alternateUrl && (
+                    <a href={item.alternateUrl} target="_blank" rel="noreferrer">
+                      {item.alternatePublisher}同报告转载 ↗ · 核对日期 {item.alternateCheckedAt}
+                    </a>
+                  )}
+                </div>
+              ))}
+            </div>
+          )}
           {source.items.map((item, i) => (
             <article className="source-item" key={item.title}>
               <span className="mono">0{i + 1}</span>
@@ -82,7 +103,7 @@ export function SourceDialog({
             </div>
           )}
           <div className="dialog-foot">
-            <span className="status-dot" /> 安徽交付表已清洗 · 逐条来源与缺席组员数据待补
+            <span className="status-dot" /> 四组资料已接入清洗 · 逐条来源与统计口径仍按状态复核
           </div>
         </div>
       )}

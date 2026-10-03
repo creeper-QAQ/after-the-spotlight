@@ -12,6 +12,9 @@ export async function createSplatViewer(
   onError: () => void,
 ) {
   const map = await createChinaMap();
+  host.dataset.mapLayout = 'random-visual';
+  host.dataset.mapSeed = String(map.seed);
+  host.dataset.mapPoints = String(map.targets.length);
   let renderer: THREE.WebGLRenderer;
   try {
     renderer = new THREE.WebGLRenderer({ antialias: false, alpha: true });

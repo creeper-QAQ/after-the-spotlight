@@ -8,8 +8,8 @@ type GeoFeature = {
     { type: 'Polygon'; coordinates: Polygon } | { type: 'MultiPolygon'; coordinates: Polygon[] };
 };
 
-// Geographic basemap only. The regular red grid is an explicitly labelled visual
-// placeholder, NOT a sampled or estimated heritage distribution.
+// Geographic basemap only. Points are randomly generated inside the mainland
+// outline for visual motion and are NOT heritage locations, counts or density.
 export async function createChinaMap() {
   const response = await fetch(`${import.meta.env.BASE_URL}maps/china-provinces.geojson`);
   if (!response.ok) throw new Error('China basemap unavailable');
@@ -45,6 +45,17 @@ export async function createChinaMap() {
     }
     return inside;
   };
+  const seedArray = new Uint32Array(1);
+  crypto.getRandomValues(seedArray);
+  const seed = seedArray[0];
+  let randomState = seed;
+  const random = () => {
+    randomState += 0x6d2b79f5;
+    let value = randomState;
+    value = Math.imul(value ^ (value >>> 15), value | 1);
+    value ^= value + Math.imul(value ^ (value >>> 7), value | 61);
+    return ((value ^ (value >>> 14)) >>> 0) / 4294967296;
+  };
   const mainland: Polygon[] = [];
   for (const feature of data.features) {
     const polygons =
@@ -65,16 +76,20 @@ export async function createChinaMap() {
       if (!inset && feature.properties.adcode !== '100000_JD') mainland.push(polygon);
     }
   }
-  // Even cartographic grid: no fabricated regional densities or counts.
-  for (let lat = 18.25; lat < 54; lat += 0.82)
-    for (let lon = 73.25; lon < 135; lon += 0.95) {
-      if (
-        mainland.some(
-          (p) => insideRing(lon, lat, p[0]) && !p.slice(1).some((h) => insideRing(lon, lat, h)),
-        )
+  // New random visual arrangement on every mount. Rejection sampling keeps
+  // dots inside the basemap without implying regional statistics.
+  for (let attempt = 0; targets.length < 620 && attempt < 50000; attempt++) {
+    const lon = 73 + random() * 62;
+    const lat = 18 + random() * 36;
+    if (
+      mainland.some(
+        (polygon) =>
+          insideRing(lon, lat, polygon[0]) &&
+          !polygon.slice(1).some((hole) => insideRing(lon, lat, hole)),
       )
-        targets.push(project([lon, lat]));
-    }
+    )
+      targets.push(project([lon, lat]));
+  }
   if (!targets.length) throw new Error('China basemap contains no polygons');
   const box = new THREE.BufferGeometry().setFromPoints([
     new THREE.Vector3(2.37, -2.23, -0.06),
@@ -112,6 +127,7 @@ export async function createChinaMap() {
   return {
     group,
     targets,
+    seed,
     fade(opacity: number) {
       materials.forEach((entry) => {
         entry.material.opacity = entry.opacity * opacity;

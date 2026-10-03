@@ -59,9 +59,10 @@ export function InkFluid({ motion, theme }: { motion: boolean; theme: string }) 
             target.dataset.drops = String(++drops);
           };
           const down = (event: PointerEvent) => {
+            if (event.pointerType === 'touch') return;
             if (
               (event.target as HTMLElement).closest(
-                'button,a,input,dialog,canvas,label,select,[data-ink-exclude]',
+                'button,a,input,textarea,summary,dialog,canvas,label,select,p,h1,h2,h3,h4,blockquote,li,[role="table"],.coverage-overview,[data-ink-exclude]',
               )
             )
               return;
