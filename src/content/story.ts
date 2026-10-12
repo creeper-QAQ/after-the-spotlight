@@ -1,9 +1,4 @@
-export const chapters = [
-  { id: 'phenomenon', number: '01', title: '灯火初起', en: 'THE ATTENTION' },
-  { id: 'seal-atlas', number: '02', title: '走近手艺', en: 'THE PARTICIPATION' },
-  { id: 'case-followup', number: '03', title: '循线寻人', en: 'FOLLOW THE CASE' },
-  { id: 'after', number: '04', title: '热闹之后', en: 'THE VERDICT' },
-] as const;
+export { readableChapters as chapters } from './readable-story';
 
 export const introduction = {
   eyebrow: '循着灯火，走近手艺',
@@ -119,13 +114,8 @@ export const sources: Record<
         text: '交付表 → 结构清洗与关联核对 → 标注复核状态 → 图表与文字。未逐条核对的线索不当作新闻事实。',
       },
       {
-        title: '模型与示意图',
-        text: '鱼灯、墨锭均为原创程序生成的视觉示意，不是实物扫描或精确复原。点阵用于演示排布，不代表真实项目或数量。',
-      },
-      {
-        title: '地图与红点',
-        text: '中国底图来自 DataV.GeoAtlas，保留省界及南海诸岛附图。红点在每次载入时随机生成，只作为动效示意，不是非遗项目位置、数量或密度。全国地图转为鱼灯是叙事转场，不是统计转化。',
-        url: 'https://datav.aliyun.com/portal/school/atlas/area_selector',
+        title: '声音、影像与模型',
+        text: '评论、头像与身份为原创叙事资产，并非采集样本；背景灯影、鱼灯和墨锭由本站原创制作，未作为现场实录、实物扫描或新闻证据。',
       },
       {
         title: '研究范围',
@@ -148,8 +138,8 @@ export const sources: Record<
         text: '99条是安徽申报地区或单位子项，72是不同官方项目编号；同一项目可有不同子项。只包含国家级，不与省级项目混合。认定批次不解释为传播热度。',
       },
       {
-        title: '图表与地图的边界',
-        text: '横条图依据交付表统计；地图上的随机红点和转场仍是视觉示意，不编码这99条数据，也不代表项目经纬度。',
+        title: '图表的统计单位',
+        text: '横条图依据交付表统计，按安徽申报地区或单位子项计数；同一项目可对应不同申报子项。',
       },
     ],
   },

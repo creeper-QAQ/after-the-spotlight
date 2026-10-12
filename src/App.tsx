@@ -2,14 +2,11 @@ import { useEffect, useRef, useState } from 'react';
 import { chapters, type SourceTopic } from './content/story';
 import { Icon } from './components/Icon';
 import { Overture } from './components/Overture';
-import { EditorialFindings } from './components/EditorialFindings';
-import { EvidenceReader } from './components/EvidenceReader';
-import { PeopleStories } from './components/PeopleStories';
 import { SealAtlas } from './components/SealAtlas';
-import { SplatGallery } from './effects/SplatGallery';
 import { FollowupGuide, ReadingArchive } from './components/ReadingArchive';
 import { SourceDialog } from './components/SourceDialog';
-import { Attention, CraftContext, Verdict } from './components/Narrative';
+import { CraftContext } from './components/Narrative';
+import { History, AttentionStory, LearningStory, DailyLifeStory } from './components/ReadableStory';
 import { InkFluid } from './effects/InkFluid';
 import { HeritageDecor } from './effects/HeritageDecor';
 import { ViralBurst } from './effects/ViralBurst';
@@ -109,7 +106,7 @@ export default function App() {
     <>
       <HeritageDecor />
       <InkFluid motion={motion} theme={theme} />
-      <a href="#findings" className="skip-link">
+      <a href="#history" className="skip-link">
         跳到正文
       </a>
       <header className={`site-header ${active === 'intro' ? 'header-overture' : ''}`}>
@@ -155,31 +152,20 @@ export default function App() {
       </header>
       <main>
         <Overture motion={motion} />
-        <EditorialFindings />
-        <Attention onSource={setTopic} />
-        <ViralBurst motion={motion} />
-        <div className="story-join join-crowd-atlas">
-          <span>从屏幕里的声音，走向有名字的手艺</span>
-          <p>热闹让我们看见一盏灯。往下翻，安徽的百工各有名录、地方与来处。</p>
-        </div>
+        <History />
         <SealAtlas onSource={() => setTopic('catalogue')} />
-        <div className="story-join join-atlas-case">
-          <span>从百工中，取出两条调查线</span>
-          <p>鱼灯与徽墨，是这次追问的两个入口。先让视线从全国轮廓，聚到一盏具体的灯。</p>
-          <a href="#participation">带着问题，进入调查板 ↓</a>
-        </div>
-        <SplatGallery motion={motion} />
-        <EvidenceReader kind={caseKind} onKindChange={setCaseKind} />
-        <PeopleStories kind={caseKind} />
+        <AttentionStory />
+        <ViralBurst motion={motion} />
+        <LearningStory />
         <CraftContext
           onSource={setTopic}
           motion={motion}
           kind={caseKind}
           onKindChange={setCaseKind}
         />
-        <Verdict onSource={setTopic} />
+        <DailyLifeStory />
         <FollowupGuide />
-        <ReadingArchive onSource={setTopic} />
+        <ReadingArchive onSource={setTopic} kind={caseKind} onKindChange={setCaseKind} />
       </main>
       <footer className="site-footer">
         <a className="footer-brand" href="#intro">

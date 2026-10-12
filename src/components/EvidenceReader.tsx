@@ -74,9 +74,10 @@ const windows = [
 ] as const;
 
 export function EvidenceReader({
+  id = 'participation',
   kind = 'fish',
   onKindChange,
-}: { kind?: 'fish' | 'ink'; onKindChange?: (kind: 'fish' | 'ink') => void } = {}) {
+}: { id?: string; kind?: 'fish' | 'ink'; onKindChange?: (kind: 'fish' | 'ink') => void } = {}) {
   const [selected, setSelected] = useState<string>('views');
   const [coverageFilter, setCoverageFilter] = useState<EvidenceKind | 'all'>('all');
   const coverageRows = publicEvidence.coverage.filter(
@@ -85,11 +86,7 @@ export function EvidenceReader({
   const current = windows.find((row) => row.id === selected)!;
   const measure = current.measure ? publicMeasure(current.measure) : null;
   return (
-    <section
-      id="participation"
-      className="section evidence-reader"
-      aria-labelledby="evidence-reader-heading"
-    >
+    <section id={id} className="section evidence-reader" aria-labelledby="evidence-reader-heading">
       <div className="editorial-section-heading">
         <span className="eyebrow">02 / 把数字放回它的尺子</span>
         <h2 id="evidence-reader-heading">

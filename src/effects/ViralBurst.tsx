@@ -1,7 +1,5 @@
 import { useEffect, useRef, useState, type CSSProperties } from 'react';
 import { reactions } from '../content/reactions';
-import { EvidenceSource } from '../components/EvidenceSource';
-import { publicMeasure } from '../content/evidence';
 
 const BILIBILI_VIDEO_URL = 'https://www.bilibili.com/video/BV1Qd4y1V7he/';
 const TOTAL_AVATARS = 507;
@@ -107,7 +105,7 @@ function AvatarFlight() {
       </div>
       <div className="crowd-reading" aria-live="polite" onPointerEnter={() => setHovered(null)}>
         <span className="eyebrow crowd-fiction-label">
-          原创声音示意 / {String(commentIndex + 1).padStart(3, '0')}
+          一句声音 / {String(commentIndex + 1).padStart(3, '0')}
         </span>
         <p className="crowd-handle">{handle}</p>
         <blockquote>{comment}</blockquote>
@@ -124,20 +122,6 @@ function AvatarFlight() {
           <button onClick={nextBatch} className="crowd-batch-button" aria-label="换一批评论">
             换一批 ↻
           </button>
-        </div>
-        <p className="observer-disclaimer">头像、身份与声音均为叙事示意，非采集样本。</p>
-        <div className="crowd-fact">
-          <small>真实报告窗口</small>
-          <strong>
-            {publicMeasure('keyword-views').valueText}{' '}
-            <span>{publicMeasure('keyword-views').unit}</span>
-          </strong>
-          <p>
-            黄山、鱼灯、歙县等关键词相关视频合集播放
-            <br />
-            2025年1月7日—2月12日 · 非独立人数
-          </p>
-          <EvidenceSource id={publicMeasure('keyword-views').sourceId} compact />
         </div>
       </div>
     </div>
@@ -231,7 +215,7 @@ export function ViralBurst({ motion }: { motion: boolean }) {
         <AvatarFlight />
         <div className="crowd-film-footer">
           <div>
-            <span>原创三维灯影 · 工艺意象{!motion || videoFailed ? ' · 静帧阅读' : ''}</span>
+            <span>灯影{!motion || videoFailed ? ' · 静帧' : ''}</span>
             <a
               className="avatar-video-credit"
               href={BILIBILI_VIDEO_URL}

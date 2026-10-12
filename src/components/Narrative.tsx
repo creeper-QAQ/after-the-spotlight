@@ -142,7 +142,8 @@ export function Attention({ onSource }: { onSource: SourceAction }) {
         <DataGap stage="attention" onSource={onSource} />
       )}
       <p className="story-method-note">
-        播放数字记下了目光停留的瞬间。有人是否因此走进村庄、坐到师傅身旁，还要沿着现场的记录往下找。
+        名录按安徽申报地区或单位子项统计，逐条来源随记录保留。
+        <EvidenceSource id="pub-ink-2026" compact />
       </p>
       <a className="story-next" href="#viral-burst">
         看看这股关注如何进入公众视野 <span>↓</span>
@@ -259,13 +260,13 @@ export function CraftContext({
       <div className="story-lead compact">
         <span className="eyebrow">调查补充 / 第一次动手</span>
         <h2>
-          体验一次制作，
+          跟着工序，
           <br />
-          <em>离学会还有多远？</em>
+          <em>让一件手艺成形。</em>
         </h2>
         <div>
           <p>
-            镜头里一闪而过的竹骨与墨料，到了手上，都有各自的难处。试着做一回，才会想问：从第一次动手，到能独自完成，要走过多少练习？
+            从竹骨到纸面，从烟料到墨锭。跟着步骤，观察材料怎样成为一件作品。
           </p>
         </div>
       </div>
@@ -276,7 +277,7 @@ export function CraftContext({
         onSource={() => onSource('craft')}
       />
       <p className="story-method-note">
-        这里以四个互动阶段认识工艺，不代表完成培训。人民日报记录，徽墨实际制作包含八道大工序，晾墨需半年以上；这是材料制作时间，不是学徒培养周期。
+        徽墨有八道大工序，晾墨需半年以上。制作台带你认识其中的动作。
         <EvidenceSource id="pub-ink-2026" compact />
       </p>
     </section>

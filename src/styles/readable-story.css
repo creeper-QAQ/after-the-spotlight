@@ -1,0 +1,251 @@
+.readable-section {
+  padding-block: clamp(55px, 7vw, 100px);
+}
+.readable-heading {
+  max-width: 900px;
+  margin-bottom: 45px;
+}
+.readable-heading h2 {
+  margin: 22px 0;
+  font: 400 clamp(30px, 4vw, 56px)/1.5 var(--serif);
+  text-wrap: balance;
+}
+.readable-heading > p,
+.readable-section article > p,
+.daily-fish > div > p,
+.training-context > p {
+  max-width: 760px;
+  font-size: 16px;
+  line-height: 1.95;
+}
+.readable-section h3 {
+  margin: 18px 0;
+  font: 400 clamp(23px, 2.8vw, 32px)/1.6 var(--serif);
+}
+.craft-history-pair,
+.learning-pair,
+.daily-pair {
+  display: grid;
+  grid-template-columns: 1.15fr 1fr;
+  gap: 45px;
+}
+.craft-history-pair article,
+.learning-pair article,
+.daily-pair article {
+  min-width: 0;
+  border-top: 1px solid var(--accent);
+  padding-top: 24px;
+}
+.craft-history-pair h3 {
+  font-size: 40px;
+}
+.craft-history-pair ol {
+  list-style: none;
+  margin: 25px 0;
+  padding: 0;
+}
+.craft-history-pair li {
+  display: grid;
+  grid-template-columns: 120px 1fr;
+  gap: 18px;
+  padding: 13px 0;
+  border-top: 1px solid var(--line);
+}
+.craft-history-pair li b {
+  color: var(--accent);
+  font-weight: 400;
+}
+.story-source-note {
+  display: inline-block;
+  margin-top: 15px;
+  color: var(--accent);
+  font-size: 12px;
+  padding-block: 6px;
+  border-bottom: 1px solid var(--line);
+}
+.readable-join {
+  margin-top: 38px;
+  padding-top: 25px;
+  border-top: 1px solid var(--line);
+  font: 20px/1.85 var(--serif);
+}
+.attention-record {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  align-items: center;
+  gap: 45px;
+  padding: 35px;
+  background: var(--paper-deep);
+}
+.attention-record strong {
+  display: block;
+  font: 400 clamp(64px, 8vw, 110px)/1.4 var(--latin);
+}
+.attention-record strong small {
+  font: 20px var(--serif);
+  margin-left: 15px;
+}
+.attention-record > div > p {
+  font-size: 16px;
+  line-height: 1.9;
+}
+.attention-record > div > small {
+  display: block;
+  margin-top: 20px;
+  color: var(--muted);
+  font-size: 12px;
+  line-height: 1.85;
+}
+.readable-measure {
+  margin-top: 25px;
+}
+.readable-measure > span {
+  display: block;
+  max-width: 380px;
+  font-size: 14px;
+  line-height: 1.8;
+}
+.readable-measure strong {
+  display: block;
+  margin: 9px 0;
+  color: var(--accent);
+  font: 400 clamp(38px, 5vw, 68px)/1.4 var(--latin);
+}
+.readable-measure strong small {
+  margin-left: 10px;
+  font: 17px var(--serif);
+}
+.readable-measure > p,
+.readable-caption,
+.daily-pair article > small {
+  color: var(--muted);
+  font-size: 12px;
+  line-height: 1.9;
+}
+.school-strip {
+  display: grid;
+  grid-template-columns: repeat(8, 1fr);
+  gap: 7px;
+  margin-top: 35px;
+}
+.school-strip i {
+  display: grid;
+  place-items: center;
+  aspect-ratio: 1;
+  border: 1px solid var(--accent);
+  color: var(--accent);
+  font: 22px var(--serif);
+}
+.learning-small-facts {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+  padding-top: 20px;
+  margin-top: 15px;
+  border-top: 1px solid var(--line);
+}
+.learning-small-facts .readable-measure strong {
+  font-size: clamp(32px, 3vw, 45px);
+}
+.daily-fish {
+  display: grid;
+  grid-template-columns: 1.25fr 1fr;
+  gap: 45px;
+  padding: 30px;
+  border-block: 1px solid var(--line);
+  margin-bottom: 40px;
+}
+.training-context {
+  margin-top: 60px;
+  padding: 35px;
+  background: var(--paper-deep);
+}
+.training-facts {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 25px;
+  margin: 20px 0;
+}
+.training-facts .readable-measure strong {
+  font-size: clamp(36px, 4vw, 54px);
+}
+.readable-ending {
+  margin-top: 50px;
+  padding-left: 25px;
+  border-left: 2px solid var(--accent);
+}
+.readable-ending p {
+  max-width: 900px;
+  font: 26px/1.85 var(--serif);
+  margin: 20px 0;
+}
+.readable-ending a {
+  display: inline-block;
+  color: var(--accent);
+  padding-block: 10px;
+}
+.evidence-center-body > .section {
+  padding: 30px 0;
+}
+#research .people-story {
+  scroll-margin-top: 100px;
+}
+#viral-burst .crowd-reading {
+  min-height: 0;
+  align-self: start;
+}
+.header-reading-settings {
+  min-width: 44px;
+  min-height: 44px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+  font-size: 12px;
+}
+@media (max-width: 800px) {
+  .readable-section {
+    padding-inline: 28px;
+  }
+  .craft-history-pair,
+  .learning-pair,
+  .daily-pair,
+  .daily-fish,
+  .attention-record {
+    grid-template-columns: 1fr;
+    gap: 30px;
+  }
+  .attention-record,
+  .daily-fish,
+  .training-context {
+    padding: 22px;
+  }
+  .training-facts {
+    grid-template-columns: 1fr;
+    gap: 12px;
+  }
+  .training-facts .readable-measure {
+    border-bottom: 1px solid var(--line);
+    padding-bottom: 18px;
+  }
+  .readable-ending p {
+    font-size: 23px;
+  }
+  .header-reading-settings span {
+    display: none;
+  }
+  .school-strip i {
+    font-size: 18px;
+  }
+}
+@media (max-width: 360px) {
+  .readable-section {
+    padding-inline: 20px;
+  }
+  .learning-small-facts {
+    grid-template-columns: 1fr;
+  }
+  .craft-history-pair li {
+    grid-template-columns: 95px 1fr;
+  }
+}
