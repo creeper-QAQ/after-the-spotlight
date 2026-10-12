@@ -234,6 +234,16 @@
   .header-reading-settings span {
     display: none;
   }
+  .site-header .source-link {
+    display: none;
+  }
+  .header-actions {
+    gap: 8px;
+  }
+  .site-header .menu-button {
+    min-width: 44px;
+    min-height: 44px;
+  }
   .school-strip i {
     font-size: 18px;
   }

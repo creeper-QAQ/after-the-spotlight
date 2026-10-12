@@ -20,10 +20,11 @@ const glyphs: Record<string, string> = {
 };
 type Layout = 'physics' | 'scatter' | 'category' | 'year';
 
-export function SealAtlas({ onSource }: { onSource: () => void }) {
-  const [layout, setLayout] = useState<Layout>('physics');
+export function SealAtlas({ onSource, motion = true }: { onSource: () => void; motion?: boolean }) {
+  const [chosenLayout, setLayout] = useState<Layout>('physics');
+  const layout: Layout = !motion && chosenLayout === 'physics' ? 'scatter' : chosenLayout;
   const [reset, setReset] = useState(0);
-  const stage = useSealPhysics(layout === 'physics', reset);
+  const stage = useSealPhysics(motion && layout === 'physics', reset);
   const [selected, setSelected] = useState(rows.findIndex((row) => row.name === '徽墨制作技艺'));
   const [compact, setCompact] = useState(() => matchMedia('(max-width: 650px)').matches);
   useEffect(() => {
@@ -83,7 +84,7 @@ export function SealAtlas({ onSource }: { onSource: () => void }) {
   return (
     <section id="seal-atlas" className="seal-atlas" data-ink-exclude>
       <div className="atlas-heading">
-        <span className="eyebrow">第二卷 / 百工印谱</span>
+        <span className="eyebrow">手艺来历 / 百工印谱</span>
         <h2>
           散落的手艺，
           <br />
@@ -110,7 +111,12 @@ export function SealAtlas({ onSource }: { onSource: () => void }) {
               ['year', '认定年轮'],
             ] as const
           ).map(([key, label]) => (
-            <button key={key} aria-pressed={layout === key} onClick={() => setLayout(key)}>
+            <button
+              key={key}
+              disabled={key === 'physics' && !motion}
+              aria-pressed={layout === key}
+              onClick={() => setLayout(key)}
+            >
               {label}
             </button>
           ))}

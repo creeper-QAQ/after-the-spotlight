@@ -101,6 +101,10 @@ export default function App() {
     settings.current?.close();
     settingsTrigger.current?.focus();
   };
+  const openSettings = (event: React.MouseEvent<HTMLButtonElement>) => {
+    settingsTrigger.current = event.currentTarget;
+    settings.current?.showModal();
+  };
 
   return (
     <>
@@ -134,6 +138,10 @@ export default function App() {
           ))}
         </nav>
         <div className="header-actions">
+          <button className="header-reading-settings" aria-label="阅读设置" onClick={openSettings}>
+            <Icon name="sun" size={17} />
+            <span>阅读设置</span>
+          </button>
           <button className="source-link" onClick={() => setTopic('method')}>
             关于 / 来源 <Icon name="source" size={15} />
           </button>
@@ -153,7 +161,7 @@ export default function App() {
       <main>
         <Overture motion={motion} />
         <History />
-        <SealAtlas onSource={() => setTopic('catalogue')} />
+        <SealAtlas motion={motion} onSource={() => setTopic('catalogue')} />
         <AttentionStory />
         <ViralBurst motion={motion} />
         <LearningStory />
@@ -177,11 +185,7 @@ export default function App() {
           鱼灯与徽墨为原创工艺示意。安徽名录图据采集表整理，逐条原文核对情况见来源说明。
         </p>
         <div className="footer-actions">
-          <button
-            ref={settingsTrigger}
-            className="text-button"
-            onClick={() => settings.current?.showModal()}
-          >
+          <button className="text-button" onClick={openSettings}>
             <Icon name="sun" size={17} />
             阅读设置
           </button>
