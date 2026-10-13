@@ -7,6 +7,10 @@ export function useSealPhysics(enabled: boolean, reset: number) {
   useEffect(() => {
     const host = stage.current;
     if (!host || !enabled) return;
+    const reducedMotion = () => {
+      const choice = document.documentElement.dataset.motion;
+      return choice ? choice === 'off' : matchMedia('(prefers-reduced-motion: reduce)').matches;
+    };
     const buttons = [...host.querySelectorAll<HTMLButtonElement>('.heritage-seal')];
     const engine = Engine.create({ enableSleeping: true, positionIterations: 8 });
     let bodies: Body[] = [];
@@ -70,10 +74,7 @@ export function useSealPhysics(enabled: boolean, reset: number) {
         Bodies.rectangle(-30, -500, 60, h * 2 + 2000, { isStatic: true }),
         Bodies.rectangle(w + 30, -500, 60, h * 2 + 2000, { isStatic: true }),
       ]);
-      if (
-        matchMedia('(prefers-reduced-motion: reduce)').matches ||
-        document.documentElement.dataset.motion === 'off'
-      ) {
+      if (reducedMotion()) {
         for (let i = 0; i < 360; i++) Engine.update(engine, 1000 / 60);
       }
       draw();
@@ -121,9 +122,7 @@ export function useSealPhysics(enabled: boolean, reset: number) {
       }
     };
     const tick = (now: number) => {
-      const reduced =
-        matchMedia('(prefers-reduced-motion: reduce)').matches ||
-        document.documentElement.dataset.motion === 'off';
+      const reduced = reducedMotion();
       if (visible && !document.hidden && (!reduced || grab?.moved)) {
         accumulator += Math.min(previous ? now - previous : 16.67, 50);
         while (accumulator >= 1000 / 60) {

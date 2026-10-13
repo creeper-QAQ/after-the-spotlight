@@ -9,17 +9,23 @@ const LeadDesk = lazy(() => import('./DeliveryExplorers').then((m) => ({ default
 const ContinuityLoom = lazy(() =>
   import('./ContinuityLoom').then((m) => ({ default: m.ContinuityLoom })),
 );
+const PeopleStories = lazy(() =>
+  import('./PeopleStories').then((m) => ({ default: m.PeopleStories })),
+);
+const EvidenceReader = lazy(() =>
+  import('./EvidenceReader').then((m) => ({ default: m.EvidenceReader })),
+);
 
 export function FollowupGuide() {
   const [letterOpened, setLetterOpened] = useState(false);
   return (
     <section className="section followup-guide" aria-labelledby="followup-heading">
-      <span className="eyebrow">下一次回来 / 把追问留给真实的人</span>
+      <span className="eyebrow">下一次现场</span>
       <h2 id="followup-heading">
-        手艺的后来，<em>要有人接着问。</em>
+        带上一个问题，<em>再走近一门手艺。</em>
       </h2>
       <p>
-        如果你去过一场鱼灯体验，或在墨厂亲手描过金，可以从自己的下一次行动开始。以下是回访提纲，尚未开展的采访与追踪。
+        想进一步了解一门手艺，可以从一次动手、一次课程、一次与师傅的交谈开始。下面的提纲可以带去现场。
       </p>
       <ol className="followup-steps">
         {followupStages.map((stage) => (
@@ -51,22 +57,50 @@ export function FollowupGuide() {
   );
 }
 
-export function ReadingArchive({ onSource }: { onSource: (topic: SourceTopic) => void }) {
+export function ReadingArchive({
+  onSource,
+  kind = 'fish',
+  onKindChange,
+}: {
+  onSource: (topic: SourceTopic) => void;
+  kind?: 'fish' | 'ink';
+  onKindChange?: (kind: 'fish' | 'ink') => void;
+}) {
   const [open, setOpen] = useState(false);
+  const [peopleOpened, setPeopleOpened] = useState(false);
+  const [methodOpened, setMethodOpened] = useState(false);
   return (
     <section id="research" className="section reading-archive" aria-labelledby="research-heading">
-      <span className="eyebrow">卷末资料 / 原文、方法与扩展探索</span>
+      <span className="eyebrow">卷末 / 证据中心</span>
       <h2 id="research-heading">
         每一条发现，<em>都可以往回查。</em>
       </h2>
-      <p>{publicEvidence.method}</p>
-      <details className="source-register">
+      <p>正文所用的原文、人物时间线与研究记录，都放在这里。选择一项，展开核对。</p>
+      <details
+        id="people-evidence"
+        className="people-annex source-register"
+        onToggle={(e) => {
+          if (e.currentTarget.open) setPeopleOpened(true);
+        }}
+      >
         <summary>
-          核对本文的10个公开来源<span>出版日期与原文链接 ↓</span>
+          人物与日常实践<span>潘敏 · 申易鑫 · 汪华武 ↓</span>
+        </summary>
+        {peopleOpened && (
+          <div className="evidence-center-body">
+            <Suspense fallback={<p role="status">正在展开人物记录……</p>}>
+              <PeopleStories kind={kind} />
+            </Suspense>
+          </div>
+        )}
+      </details>
+      <details className="source-register source-registry">
+        <summary>
+          核对本文的{publicEvidence.sources.length}个公开来源<span>出版日期与原文链接 ↓</span>
         </summary>
         <ol>
           {publicEvidence.sources.map((source) => (
-            <li key={source.id}>
+            <li key={source.id} id={`source-${source.id}`}>
               <EvidenceSource id={source.id} />
               <p>{source.verification}</p>
               {source.alternateUrl && (
@@ -77,6 +111,23 @@ export function ReadingArchive({ onSource }: { onSource: (topic: SourceTopic) =>
             </li>
           ))}
         </ol>
+      </details>
+      <details
+        className="method-annex source-register"
+        onToggle={(e) => {
+          if (e.currentTarget.open) setMethodOpened(true);
+        }}
+      >
+        <summary>
+          研究方法与采集台账<span>10组片段编码 · 94条指标复算 ↓</span>
+        </summary>
+        {methodOpened && (
+          <div className="evidence-center-body">
+            <Suspense fallback={<p role="status">正在展开方法与台账……</p>}>
+              <EvidenceReader id="evidence-method" kind={kind} onKindChange={onKindChange} />
+            </Suspense>
+          </div>
+        )}
       </details>
       <details className="source-register measure-register">
         <summary>
@@ -104,7 +155,7 @@ export function ReadingArchive({ onSource }: { onSource: (topic: SourceTopic) =>
           深读名录与资料台账<span>逐条名录 · 人物台账 · 采集线索 ↓</span>
         </summary>
         <p className="archive-boundary">
-          这些材料提供地域与名录背景，不是体验者追踪数据。地图点位为布局示意，人物台账中的待匹配记录保留待核实状态。
+          这里收录安徽名录与人物资料，逐条来源和复核状态随记录保留。
         </p>
         {open && (
           <div className="archive-content">

@@ -10,3 +10,4 @@ artifacts/
 
 .npm-cache/
 .env*
+!.env.example

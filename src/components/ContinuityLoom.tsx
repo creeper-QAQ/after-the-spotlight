@@ -26,12 +26,19 @@ export function ContinuityLoom() {
   useEffect(() => {
     const media = matchMedia('(prefers-reduced-motion: reduce)');
     const update = () => {
-      reducedMotion.current = media.matches;
+      const choice = document.documentElement.dataset.motion;
+      reducedMotion.current = choice ? choice === 'off' : media.matches;
     };
     update();
     media.addEventListener('change', update);
+    const preference = new MutationObserver(update);
+    preference.observe(document.documentElement, {
+      attributes: true,
+      attributeFilter: ['data-motion'],
+    });
     return () => {
       media.removeEventListener('change', update);
+      preference.disconnect();
       clearTimeout(timer.current);
     };
   }, []);
@@ -133,13 +140,11 @@ export function ContinuityLoom() {
       data-ink-exclude
     >
       <div className="future-letter-heading">
-        <span className="eyebrow">回访助手 / 把疑问往前推进一步</span>
+        <span className="eyebrow">回访准备 / 问题与资料</span>
         <h3 id="question-kit-title">
           有些后来，<em>值得接着问。</em>
         </h3>
-        <p>
-          直接写下你的疑问，也可以接着上一句追问。把还不知道的事，整理成下一次能在现场核对的问题。
-        </p>
+        <p>写下想了解的事，参考本文资料整理提问，下载问题卡后带去现场。</p>
       </div>
       <div className="future-letter-layout">
         <aside className="question-card-outline" aria-label="问题卡内容">

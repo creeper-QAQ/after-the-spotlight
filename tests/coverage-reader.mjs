@@ -13,8 +13,9 @@ try {
       viewport: { width, height: 900 },
       reducedMotion: 'reduce',
     });
-    await page.goto('http://127.0.0.1:5173');
-    const section = page.locator('#participation');
+    await page.goto(process.env.TEST_BASE_URL || 'http://127.0.0.1:5185');
+    await page.locator('.method-annex > summary').click();
+    const section = page.locator('#evidence-method');
     const cards = section.locator('.coverage-counts > div');
     for (let i = 0; i < keys.length; i++) {
       assert.ok(

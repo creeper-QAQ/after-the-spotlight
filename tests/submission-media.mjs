@@ -118,7 +118,7 @@ try {
   await fallback.route('**/media/lantern-night.webm', (route) => route.abort());
   await fallback.goto(base, { waitUntil: 'domcontentloaded' });
   await fallback.locator('#viral-burst').scrollIntoViewIfNeeded();
-  await fallback.getByText('原创三维灯影 · 工艺意象 · 静帧阅读', { exact: true }).waitFor();
+  await fallback.getByText('灯影 · 静帧', { exact: true }).waitFor();
   assert.equal(
     await fallback
       .locator('.avatar-video-bg > img')

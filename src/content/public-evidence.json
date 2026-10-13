@@ -1,7 +1,7 @@
 {
-  "edition": "V1.1",
-  "checkedAt": "2026-10-01",
-  "method": "围绕安徽鱼灯与徽墨，目的性选取10份公开报道或现场记录，每份对应一组与本文问题相关的证据片段，按被关注、到访体验、实名制作教学、同一批体验者跨期追踪四项编码。计数单位为来源片段组，同组允许支持多个项目。实心表示所选片段明确支持，空心表示该片段未提供；不代表文章全文没有相关信息。不是随机抽样，不估计行业总体比例，也不证明传播导致传承。",
+  "edition": "V1.4",
+  "checkedAt": "2026-10-12",
+  "method": "原10组证据片段按被关注、到访体验、实名实践、同批体验者追踪四项编码，目的性选取，不估计行业总体。历史、研培与经营的补充资料另列为事实来源，没有自动加入编码分母。采集台账的94条指标为结构统计，不构成体验者转化漏斗。",
   "codingProtocol": {
     "unit": "一份来源对应一组相关片段，共10组；不是10个人，也不是10个行业样本。",
     "selection": "从围绕鱼灯与徽墨收集的公开资料中，选取能核对传播指标、实际体验、实名制作教学或就业条件的原发报道与现场记录；同篇来源只占一组，指标条目不另算报道。没有预设全网检索全集，不声称穷尽全部报道。",
@@ -79,7 +79,7 @@
       "title": "一缕徽墨香 玩转新消费（老字号焕新记）",
       "publishedAt": "2026-08-05",
       "url": "https://paper.people.com.cn/rmrb/pc/content/202608/05/content_30173219.html",
-      "checkedAt": "2026-10-01",
+      "checkedAt": "2026-10-12",
       "verification": "已核对原文；全年接待、年内累计、暑期日均与工艺时间分开。企业资料不等于访客追踪。"
     },
     {
@@ -127,6 +127,34 @@
       "url": "https://paper.people.com.cn/rmrb/pc/attachement/202604/21/04951d5f-be92-4db3-b845-652a7bb7e5ca.pdf",
       "checkedAt": "2026-09-30",
       "verification": "已核对报纸原版；周健在四车间学习后推动体验转型。与其他报道回厂年存在差异，正文不采精确回厂年。"
+    },
+    {
+      "id": "pub-training-2025",
+      "publisher": "文化和旅游部",
+      "title": "中国非物质文化遗产传承人研修培训计划十年成果展在京举办",
+      "publishedAt": "2025-06-13",
+      "url": "https://www.mct.gov.cn/whzx/whyw/202506/t20250613_960580.htm",
+      "checkedAt": "2026-10-12",
+      "verification": "已读取原文并核对2015年以来研培计划的院校、班次和直接培训人次。全国研培背景，不是游客学艺追踪。"
+    },
+    {
+      "id": "pub-fish-history-2024",
+      "publisher": "新华社",
+      "title": "璀璨鱼灯映幸福——走近徽州古村的非遗鱼灯会",
+      "publishedAt": "2024-02-24",
+      "url": "https://www.xinhuanet.com/politics/20240224/ccaa5a4838304d858ab83a14fd31a274/c.html",
+      "checkedAt": "2026-10-12",
+      "verification": "已读取原文：汪满田年俗、2024年5个鱼会、村中工匠年制作能力和清华学生学习制作并参加嬉鱼灯。没有写成体验者长期追踪。"
+    },
+    {
+      "id": "pub-ink-catalogue",
+      "publisher": "中国非遗网",
+      "title": "徽墨制作技艺（安徽省歙县）国家级项目记录",
+      "publishedAt": "2006",
+      "datePrecision": "year",
+      "url": "https://www.ihchina.cn/project_details/14397.html",
+      "checkedAt": "2026-10-12",
+      "verification": "已核对项目编号Ⅷ-73、2006年第一批公布及歙县保护单位。日期按名录公布年份记录，不补造月日。"
     }
   ],
   "measures": [
@@ -333,6 +361,90 @@
       "interpretation": "原文记为“超五成”，等价于超过50%。县域相关行业已包含较多年轻从业者，是当时年龄结构的一个侧面。",
       "limitation": "35岁以下不等于新学徒；不能说明他们由短视频或一次体验入行，也不能计算体验者留存。",
       "stage": "practice"
+    },
+    {
+      "id": "training-colleges",
+      "stage": "practice",
+      "label": "研培计划参与院校",
+      "valueText": "149",
+      "unit": "所",
+      "period": "2015年以来，截至2025年6月13日发布",
+      "scope": "全国研培计划参与院校",
+      "sourceId": "pub-training-2025",
+      "interpretation": "高校参与了非遗传承人的研修培训。",
+      "limitation": "院校数不是学生数；不与地方学校数据相加。"
+    },
+    {
+      "id": "training-classes",
+      "stage": "practice",
+      "label": "研培计划举办班次",
+      "valueText": "1400余",
+      "unit": "期",
+      "period": "2015年以来，截至2025年6月13日发布",
+      "scope": "全国研培计划",
+      "sourceId": "pub-training-2025",
+      "interpretation": "研培已经形成持续开展的教学安排。",
+      "limitation": "累计班次，不是同期课程或学徒数量。"
+    },
+    {
+      "id": "training-person-times",
+      "stage": "practice",
+      "label": "研培计划直接培训传承人",
+      "valueText": "5.1",
+      "unit": "万人次",
+      "period": "2015年以来，截至2025年6月13日发布",
+      "scope": "全国研培计划直接培训的非遗传承人",
+      "sourceId": "pub-training-2025",
+      "interpretation": "传承人在持续学习和提升技艺。",
+      "limitation": "人次不去重，培训对象是传承人；不是首次体验者或新增学徒。"
+    },
+    {
+      "id": "ink-partners",
+      "stage": "participation",
+      "label": "墨厂稳定合作的研学机构及文旅平台",
+      "valueText": "50余",
+      "unit": "家",
+      "period": "截至2026年8月5日报道",
+      "scope": "歙县老胡开文墨厂合作网络",
+      "sourceId": "pub-ink-2026",
+      "interpretation": "固定的合作网络支持研学开展。",
+      "limitation": "机构与平台合计，不是学校、学员或开课数量。"
+    },
+    {
+      "id": "ink-online-revenue",
+      "stage": "practice",
+      "label": "墨厂直播与电商带来的年营收",
+      "valueText": "2000多",
+      "unit": "万元",
+      "period": "2026年8月5日报道所述当时年营收",
+      "scope": "老胡开文墨厂，淘宝直播与抖音电商",
+      "sourceId": "pub-ink-2026",
+      "interpretation": "线上经营为墨厂的日常生产带来收入。",
+      "limitation": "原文未列具体会计年度；不是利润、独立审计或整个徽墨行业营收。"
+    },
+    {
+      "id": "fish-associations-2024",
+      "stage": "practice",
+      "label": "汪满田参加嬉鱼灯的鱼会",
+      "valueText": "5",
+      "unit": "个",
+      "period": "2024年元宵活动，2月24日报道",
+      "scope": "汪满田村当年参加嬉鱼灯的鱼会",
+      "sourceId": "pub-fish-history-2024",
+      "interpretation": "村民以鱼会组织年俗、制作和修缮。",
+      "limitation": "一个村当年的组织数量，不是歙县全部鱼会或工坊。"
+    },
+    {
+      "id": "fish-annual-capacity",
+      "stage": "practice",
+      "label": "汪满田工匠的年制作能力",
+      "valueText": "2000余",
+      "unit": "条",
+      "period": "2024年2月24日报道所述年制作能力",
+      "scope": "汪满田村20多位鱼灯工匠",
+      "sourceId": "pub-fish-history-2024",
+      "interpretation": "村落工坊具备持续制作鱼灯的能力。",
+      "limitation": "报道为一年可制作数量，不是经审计的2024年实销量。"
     }
   ],
   "people": [

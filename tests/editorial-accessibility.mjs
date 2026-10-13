@@ -15,10 +15,10 @@ try {
   });
   assert.equal(
     await page.locator('.overture-enter').getAttribute('href'),
-    '#findings',
+    '#history',
     'Primary entry must include the findings',
   );
-  assert.equal(await page.locator('.skip-link').getAttribute('href'), '#findings');
+  assert.equal(await page.locator('.skip-link').getAttribute('href'), '#history');
   await page.locator('#viral-burst').scrollIntoViewIfNeeded();
   await page.waitForTimeout(500);
   assert.equal(
@@ -29,8 +29,32 @@ try {
   assert.equal(await page.locator('.avatar-sound-toggle').count(), 0);
   await page.getByRole('button', { name: '下一条评论' }).click();
   assert.match(await page.locator('.crowd-reading').innerText(), /山风慢慢来/);
+  const paperContrast = await page
+    .locator('[data-fact-id="training-person-times"] > p')
+    .evaluate((n) => {
+      const light = (color) => {
+        const channels = color
+          .match(/[\d.]+/g)
+          .slice(0, 3)
+          .map(Number)
+          .map((v) => v / 255)
+          .map((v) => (v <= 0.04045 ? v / 12.92 : ((v + 0.055) / 1.055) ** 2.4));
+        return channels[0] * 0.2126 + channels[1] * 0.7152 + channels[2] * 0.0722;
+      };
+      let surface = n.parentElement;
+      while (surface && getComputedStyle(surface).backgroundColor === 'rgba(0, 0, 0, 0)')
+        surface = surface.parentElement;
+      const a = light(getComputedStyle(n).color),
+        b = light(getComputedStyle(surface).backgroundColor);
+      return (Math.max(a, b) + 0.05) / (Math.min(a, b) + 0.05);
+    });
+  assert.ok(
+    paperContrast >= 4.5,
+    `Main data caption contrast ${paperContrast.toFixed(2)} must meet 4.5`,
+  );
   await page.evaluate(() => (document.documentElement.dataset.theme = 'night'));
-  await page.locator('#participation').scrollIntoViewIfNeeded();
+  await page.locator('.method-annex > summary').click();
+  await page.locator('#evidence-method').scrollIntoViewIfNeeded();
   const contrast = await page
     .locator('.reasoning-mark')
     .first()

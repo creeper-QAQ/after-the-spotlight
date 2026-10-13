@@ -2,14 +2,11 @@ import { useEffect, useRef, useState } from 'react';
 import { chapters, type SourceTopic } from './content/story';
 import { Icon } from './components/Icon';
 import { Overture } from './components/Overture';
-import { EditorialFindings } from './components/EditorialFindings';
-import { EvidenceReader } from './components/EvidenceReader';
-import { PeopleStories } from './components/PeopleStories';
 import { SealAtlas } from './components/SealAtlas';
-import { SplatGallery } from './effects/SplatGallery';
 import { FollowupGuide, ReadingArchive } from './components/ReadingArchive';
 import { SourceDialog } from './components/SourceDialog';
-import { Attention, CraftContext, Verdict } from './components/Narrative';
+import { CraftContext } from './components/Narrative';
+import { History, AttentionStory, LearningStory, DailyLifeStory } from './components/ReadableStory';
 import { InkFluid } from './effects/InkFluid';
 import { HeritageDecor } from './effects/HeritageDecor';
 import { ViralBurst } from './effects/ViralBurst';
@@ -104,12 +101,16 @@ export default function App() {
     settings.current?.close();
     settingsTrigger.current?.focus();
   };
+  const openSettings = (event: React.MouseEvent<HTMLButtonElement>) => {
+    settingsTrigger.current = event.currentTarget;
+    settings.current?.showModal();
+  };
 
   return (
     <>
       <HeritageDecor />
       <InkFluid motion={motion} theme={theme} />
-      <a href="#findings" className="skip-link">
+      <a href="#history" className="skip-link">
         跳到正文
       </a>
       <header className={`site-header ${active === 'intro' ? 'header-overture' : ''}`}>
@@ -137,6 +138,11 @@ export default function App() {
           ))}
         </nav>
         <div className="header-actions">
+          <button className="header-reading-settings" aria-label="阅读设置" onClick={openSettings}>
+            <Icon name="sun" size={17} />
+            <span className="reading-label-desktop">阅读设置</span>
+            <span className="reading-label-mobile">阅读</span>
+          </button>
           <button className="source-link" onClick={() => setTopic('method')}>
             关于 / 来源 <Icon name="source" size={15} />
           </button>
@@ -155,47 +161,32 @@ export default function App() {
       </header>
       <main>
         <Overture motion={motion} />
-        <EditorialFindings />
-        <Attention onSource={setTopic} />
+        <History />
+        <SealAtlas motion={motion} onSource={() => setTopic('catalogue')} />
+        <AttentionStory />
         <ViralBurst motion={motion} />
-        <div className="story-join join-crowd-atlas">
-          <span>从屏幕里的声音，走向有名字的手艺</span>
-          <p>热闹让我们看见一盏灯。往下翻，安徽的百工各有名录、地方与来处。</p>
-        </div>
-        <SealAtlas onSource={() => setTopic('catalogue')} />
-        <div className="story-join join-atlas-case">
-          <span>从百工中，取出两条调查线</span>
-          <p>鱼灯与徽墨，是这次追问的两个入口。先让视线从全国轮廓，聚到一盏具体的灯。</p>
-          <a href="#participation">带着问题，进入调查板 ↓</a>
-        </div>
-        <SplatGallery motion={motion} />
-        <EvidenceReader kind={caseKind} onKindChange={setCaseKind} />
-        <PeopleStories kind={caseKind} />
+        <LearningStory />
         <CraftContext
           onSource={setTopic}
           motion={motion}
           kind={caseKind}
           onKindChange={setCaseKind}
         />
-        <Verdict onSource={setTopic} />
+        <DailyLifeStory />
         <FollowupGuide />
-        <ReadingArchive onSource={setTopic} />
+        <ReadingArchive onSource={setTopic} kind={caseKind} onKindChange={setCaseKind} />
       </main>
       <footer className="site-footer">
         <a className="footer-brand" href="#intro">
           被看见之后<span>一卷关于非遗的互动叙事</span>
         </a>
         <p>
-          未完的长卷 V1.2 · 资料核对日期见来源说明
+          未完的长卷 V1.4 · 资料核对日期见来源说明
           <br />
-          鱼灯与徽墨为原创工艺示意。安徽名录图据采集表整理，逐条原文核对情况见来源说明。
+          原文、人物与研究资料见卷末证据中心。
         </p>
         <div className="footer-actions">
-          <button
-            ref={settingsTrigger}
-            className="text-button"
-            onClick={() => settings.current?.showModal()}
-          >
+          <button className="text-button" onClick={openSettings}>
             <Icon name="sun" size={17} />
             阅读设置
           </button>

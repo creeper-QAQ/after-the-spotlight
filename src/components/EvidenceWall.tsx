@@ -143,7 +143,17 @@ export function EvidenceWall({
                   '每一门手艺都有自己的来路。关于这一段的传播，现有资料还没有给出答案。'}
               </p>
               {index === 1 && <a href="#craft">亲手试一回，走近制作的过程 ↓</a>}
-              {index === 2 && <a href="#case-followup">沿着实名人物，把后来继续接上 ↓</a>}
+              {index === 2 && (
+                <a
+                  href="#people-evidence"
+                  onClick={() => {
+                    const panel = document.getElementById('people-evidence');
+                    if (panel instanceof HTMLDetailsElement) panel.open = true;
+                  }}
+                >
+                  沿着实名人物，把后来继续接上 ↓
+                </a>
+              )}
               {index === 2 && (
                 <strong className="evidence-step-finding">
                   {kind === 'fish'

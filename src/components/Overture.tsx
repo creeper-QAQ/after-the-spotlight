@@ -66,11 +66,11 @@ export function Overture({ motion }: { motion: boolean }) {
             </span>
           </h1>
           <p>
-            灯火会散场。
+            从徽州的鱼灯与墨厂出发，
             <br />
-            手艺的故事，往后翻。
+            看手艺怎样走进课堂、工坊与生活。
           </p>
-          <a href="#findings" className="overture-enter">
+          <a href="#history" className="overture-enter">
             <span>展开这卷故事</span>
             <b>↘</b>
           </a>
@@ -138,7 +138,10 @@ export function Overture({ motion }: { motion: boolean }) {
           <br />
           再到下一次回来。
         </p>
-        <small>原创动态意象 · 非实物复原</small>
+        <div className="overture-shortcuts">
+          <a href="#craft">直接体验制作 ↗</a>
+          <a href="#research">查阅证据中心 ↗</a>
+        </div>
       </div>
     </section>
   );

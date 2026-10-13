@@ -10,6 +10,19 @@ unique(data.measures, 'measure');
 unique(data.people, 'person');
 unique(data.coverage, 'coverage');
 const sources = new Map(data.sources.map((s) => [s.id, s]));
+for (const [id, value, unit] of [
+  ['training-colleges', '149', '所'],
+  ['training-classes', '1400余', '期'],
+  ['training-person-times', '5.1', '万人次'],
+  ['ink-partners', '50余', '家'],
+  ['ink-online-revenue', '2000多', '万元'],
+]) {
+  const measure = data.measures.find((m) => m.id === id);
+  assert.ok(measure, `${id}: new verified fact missing`);
+  assert.equal(measure.valueText, value);
+  assert.equal(measure.unit, unit);
+  assert.ok(sources.has(measure.sourceId));
+}
 assert.ok(
   data.sources.length >= 6,
   'Independent public-source enrichment must include at least six original reports',
@@ -20,7 +33,12 @@ assert.ok(
 );
 for (const source of data.sources) {
   assert.ok(/^https?:\/\//.test(source.url), `${source.id}: public URL required`);
-  assert.ok(/^\d{4}-\d{2}-\d{2}$/.test(source.publishedAt), `${source.id}: article date required`);
+  assert.ok(
+    source.datePrecision === 'year'
+      ? /^\d{4}$/.test(source.publishedAt)
+      : /^\d{4}-\d{2}-\d{2}$/.test(source.publishedAt),
+    `${source.id}: known publication precision required`,
+  );
   assert.ok(
     source.publisher && source.title && source.checkedAt && source.verification,
     `${source.id}: provenance required`,

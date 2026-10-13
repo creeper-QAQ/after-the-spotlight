@@ -39,10 +39,17 @@ try {
     assert.equal(await slider.inputValue(), '180');
     const atlas = page.locator('#seal-atlas');
     assert.equal(await atlas.locator('.heritage-seal').count(), 99);
-    const first = atlas.locator('.heritage-seal').first();
-    const before = await first.getAttribute('style');
+    await atlas.getByRole('button', { name: '认定年轮' }).click();
+    const before = await atlas
+      .locator('.heritage-seal')
+      .evaluateAll((nodes) => nodes.map((n) => n.getAttribute('style')));
     await atlas.getByRole('button', { name: '十类成谱' }).click();
-    assert.notEqual(await first.getAttribute('style'), before);
+    assert.notDeepEqual(
+      await atlas
+        .locator('.heritage-seal')
+        .evaluateAll((nodes) => nodes.map((n) => n.getAttribute('style'))),
+      before,
+    );
     await atlas.locator('.heritage-seal').last().click();
     assert.match(await atlas.locator('.seal-record').innerText(), /程大位珠算法/);
     await atlas.locator('.heritage-seal').last().press('ArrowRight');
@@ -70,7 +77,7 @@ try {
       path: `artifacts/scroll-${width}-loom.png`,
       style: '.site-header,.ink-drop-button{visibility:hidden}',
     });
-    assert.match(await loom.innerText(), /下一次回访/);
+    assert.match(await loom.innerText(), /回访提纲/);
     assert.equal(
       await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth),
       true,
@@ -95,7 +102,7 @@ try {
   await moving.waitForTimeout(150);
   assert.equal(await moving.getByRole('slider', { name: '拖动纸灯序幕' }).inputValue(), paused);
   await moving.getByRole('button', { name: '播放纸灯序幕' }).click();
-  await moving.locator('#case-followup').scrollIntoViewIfNeeded();
+  await moving.locator('#after').scrollIntoViewIfNeeded();
   await moving.waitForTimeout(500);
   const offscreenFrame = await moving.locator('.overture-player svg').getAttribute('data-frame');
   await moving.waitForTimeout(250);

@@ -17,6 +17,7 @@ import './styles/editorial.css';
 import './styles/integrated-story.css';
 import './styles/corpus-audit.css';
 import './styles/question-kit.css';
+import './styles/readable-story.css';
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>
