@@ -84,19 +84,9 @@ export function SealAtlas({ onSource, motion = true }: { onSource: () => void; m
   return (
     <section id="seal-atlas" className="seal-atlas" data-ink-exclude>
       <div className="atlas-heading">
-        <span className="eyebrow">手艺来历 / 百工印谱</span>
-        <h2>
-          散落的手艺，
-          <br />
-          <em>在这里有了名字。</em>
-        </h2>
-        <p>
-          一枚印记，一条名录。
-          <br />
-          翻开安徽的 99 条国家级子项，
-          <br />
-          让抽象的数字，回到具体的地方。
-        </p>
+        <span className="eyebrow">安徽 / 名录记录</span>
+        <h2>翻开百工印谱。</h2>
+        <p>点一枚印，查看技艺名称、申报地区与认定批次。</p>
       </div>
       <div className="atlas-toolbar">
         <span>
@@ -243,8 +233,7 @@ export function SealAtlas({ onSource, motion = true }: { onSource: () => void; m
         ))}
       </div>
       <p className="atlas-note">
-        每枚印记代表交付表的一条地区或单位子项，涉及 72
-        个官方项目编号。印章以艺术方式排布，位置不对应地理坐标；原文核对范围见来源。
+        每枚印记代表交付表的一条地区或单位子项，涉及 72 个项目编号。来源与逐条记录可在证据中心查阅。
       </p>
     </section>
   );

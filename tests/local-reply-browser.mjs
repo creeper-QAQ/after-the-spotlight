@@ -79,6 +79,12 @@ try {
       true,
     );
     await root.screenshot({ path: `artifacts/local-reply/${width}-conversation.png` });
+    await page.locator('header').getByRole('button', { name: '阅读设置' }).click();
+    await page.getByRole('button', { name: '减少动态', exact: true }).click();
+    await page.keyboard.press('Escape');
+    await input.fill('我想开始学习鱼灯，该从哪里入手？');
+    await send.click();
+    await root.locator('.letter-reply[data-state="done"]').waitFor({ timeout: 500 });
     await page.emulateMedia({ reducedMotion: 'reduce' });
     await input.fill('鱼灯体验过的人后来还有多少在学？');
     await send.click();

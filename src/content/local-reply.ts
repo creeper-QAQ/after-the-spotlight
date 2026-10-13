@@ -125,6 +125,20 @@ export function composeLocalReply(input: string, previous?: ReplyContext): Local
     intents = ['impact', 'interview'];
   if (!intents.length) intents = ['fallback'];
   intents = [...new Set(intents)];
+  const newFacts =
+    /研培|研修/.test(normalized) && /多少|规模|院校|数量|人次/.test(normalized)
+      ? ['training-colleges', 'training-classes', 'training-person-times']
+      : topic === 'ink' &&
+          /直播|电商/.test(normalized) &&
+          /营收|收入/.test(normalized) &&
+          !/利润|成本/.test(normalized)
+        ? ['ink-online-revenue']
+        : topic === 'ink' &&
+            /合作|机构|平台/.test(normalized) &&
+            /多少|数量|规模|几家/.test(normalized)
+          ? ['ink-partners']
+          : [];
+  if (newFacts.length) intents = ['data'];
   const sourceIds: string[] = [];
   const cite = (id: string) => {
     if (!sourceIds.includes(id)) sourceIds.push(id);
@@ -180,7 +194,9 @@ export function composeLocalReply(input: string, previous?: ReplyContext): Local
         ]),
       );
     // Specific fact questions are answered before broad advice, regardless of keyword order.
-    if (detailedData && intents.includes('data')) {
+    if (newFacts.length) {
+      paragraphs.push(...newFacts.map(fact));
+    } else if (detailedData && intents.includes('data')) {
       if (
         /多少钱|价格|票价|收费|销量|销售额|营业额/.test(normalized) ||
         (topic === 'ink' && /订单|学校/.test(normalized))

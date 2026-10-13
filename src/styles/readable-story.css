@@ -1,6 +1,17 @@
 .readable-section {
   padding-block: clamp(55px, 7vw, 100px);
 }
+.overture-shortcuts {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  gap: 12px 20px;
+  font-size: 12px;
+}
+.overture-shortcuts a {
+  padding-block: 10px;
+  color: #e4cb96;
+}
 .readable-heading {
   max-width: 900px;
   margin-bottom: 45px;
@@ -203,6 +214,9 @@
   gap: 7px;
   font-size: 12px;
 }
+.header-reading-settings .reading-label-mobile {
+  display: none;
+}
 @media (max-width: 800px) {
   .readable-section {
     padding-inline: 28px;
@@ -233,6 +247,12 @@
   }
   .header-reading-settings span {
     display: none;
+  }
+  .header-reading-settings .reading-label-mobile {
+    display: inline;
+  }
+  .site-header {
+    padding-inline: 20px;
   }
   .site-header .source-link {
     display: none;

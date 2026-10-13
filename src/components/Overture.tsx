@@ -138,6 +138,10 @@ export function Overture({ motion }: { motion: boolean }) {
           <br />
           再到下一次回来。
         </p>
+        <div className="overture-shortcuts">
+          <a href="#craft">直接体验制作 ↗</a>
+          <a href="#research">查阅证据中心 ↗</a>
+        </div>
       </div>
     </section>
   );

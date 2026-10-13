@@ -30,9 +30,13 @@ try {
       99,
       '印谱必须在主线，无需打开资料卷',
     );
-    assert.equal(await page.locator('#map-context').count(), 1, '高斯转场必须在主线');
+    assert.equal(await page.locator('#map-context').count(), 0, 'Map removed from the story');
+    await page.locator('.method-annex > summary').click();
+    await page.locator('.people-annex > summary').click();
+    await page.locator('#evidence-method .evidence-investigation').waitFor();
+    await page.locator('.people-story').first().waitFor();
     assert.equal(
-      await page.locator('#participation .evidence-investigation').count(),
+      await page.locator('#evidence-method .evidence-investigation').count(),
       1,
       '调查板必须融入证据章',
     );
@@ -48,7 +52,7 @@ try {
         ).size,
     );
     assert.equal(positions, width < 600 ? 66 : 132, 'Every avatar has a distinct position');
-    assert.equal(await page.locator('.observer-disclaimer').isVisible(), true);
+    assert.equal(await page.locator('.observer-disclaimer').count(), 0);
     await page
       .locator('.crowd-field')
       .evaluate((n) =>
@@ -128,9 +132,16 @@ try {
       .locator('.evidence-investigation')
       .screenshot({ path: `artifacts/integrated-v09/${width}-investigation.png` });
     const order = await page.evaluate(() =>
-      ['viral-burst', 'seal-atlas', 'map-context', 'participation', 'case-followup', 'craft'].map(
-        (id) => document.getElementById(id).getBoundingClientRect().top + scrollY,
-      ),
+      [
+        'history',
+        'seal-atlas',
+        'phenomenon',
+        'viral-burst',
+        'participation',
+        'craft',
+        'after',
+        'research',
+      ].map((id) => document.getElementById(id).getBoundingClientRect().top + scrollY),
     );
     assert.ok(
       order.every((n, i) => i === 0 || n > order[i - 1]),

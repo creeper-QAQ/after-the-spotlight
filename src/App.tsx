@@ -140,7 +140,8 @@ export default function App() {
         <div className="header-actions">
           <button className="header-reading-settings" aria-label="阅读设置" onClick={openSettings}>
             <Icon name="sun" size={17} />
-            <span>阅读设置</span>
+            <span className="reading-label-desktop">阅读设置</span>
+            <span className="reading-label-mobile">阅读</span>
           </button>
           <button className="source-link" onClick={() => setTopic('method')}>
             关于 / 来源 <Icon name="source" size={15} />
@@ -180,9 +181,9 @@ export default function App() {
           被看见之后<span>一卷关于非遗的互动叙事</span>
         </a>
         <p>
-          未完的长卷 V1.2 · 资料核对日期见来源说明
+          未完的长卷 V1.4 · 资料核对日期见来源说明
           <br />
-          鱼灯与徽墨为原创工艺示意。安徽名录图据采集表整理，逐条原文核对情况见来源说明。
+          原文、人物与研究资料见卷末证据中心。
         </p>
         <div className="footer-actions">
           <button className="text-button" onClick={openSettings}>

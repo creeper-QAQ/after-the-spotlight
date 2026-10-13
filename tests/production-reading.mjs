@@ -28,8 +28,8 @@ try {
     await page.goto(base, { waitUntil: 'domcontentloaded' });
     await page.locator('.overture-enter').click();
     await page.waitForTimeout(400);
-    assert.equal(new URL(page.url()).hash, '#findings');
-    await page.locator('#findings').screenshot({ path: `${output}/${width}-findings.png` });
+    assert.equal(new URL(page.url()).hash, '#history');
+    await page.locator('#history').screenshot({ path: `${output}/${width}-findings.png` });
     await page.locator('#craft').scrollIntoViewIfNeeded();
     await page.getByRole('button', { name: '重新打开制作台' }).waitFor();
     if (width === 390) {
@@ -37,12 +37,14 @@ try {
         side = await page.locator('.studio-side').boundingBox();
       assert.ok(board.y < side.y, 'Mobile craft board must precede detailed instructions');
     }
-    await page.locator('.source-register:not(.measure-register) > summary').click();
+    await page.locator('.source-registry > summary').click();
     assert.equal(
-      await page.locator('.source-register:not(.measure-register) .evidence-source-link').count(),
-      10,
+      await page.locator('.source-registry .evidence-source-link').count(),
+      evidence.sources.length,
     );
-    await page.locator('.source-register:not(.measure-register) > summary').click();
+    await page.locator('.source-registry > summary').click();
+    if (!(await page.locator('.method-annex').evaluate((n) => n.open)))
+      await page.locator('.method-annex > summary').click();
     await page.locator('.coverage-annex > summary').click();
     assert.equal(await page.locator('.coverage-row').count(), 11);
     assert.equal(
@@ -55,9 +57,12 @@ try {
       await page.locator('.measure-register-grid article').count(),
       evidence.measures.length,
     );
-    assert.match(await page.locator('.young-practice-context').innerText(), /35岁以下.*超50%/s);
-    assert.match(await page.locator('.verdict-note').innerText(), /超50%/);
-    assert.match(await page.locator('.verdict-unknown').innerText(), /仍未知/);
+    assert.match(
+      await page.locator('[data-fact-id="fish-young-workers"]').innerText(),
+      /35岁以下[\s\S]*超50/,
+    );
+    assert.match(await page.locator('#after').innerText(), /制作和教学继续/);
+    assert.equal(await page.locator('.verdict-unknown').count(), 0);
     assert.equal(
       await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth),
       true,

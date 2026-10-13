@@ -257,19 +257,6 @@ export function CraftContext({
 }) {
   return (
     <section id="craft" className="section story-section story-craft-context">
-      <div className="story-lead compact">
-        <span className="eyebrow">调查补充 / 第一次动手</span>
-        <h2>
-          跟着工序，
-          <br />
-          <em>让一件手艺成形。</em>
-        </h2>
-        <div>
-          <p>
-            从竹骨到纸面，从烟料到墨锭。跟着步骤，观察材料怎样成为一件作品。
-          </p>
-        </div>
-      </div>
       <CraftStudio
         motion={motion}
         activeKind={kind}

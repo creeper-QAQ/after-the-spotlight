@@ -28,15 +28,15 @@ async function check(width, height, mobile = false) {
   await page.goto(baseUrl, { waitUntil: 'domcontentloaded' });
   await page.waitForSelector('.overture-player svg', { timeout: 30000 });
   assert.equal(await page.locator('h1').count(), 1);
-  assert.equal(await page.locator('.editorial-finding').count(), 3);
+  assert.equal(await page.locator('.readable-section').count(), 4);
   await page.locator('.research-archive > summary').click();
   assert.equal(
     await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth),
     true,
     `${width}px horizontal overflow`,
   );
-  assert.match(await page.locator('#after .verdict-note').innerText(), /同一批|比例仍未知/);
-  assert.match(await page.locator('#phenomenon').innerText(), /超15万/);
+  assert.match(await page.locator('#after').innerText(), /制作和教学继续/);
+  assert.match(await page.locator('#phenomenon').innerText(), /17\.1/);
   const catalogue = page.locator('.catalogue-viz');
   if (!(await page.locator('.catalogue-annex').evaluate((node) => node.open)))
     await page.locator('.catalogue-annex > summary').click();
@@ -112,9 +112,11 @@ async function check(width, height, mobile = false) {
   );
   assert.equal(await burst.locator('.swarm-avatar').count(), mobile ? 66 : 132);
   assert.equal(await burst.locator('.swarm-avatar img').count(), mobile ? 66 : 132);
-  assert.match(await burst.locator('.observer-disclaimer').innerText(), /叙事示意.*非采集样本/);
+  assert.equal(await burst.locator('.observer-disclaimer').count(), 0);
   await burst.getByRole('button', { name: '下一条评论' }).click();
   assert.match(await burst.locator('.crowd-reading').innerText(), /山风慢慢来/);
+  await page.locator('.method-annex > summary').click();
+  await page.locator('.people-annex > summary').click();
   const wall = page.locator('.evidence-investigation');
   assert.equal(await wall.locator('.evidence-pin').count(), 3);
   assert.equal(await wall.locator('.evidence-pin a').count(), 3);

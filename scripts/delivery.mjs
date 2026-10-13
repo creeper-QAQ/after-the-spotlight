@@ -29,11 +29,38 @@ await writeFile(
   path.join(web, '打开作品.cmd'),
   '@echo off\r\ncd /d "%~dp0"\r\npowershell.exe -NoProfile -ExecutionPolicy Bypass -File "%~dp0preview.ps1" -OpenBrowser\r\nif errorlevel 1 pause\r\n',
 );
-const instructions = `被看见之后 · 未完的长卷\n${edition} 本地交付版 / 2026-10-03\n\n1. 先将整个压缩包解压。不要在压缩包内直接运行。\n2. Windows电脑双击“打开作品.cmd”，浏览器会打开作品。无需Node、npm或额外安装。\n3. 请保持启动窗口打开，关闭窗口即结束本地预览。\n4. 默认从4180端口起自动寻找空闲端口；请以启动窗口显示的地址为准，不要使用旧版本的浏览器标签页。\n\nsite目录为可静态托管的网站文件。请完整保留目录结构，通过HTTP访问；直接双击index.html无法完整运行三维模块。\n正文、头像、印谱、地图、三维工坊和原创灯影短片均在本地包内。背景灯影不带第三方播放器界面，默认静音，可暂停；减少动效时显示同源静帧。外部参考影像和原文链接需要外网，可通过注明的链接访问。回访问题卡可在本地填写并下载，不需要联网；收起后保留当前页面的草稿，刷新后清空。回访助手可以自由输入、继续追问并逐字显示建议，全程在浏览器内完成，无需接口和密钥。\n\n建议阅读顺序：开篇发现 → 头像人声 → 百工印谱 → 地图聚灯 → 调查板 → 人物路径 → 三维制作 → 结论。开篇提供直接进入制作和来源的入口。\n\n数据边界：10份来源对应10组目的性选取的证据片段，另对全部94条采集指标的单位字段和30条用途笔记的来源链接做结构统计，不把待复核台账当作已核对正文事实；持续学习比例未知，不等于没有人留下。装饰头像与评论为叙事示意，地图点位为视觉意象，四阶段制作不代表完成培训。\n`;
-await writeFile(path.join(web, '先读我.txt'), '\uFEFF' + instructions);
 const evidence = JSON.parse(
   await readFile(path.join(project, 'src/content/public-evidence.json'), 'utf8'),
 );
+const releaseDate = new Intl.DateTimeFormat('en-CA', {
+  timeZone: 'Asia/Shanghai',
+  year: 'numeric',
+  month: '2-digit',
+  day: '2-digit',
+}).format(new Date());
+const instructions = `被看见之后 · 未完的长卷
+${edition} 本地交付版 / ${releaseDate}
+
+1. 将整个压缩包解压后，再双击“打开作品.cmd”。
+2. Windows自带PowerShell会启动本地预览，无需Node或npm。
+3. 保持启动窗口打开；浏览器会打开实际空闲端口，请以窗口显示的地址为准。
+
+阅读顺序：手艺来历与印谱 → 灯火出圈 → 课堂与工坊 → 三维制作 → 日常接续 → 证据中心。
+顶栏可随时打开阅读设置、减少动态。开篇另有制作和资料的直达入口。
+地图已移除；人物时间线、方法和采集台账默认收在卷末折叠项。
+
+正文、数据、头像、印谱、制作台、原创静音灯影、本地回访助手和问题卡均在包内。
+背景灯影由原生video呈现，无第三方播放器界面；减少动态和播放失败时显示静帧。
+回访助手只在浏览器内整理问题与公开资料，不请求模型接口；下载问题卡不上传输入。
+原文与参考影像的外链需要网络。
+
+事实登记：${evidence.measures.length}项事实、${evidence.sources.length}项来源；原10组片段编码、94条采集指标另列。
+统计单位、对象与时间按记录保留；研培人次、年制作能力与营收不换算成游客成为学徒的比例。
+评论与影像的创作说明见来源说明，不当作采访记录。
+
+site目录可静态托管，请通过HTTP访问；直接双击index.html不能完整运行模块。`;
+await writeFile(path.join(web, '先读我.txt'), '\uFEFF' + instructions);
+
 const csvCell = (value) => '"' + String(value ?? '').replaceAll('"', '""') + '"';
 const csv = (rows) =>
   '\uFEFF' + rows.map((row) => row.map(csvCell).join(',')).join('\r\n') + '\r\n';
@@ -175,11 +202,12 @@ for (const file of [
   'v10-submission-plan.md',
   'v11-quality-review.md',
   'v12-final-delivery.md',
+  'v14-readable-delivery.md',
 ]) {
   await cp(path.join(project, 'docs', file), path.join(source, 'docs', file));
 }
 await mkdir(path.join(source, 'docs/research'), { recursive: true });
-for (const file of ['corpus-audit.md', 'lantern-film.md']) {
+for (const file of ['corpus-audit.md', 'lantern-film.md', '2026-10-12-readable-story-sources.md']) {
   await cp(path.join(project, 'docs/research', file), path.join(source, 'docs/research', file));
 }
 await writeFile(

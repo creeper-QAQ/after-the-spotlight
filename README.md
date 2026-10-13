@@ -1,58 +1,31 @@
 # 被看见之后 · 未完的长卷
 
-当前版本为V1.3静态回访版。围绕安徽鱼灯与徽墨，把关注、现场体验与实名实践放回各自的来源、时间和范围；同一批体验者的持续学习比例仍未知。完整交付说明、验收记录与材料边界见 [交付记录](docs/v1-submission-delivery.md)。
+当前为V1.4清晰主线版。作品以鱼灯为主、徽墨作对照，按手艺来历、灯火出圈、坐下学艺、日常接续四章阅读。地图已移除，完整人物记录与研究材料集中到卷末证据中心。
 
-## 打开成品
+## 打开作品
 
-成品包在项目根目录的“交付文件/网站交付/V1.3-静态回访版”。将成品压缩包完整解压后，Windows电脑双击“打开作品.cmd”；系统自带PowerShell会启动仅供本机访问的预览，浏览器自动打开实际预览地址，默认从4180端口起选择空闲端口。保持启动窗口打开。无需安装Node或npm。
+交付目录：项目根目录“交付文件/网站交付/V1.4-清晰主线版”。完整解压成品ZIP后，Windows电脑双击“打开作品.cmd”。无需Node或npm；保持启动窗口打开，浏览器会打开实际空闲端口。
 
-包内site目录可用于静态托管，完整保留文件结构并通过HTTP访问。正文、头像、印谱、地图、三维工坊与原创灯影素材均随包交付；原文和第三方参考影像通过外链查阅。减少动态时使用同源静帧。回访问题卡可在本地编辑和下载；回访助手支持自由输入、多主题建议、上下文追问和逐字回复；在浏览器本地运行，不调用AI接口。
+正文、头像、印谱、制作台、灯影和本地回访工具均随包提供。原文与参考影像通过外链查阅。阅读设置在顶栏，从开篇即可减少动态；图表、来源与制作操作仍可使用。
 
-## 阅读与交互
+## 阅读与资料
 
-纸灯序幕 → 三条主要发现 → 热度记录 → 头像与298条原创声音示意 → 99枚百工印谱 → 地图点云聚成鱼灯 → 证据尺度、调查板与94条记录的单位分组 → 三条实名人物路径 → 鱼灯与徽墨各四阶段制作 → 结论与回访。当前头像库含507张，按桌面每批132张、手机每批66张呈现，不一次铺满。
+历史背景 → 百工印谱 → 传播现象与头像 → 真实学习场景 → 三维制作 → 日常制作、经营与研培 → 证据中心。开篇也可直接进入制作或查阅资料。
 
-开篇可以直接进入制作或查阅资料。切换鱼灯、徽墨会同步调查板、人物标记与制作台，分别保留两门制作的进度。卷末提供原文来源、证据登记、安徽名录与资料台账。阅读设置支持减少动态、素白与夜读；WebGL失败时保留文字和操作入口。
+正文播放量只使用一次，学习和日常实践采用不同的已核对事实。本轮新增7项，事实登记共24项、来源13项。人物时间线、原10组片段编码、全部94条台账的结构审计默认折叠，来源编号可直接定位对应原文。
 
-## 事实与编码
+事实维护：src/content/public-evidence.json与evidence.ts；正文文字：readable-story.ts与ReadableStory.tsx；原始清洗台账：reports.json；重叠展示的事实关联：report-view.ts。日期只知道年份的名录按年份记录，不补造月日。
 
-- src/content/public-evidence.json：10份公开来源、17条带口径事实、3条人物路径、10组来源片段，以及判定规则和解释边界。
-- src/content/evidence.ts：事实查询、四项编码定义与从记录实时计算的计数。
-- src/content/report-view.ts：已核对事实与报告精选、指标的关联展示。更改核对值时，重复展示同步变化。
-- src/content/corpus-audit.ts：全量复算94条台账记录的单位、时间字段及30条笔记对应的14个URL；是元数据统计，不对待复核原文作事实推断。
-- src/content/reports.json：原始清洗交付台账，保留94条去重后的指标和复核状态，不替代正文核对记录。
-- src/content/heritage.json：安徽交付名录；逐条原文待复核和人物待匹配状态在界面中保留。
+评论、头像和灯影的创作说明收在来源说明。未采集的数据没有改成真实采访、转化率或留存率；原10组选片段编码与新补充的事实资料分别登记。
 
-编码单位是一份来源对应的一组相关片段，各项可以同时出现。它不是全网检索全集，不估计行业总体比例，不证明传播导致传承，也尚未做独立双人编码一致性检验。头像与评论为叙事示意，地图点位为原创视觉意象，四阶段工坊不代表完成培训。
+## 维护与验证
 
-## 维护源码
+开发需要Node.js22.12+或24系列。在website目录运行npm ci、npm run dev；生产构建运行npm run build。发布成品通过HTTP访问，直接双击index.html不能完整运行模块。
 
-需要Node.js 22.12+或24系列。在website目录运行：
+主要检查：npm run test:evidence、node tests/readable-story.mjs、npm run test:browser、npm run test:games、npm run test:reply、npm run test:media、npm run test:effects、npm run test:coverage和npm run test:corpus。通过TEST_BASE_URL选择已启动的本地服务。
 
-```powershell
-npm ci
-npm run dev
-```
+新主线截图与记录在artifacts/readable-story，原有功能检查保存在各脚本声明的artifacts目录。事实、全台账复算、WebGL回退、减少动态和静态交付分别验收；不把手机尺寸模拟称作实体设备认证。
 
-开发预览：http://127.0.0.1:5173/ 。已有依赖无需重复安装。生产构建：npm run build；成品预览：npm run preview。本版无需服务器接口或密钥。回访助手说明见 [维护说明](docs/local-reply.md)。
+运行npm run delivery -- 清晰主线版生成成品、源码与文件哈希清单。交付目录的“交付验收.json”记录实际ZIP解压和运行检查；完整说明见docs/v1-submission-delivery.md。
 
-主线与导航改src/App.tsx，文字和工艺说明改src/content/story.ts，主色和字体改src/styles/tokens.css，制作模型位于src/scene。保留已有混合未提交修改；每轮先运行npm run backup -- before-edit，验证后再保存有意义的版本，不覆盖.versions。
-
-## 验证
-
-```powershell
-npm run test:evidence
-npm run test:coverage
-npm run test:corpus
-npm run test:media
-npm run test:reply
-npm run test:browser
-npm run test:games
-npm run test:effects
-npm run test:scroll
-npm run build
-```
-
-浏览器检查默认使用本机Edge与开发预览。交付服务启动后运行npm run test:delivery验证静态版及外网不可用时的阅读；完整文件哈希检查使用CHECK_DELIVERY_FILES=1。V1.2新增检查为node tests/final-delivery.mjs，截图和结果位于artifacts/final-delivery；既有检查结果位于artifacts/ninety-polish，交付核对使用TEST_EDITION与DELIVERY_ROOT指定版本。
-
-npm run delivery -- 交付版生成新的成品包、维护源码包与文件哈希清单。它保留已有交付目录；需要再生成时使用新的版本目录。包内不含node_modules、密钥、版本备份、原始交付表和完整报告。
+不打包密钥、node_modules、缓存、版本备份、原始采集表和完整报道。修改前备份，旧交付和回档点继续保留。

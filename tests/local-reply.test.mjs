@@ -13,6 +13,17 @@ async function load(data = evidence) {
   );
 }
 const { composeLocalReply } = await load();
+test('new research and operating facts are available in local answers with their own sources', () => {
+  const training = composeLocalReply('全国研培计划培训了多少人？');
+  assert.match(training.text, /5\.1万人次/);
+  assert.match(training.text, /149所/);
+  assert.ok(training.sourceIds.includes('pub-training-2025'));
+  const revenue = composeLocalReply('老胡开文墨厂的直播电商年营收多少？');
+  assert.match(revenue.text, /2000多万元/);
+  assert.ok(revenue.sourceIds.includes('pub-ink-2026'));
+  const partners = composeLocalReply('墨厂有多少家研学合作机构？');
+  assert.match(partners.text, /50余家/);
+});
 test('different everyday questions identify continued learning without inventing a rate', () => {
   for (const question of [
     '玩过鱼灯的人后来还有多少在学？',

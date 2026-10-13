@@ -73,7 +73,7 @@ try {
     );
     await page.goto(base, { waitUntil: 'domcontentloaded' });
     assert.ok((await page.locator('.site-footer').innerText()).includes(edition));
-    await page.locator('#findings a[href="#craft"]').click();
+    await page.locator('.overture-shortcuts a[href="#craft"]').click();
     await page.getByRole('button', { name: '扎起这一圈竹篾 ↗' }).waitFor();
     await page.locator('#viral-burst').scrollIntoViewIfNeeded();
     await page.waitForFunction(
@@ -82,11 +82,12 @@ try {
     assert.equal(await page.locator('#viral-burst iframe').count(), 0);
     assert.equal(await page.locator('#viral-burst audio').count(), 0);
     assert.equal(await page.locator('.swarm-avatar img').count(), width < 600 ? 66 : 132);
+    await page.locator('.method-annex > summary').click();
     await page.locator('.coverage-annex > summary').click();
     assert.equal(await page.locator('.coding-protocol dt').count(), 4);
     assert.equal(await page.locator('.coverage-row:not(.coverage-head)').count(), 10);
     await page
-      .locator('#participation')
+      .locator('#evidence-method')
       .getByRole('button', { name: '同批追踪', exact: true })
       .click();
     await page.locator('.coverage-empty').waitFor({ state: 'visible' });
@@ -109,7 +110,7 @@ try {
     assert.deepEqual(errors, []);
     assert.deepEqual(failedLocal, []);
     await page.locator('.coverage-overview').screenshot({ path: `${output}/${width}-method.png` });
-    await page.locator('#findings').screenshot({ path: `${output}/${width}-findings.png` });
+    await page.locator('#history').screenshot({ path: `${output}/${width}-findings.png` });
     results.push({ width, externalNetworkBlocked: true, errors, failedLocal });
     await page.close();
   }

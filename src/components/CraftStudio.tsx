@@ -352,7 +352,6 @@ export function CraftStudio({
         </div>
       </div>
       <footer className="studio-footer">
-        <span>原创三维工艺体验 · 动作与时间经简化</span>
         <button onClick={onSource}>查看工序来源 ↗</button>
       </footer>
     </div>

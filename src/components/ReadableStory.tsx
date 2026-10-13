@@ -138,7 +138,7 @@ export function LearningStory() {
           <span className="eyebrow">鱼灯 / 村落与课堂</span>
           <h3>把亲手做的鱼灯，带进巡游。</h3>
           <p>
-            清华大学美术学院学生陈贤杰和同学来到汪满田，向村民学习制作鱼灯。他们舞着亲手做的灯，和村民一起参加“嬉鱼灯”。新华社在2024年元宵报道中记录了这个现场。
+            2024年元宵前，清华大学美术学院学生陈贤杰和同学来到汪满田，向村民学习制作鱼灯。他们舞着亲手做的灯，和村民一起参加“嬉鱼灯”。新华社在2024年元宵报道中记录了这个现场。
           </p>
           <SourceNote id="pub-fish-history-2024" />
           <div
@@ -186,7 +186,8 @@ export function DailyLifeStory() {
           <span className="eyebrow">鱼灯 / 村落的组织与生产</span>
           <h3>有人组织灯会，也有人接着做灯。</h3>
           <p>
-            2024年的汪满田，五个鱼会共同参加“嬉鱼灯”。村里的工匠修缮大灯，也制作小鱼灯；年轻人回乡组织活动，把年俗接在自己手里。
+            2024年的汪满田，{publicMeasure('fish-associations-2024').valueText}
+            个鱼会共同参加“嬉鱼灯”。村里的工匠修缮大灯，也制作小鱼灯；年轻人回乡组织活动，把年俗接在自己手里。
           </p>
           <SourceNote id="pub-fish-history-2024" />
         </div>
@@ -202,7 +203,6 @@ export function DailyLifeStory() {
         <article>
           <Measure id="ink-online-revenue" caption="老胡开文墨厂直播与电商带来的年营收" />
           <p>墨厂把直播间搬进生产车间，展示捶墨、制模和描金。线上经营，为继续生产提供了收入。</p>
-          <small>人民日报2026年8月所述当时年营收，未列具体会计年度。</small>
         </article>
       </div>
       <div className="training-context">

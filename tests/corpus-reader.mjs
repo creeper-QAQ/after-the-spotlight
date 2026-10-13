@@ -21,6 +21,7 @@ try {
     await page.goto(process.env.TEST_BASE_URL || 'http://127.0.0.1:5173', {
       waitUntil: 'domcontentloaded',
     });
+    await page.locator('.method-annex > summary').click();
     await page.locator('#corpus-audit').scrollIntoViewIfNeeded();
     await page.locator('.corpus-audit').waitFor();
     assert.equal(await page.locator('.corpus-ruler i').count(), 94);

@@ -30,6 +30,11 @@ try {
       'The story must begin with craft history',
     );
     assert.equal(await page.locator('.overture-enter').getAttribute('href'), '#history');
+    assert.equal(
+      await page.locator('.overture-shortcuts a[href="#craft"]').count(),
+      1,
+      'The opening must retain a direct craft entry',
+    );
     const order = await page.evaluate(() =>
       ['history', 'phenomenon', 'participation', 'after'].map(
         (id) => document.getElementById(id).getBoundingClientRect().top,
@@ -68,15 +73,8 @@ try {
     });
     assert.deepEqual(duplicateIds, []);
     await page.locator('#phenomenon .story-source-note').first().click();
-    assert.equal(
-      await page
-        .locator('.source-registry')
-        .evaluate((n) => n.open),
-      true,
-    );
-    await page
-      .locator('.source-registry')
-      .evaluate((n) => (n.open = false));
+    assert.equal(await page.locator('.source-registry').evaluate((n) => n.open), true);
+    await page.locator('.source-registry').evaluate((n) => (n.open = false));
     if (!contentOnly) {
       await page.evaluate(() => scrollTo({ top: 0, behavior: 'instant' }));
       const trigger = page.locator('header').getByRole('button', { name: '阅读设置' });
@@ -109,12 +107,10 @@ try {
     );
     assert.deepEqual(mapRequests, []);
     assert.deepEqual(errors, []);
-    await page
-      .locator('#participation')
-      .screenshot({
-        path: `${out}/${width}-learning.png`,
-        style: '.site-header,.ink-drop-button{visibility:hidden}',
-      });
+    await page.locator('#participation').screenshot({
+      path: `${out}/${width}-learning.png`,
+      style: '.site-header,.ink-drop-button,.skip-link{visibility:hidden}',
+    });
     await page.evaluate(() => scrollTo({ top: 0, behavior: 'instant' }));
     await page.waitForTimeout(150);
     await page.screenshot({ path: `${out}/${width}-opening.png` });

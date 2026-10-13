@@ -4,7 +4,7 @@ import { createHash } from 'node:crypto';
 import { mkdir, readFile, writeFile } from 'node:fs/promises';
 import path from 'node:path';
 
-const bundle = path.resolve(process.argv[2] || '../交付文件/网站交付/V1.2-交付版');
+const bundle = path.resolve(process.argv[2] || '../交付文件/网站交付/V1.4-清晰主线版');
 const manifest = JSON.parse(await readFile(path.join(bundle, '文件清单.json'), 'utf8'));
 const extracted = path.resolve('artifacts/ninety-polish', `extracted-${Date.now()}`);
 await mkdir(extracted);
@@ -28,13 +28,14 @@ assert.ok(sourceFolder && productFolder);
 const evidence = JSON.parse(
   await readFile(path.join(extracted, sourceFolder, 'src/content/public-evidence.json'), 'utf8'),
 );
-assert.equal(evidence.measures.length, 17);
+const currentEvidence = JSON.parse(await readFile('src/content/public-evidence.json', 'utf8'));
+assert.deepEqual(evidence, currentEvidence);
 assert.equal(evidence.coverage.length, 10);
 assert.equal(evidence.retention.value, null);
 const csvRows = {};
 for (const [filename, expected] of [
-  ['核对用_证据记录.csv', 17],
-  ['核对用_来源片段编码.csv', 10],
+  ['核对用_证据记录.csv', evidence.measures.length],
+  ['核对用_来源片段编码.csv', evidence.coverage.length],
   ['核对用_采集指标台账.csv', 94],
   ['核对用_线索笔记.csv', 30],
 ]) {
