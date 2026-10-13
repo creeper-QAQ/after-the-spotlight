@@ -203,6 +203,7 @@ for (const file of [
   'v11-quality-review.md',
   'v12-final-delivery.md',
   'v14-readable-delivery.md',
+  'v14-independent-review.md',
 ]) {
   await cp(path.join(project, 'docs', file), path.join(source, 'docs', file));
 }
@@ -233,7 +234,7 @@ await collect(web);
 await collect(source);
 await writeFile(
   path.join(bundleRoot, '文件清单.json'),
-  JSON.stringify({ edition, date: '2026-10-03', files: manifest }, null, 2),
+  JSON.stringify({ edition, date: releaseDate, files: manifest }, null, 2),
 );
 const quote = (value) => "'" + value.replaceAll("'", "''") + "'";
 for (const folder of [web, source]) {

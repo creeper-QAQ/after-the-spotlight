@@ -6,6 +6,13 @@ import path from 'node:path';
 
 const bundle = path.resolve(process.argv[2] || '../交付文件/网站交付/V1.4-清晰主线版');
 const manifest = JSON.parse(await readFile(path.join(bundle, '文件清单.json'), 'utf8'));
+const releaseDate = new Intl.DateTimeFormat('en-CA', {
+  timeZone: 'Asia/Shanghai',
+  year: 'numeric',
+  month: '2-digit',
+  day: '2-digit',
+}).format(new Date());
+assert.equal(manifest.date, releaseDate, 'Manifest must carry this delivery date');
 const extracted = path.resolve('artifacts/ninety-polish', `extracted-${Date.now()}`);
 await mkdir(extracted);
 const folders = [...new Set(manifest.files.map((file) => file.path.split('/')[0]))];
@@ -53,6 +60,7 @@ for (const [filename, expected] of [
 }
 const result = {
   edition: manifest.edition,
+  releaseDate: manifest.date,
   extracted,
   siteRoot: path.join(extracted, productFolder, 'site'),
   previewScript: path.join(extracted, productFolder, 'preview.ps1'),

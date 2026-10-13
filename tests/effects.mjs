@@ -52,6 +52,21 @@ try {
   await page.locator('#viral-burst').scrollIntoViewIfNeeded();
   await page.waitForFunction(() => document.querySelector('#viral-burst video')?.currentTime > 0.1);
   assert.equal(await page.locator('#map-context').count(), 0);
+  await page.emulateMedia({ reducedMotion: 'reduce' });
+  await page.locator('#seal-atlas').scrollIntoViewIfNeeded();
+  await page.getByRole('button', { name: '重新落下 ↻', exact: true }).click();
+  await page.waitForTimeout(100);
+  const falling = await page
+    .locator('.heritage-seal')
+    .evaluateAll((ns) => ns.map((n) => n.getAttribute('style')));
+  await page.waitForTimeout(500);
+  assert.notDeepEqual(
+    await page
+      .locator('.heritage-seal')
+      .evaluateAll((ns) => ns.map((n) => n.getAttribute('style'))),
+    falling,
+    'Manual motion on must override system reduced motion for falling seals',
+  );
   await page.close();
   const storage = await browser.newPage({
     viewport: { width: 390, height: 900 },
@@ -78,6 +93,7 @@ try {
     runningFilmStops: true,
     sealsStop: true,
     motionRestarts: true,
+    manualOnOverridesSystemReduce: true,
     unavailableStorage: true,
     noMap: true,
     errors,

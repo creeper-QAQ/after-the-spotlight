@@ -157,11 +157,7 @@ export function SealAtlas({ onSource, motion = true }: { onSource: () => void; m
                   setSelected(index);
                   if (compact)
                     document.querySelector('.seal-record')?.scrollIntoView({
-                      behavior:
-                        matchMedia('(prefers-reduced-motion: reduce)').matches ||
-                        document.documentElement.dataset.motion === 'off'
-                          ? 'instant'
-                          : 'smooth',
+                      behavior: motion ? 'smooth' : 'instant',
                       block: 'center',
                     });
                 }}

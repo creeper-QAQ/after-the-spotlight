@@ -118,6 +118,7 @@ async function check(width, height, mobile = false) {
   await page.locator('.method-annex > summary').click();
   await page.locator('.people-annex > summary').click();
   const wall = page.locator('.evidence-investigation');
+  await wall.locator('.evidence-pin').first().waitFor();
   assert.equal(await wall.locator('.evidence-pin').count(), 3);
   assert.equal(await wall.locator('.evidence-pin a').count(), 3);
   await wall.locator('.evidence-step').last().scrollIntoViewIfNeeded();
