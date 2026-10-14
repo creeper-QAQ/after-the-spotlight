@@ -10,3 +10,9 @@
 
 回访助手在浏览器本地整理资料，不调用模型接口。来源、统计口径与创作说明保留在页面中。
 
+
+## 网站版本切换
+
+顶部的“版本”入口可在新版 V1.4 与旧版 V1.3 间切换。默认地址打开新版；旧版地址为 https://creeper-qaq.github.io/after-the-spotlight/legacy/ 。两个版本均可返回对方。旧版网页来自原归档，仅补充切换入口，原归档压缩包与分支不变。
+
+切换入口为 public/version-switch.js 与 public/version-switch.css；旧版公开页面位于 public/legacy，构建时一并复制到 dist。
