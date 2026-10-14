@@ -32,31 +32,36 @@ try {
       if (response.url().startsWith(base) && response.status() >= 400) errors.push(`${response.status()} ${response.url()}`);
     });
     await page.goto(base, { waitUntil: 'networkidle' });
-    for (const edition of ['current', 'legacy']) {
+    const editions = [
+      { id: 'current', label: /最新版.*V1\.4\.1/, next: { path: 'v1.4/', link: '上一版 · V1.4' } },
+      { id: 'v14', label: /上一版.*V1\.4/, next: { path: 'legacy/', link: '旧版 · V1.3' } },
+      { id: 'legacy', label: /旧版.*V1\.3/, next: { path: '', link: '最新版 · V1.4.1' } },
+    ];
+    for (const edition of editions) {
       const selector = page.locator('#website-versions');
       await selector.waitFor();
       await selector.locator('summary').click();
       const current = selector.locator('[aria-current="page"]');
-      assert.match(await current.innerText(), edition === 'current' ? /新版.*V1.4/ : /旧版.*V1.3/);
+      assert.match(await current.innerText(), edition.label);
       for (const target of [selector.locator('summary'), ...await selector.locator('a').all()]) {
         const box = await target.boundingBox();
         assert.ok(box.width >= 44 && box.height >= 44, 'Touch targets are at least 44px');
         assert.ok(box.x >= 0 && box.x + box.width <= width, 'Version controls stay in viewport');
       }
       assert.ok(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth), 'No horizontal overflow');
-      assert.equal(await page.locator('.readable-section').count(), edition === 'current' ? 4 : 0, 'Versions serve distinct story layouts');
-      await page.screenshot({ path: `artifacts/version-switch/${edition}-${width}.png` });
+      assert.equal(await page.locator('.readable-section').count(), edition.id === 'legacy' ? 0 : 4, 'Versions serve distinct story layouts');
+      await page.screenshot({ path: `artifacts/version-switch/${edition.id}-${width}.png` });
       await page.keyboard.press('Escape');
       assert.equal(await selector.evaluate((node) => node.open), false);
       await page.keyboard.press('Enter');
       assert.equal(await selector.evaluate((node) => node.open), true);
-      const target = selector.getByRole('link', { name: edition === 'current' ? '旧版 · V1.3' : '新版 · V1.4', exact: true });
+      const target = selector.getByRole('link', { name: edition.next.link, exact: true });
       await target.click();
-      await page.waitForURL(edition === 'current' ? `${base}legacy/` : base);
+      await page.waitForURL(`${base}${edition.next.path}`);
       await page.waitForLoadState('networkidle');
     }
     assert.deepEqual(errors, [], 'Both versions load without runtime errors or missing local resources');
     await page.close();
-    console.log(`PASS ${width}px: new → old → new, keyboard, layout, and all project-path assets`);
+    console.log(`PASS ${width}px: V1.4.1 → V1.4 → V1.3 → V1.4.1, keyboard, layout, and all project-path assets`);
   }
 } finally { await browser.close(); await new Promise((resolve) => server.close(resolve)); }
