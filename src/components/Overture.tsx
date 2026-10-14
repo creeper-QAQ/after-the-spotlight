@@ -66,9 +66,9 @@ export function Overture({ motion }: { motion: boolean }) {
             </span>
           </h1>
           <p>
-            从徽州的鱼灯与墨厂出发，
+            鱼灯火了，
             <br />
-            看手艺怎样走进课堂、工坊与生活。
+            这门手艺，会有人接着做吗？
           </p>
           <a href="#history" className="overture-enter">
             <span>展开这卷故事</span>

@@ -13,6 +13,17 @@ async function load(data = evidence) {
   );
 }
 const { composeLocalReply } = await load();
+test('new story chart questions retain the reporting scopes and non-additive mentoring counts', () => {
+  const youth = composeLocalReply('墨厂90后00后年轻员工占比多少？');
+  assert.match(youth.text, /超30%/);
+  assert.ok(youth.sourceIds.includes('pub-work-2026'));
+  const mentoring = composeLocalReply('墨厂师带徒培养了多少传承人？');
+  for (const value of ['3人', '19人', '16人']) assert.ok(mentoring.text.includes(value));
+  assert.match(mentoring.text, /重叠|相加/);
+  const course = composeLocalReply('徽墨寒假体验课程每期多少个家庭？');
+  assert.match(course.text, /8个家庭/);
+  assert.ok(course.sourceIds.includes('pub-shen-2025b'));
+});
 test('new research and operating facts are available in local answers with their own sources', () => {
   const training = composeLocalReply('全国研培计划培训了多少人？');
   assert.match(training.text, /5\.1万人次/);

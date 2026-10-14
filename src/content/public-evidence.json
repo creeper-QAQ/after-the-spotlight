@@ -1,6 +1,6 @@
 {
-  "edition": "V1.4",
-  "checkedAt": "2026-10-12",
+  "edition": "V1.4.1",
+  "checkedAt": "2026-10-14",
   "method": "原10组证据片段按被关注、到访体验、实名实践、同批体验者追踪四项编码，目的性选取，不估计行业总体。历史、研培与经营的补充资料另列为事实来源，没有自动加入编码分母。采集台账的94条指标为结构统计，不构成体验者转化漏斗。",
   "codingProtocol": {
     "unit": "一份来源对应一组相关片段，共10组；不是10个人，也不是10个行业样本。",
@@ -52,7 +52,7 @@
       "title": "在长三角过年，接着嬉鱼接着舞龙",
       "publishedAt": "2024-02-09",
       "url": "https://www.jfdaily.com/wx/detail.do?id=714855",
-      "checkedAt": "2026-10-01",
+      "checkedAt": "2026-10-14",
       "verification": "已核对原始实访；潘敏学艺、2023专职研学和2024合作店属于瞻淇路径，不能归作汪满田学徒。"
     },
     {
@@ -61,7 +61,7 @@
       "title": "“一尾鱼灯”点亮乡村文化",
       "publishedAt": "2025-11-07",
       "url": "https://www.news.cn/local/20251107/75ca609714dd4898a437a1fde157d554/c.html",
-      "checkedAt": "2026-10-01",
+      "checkedAt": "2026-10-14",
       "verification": "已核对现场报道；村、个人工坊、县域和瞻淇经营方自报数据分别标注。订单未独立审计。"
     },
     {
@@ -88,7 +88,7 @@
       "title": "文旅新探丨古民居里遇见最美徽州年",
       "publishedAt": "2025-01-31",
       "url": "https://www.news.cn/20250131/1a41a736b9e64bf4814b81a09c4007ee/c.html",
-      "checkedAt": "2026-09-30",
+      "checkedAt": "2026-10-14",
       "verification": "已核对现场报道；申易鑫原为民宿管家、学习徽墨后每周授课。首次学习及认定日期未公开。"
     },
     {
@@ -97,7 +97,7 @@
       "title": "文旅有新事：“行走的思政课” 探寻文旅新“富矿”",
       "publishedAt": "2025-02-21",
       "url": "https://www.xinhuanet.com/ci/20250221/be2b79c8eac24bd1ae35cde855b4d29d/c.html",
-      "checkedAt": "2026-09-30",
+      "checkedAt": "2026-10-14",
       "verification": "已核对正文；申易鑫师承程国胜，寒假预订6期、每期8个家庭是课程名额而非学徒数。"
     },
     {
@@ -106,7 +106,7 @@
       "title": "看见古村｜安徽西递：见山见水见徽韵",
       "publishedAt": "2026-06-05",
       "url": "https://www.news.cn/ci/20260605/a332d9b628c34fc48844c76e43929a47/c.html",
-      "checkedAt": "2026-10-01",
+      "checkedAt": "2026-10-14",
       "verification": "已核对现场报道；同名同技艺的申易鑫在西递教游客描金，支持其跨年教学，不追踪此前住客。"
     },
     {
@@ -116,7 +116,7 @@
       "publishedAt": "2026-08-17",
       "url": "https://api.app.anhuinews.com/appcontent/9505198.html",
       "canonicalUrl": "https://ah.anhuinews.com/hs/whly/202608/t20260817_9504744.html",
-      "checkedAt": "2026-09-30",
+      "checkedAt": "2026-10-14",
       "verification": "已核对同文客户端正文；薪资、五险及技艺班为企业负责人自述，最高月薪不是平均工资。"
     },
     {
@@ -445,6 +445,114 @@
       "sourceId": "pub-fish-history-2024",
       "interpretation": "村落工坊具备持续制作鱼灯的能力。",
       "limitation": "报道为一年可制作数量，不是经审计的2024年实销量。"
+    },
+    {
+      "id": "ink-course-families",
+      "stage": "participation",
+      "label": "申易鑫寒假体验课每期家庭名额",
+      "valueText": "8",
+      "unit": "个家庭／期",
+      "period": "2025年寒假，2月21日报道",
+      "scope": "黟县龙江村民宿；已预订的6期课程，每期8个家庭",
+      "sourceId": "pub-shen-2025b",
+      "interpretation": "课程已经形成分期预约；6×8为48个家庭参与名额。",
+      "limitation": "名额不是48个去重家庭，更不是学徒人数；报道未列具体开课日期。"
+    },
+    {
+      "id": "ink-young-workers",
+      "stage": "practice",
+      "label": "老胡开文墨业90后00后青年员工占比",
+      "valueText": "超30",
+      "unit": "%",
+      "period": "截至2026年8月17日报道",
+      "scope": "歙县老胡开文墨业员工；年龄定义为90后与00后",
+      "sourceId": "pub-work-2026",
+      "interpretation": "企业负责人介绍的青年员工结构显示年轻人在厂工作。",
+      "limitation": "企业负责人自述；不是游客入行率，不能与35岁以下县域从业者直接排名。"
+    },
+    {
+      "id": "ink-trained-province",
+      "stage": "practice",
+      "label": "老胡开文墨业培养的省级代表性传承人",
+      "valueText": "3",
+      "unit": "人",
+      "period": "截至2026年8月17日报道",
+      "scope": "企业负责人介绍的师带徒培养成果；省级认定",
+      "sourceId": "pub-work-2026",
+      "interpretation": "名师带徒存在被认定的培养成果。",
+      "limitation": "不同级别可能有晋级重叠，不能相加成唯一毕业人数；无入学留存分母。"
+    },
+    {
+      "id": "ink-trained-city",
+      "stage": "practice",
+      "label": "老胡开文墨业培养的市级传承人",
+      "valueText": "19",
+      "unit": "人",
+      "period": "截至2026年8月17日报道",
+      "scope": "企业负责人介绍的师带徒培养成果；市级认定",
+      "sourceId": "pub-work-2026",
+      "interpretation": "展示市级认定记录。",
+      "limitation": "不同级别可能有晋级重叠，不相加；不是体验者转学徒人数。"
+    },
+    {
+      "id": "ink-trained-county",
+      "stage": "practice",
+      "label": "老胡开文墨业培养的县级传承人",
+      "valueText": "16",
+      "unit": "人",
+      "period": "截至2026年8月17日报道",
+      "scope": "企业负责人介绍的师带徒培养成果；县级认定",
+      "sourceId": "pub-work-2026",
+      "interpretation": "展示县级认定记录。",
+      "limitation": "不同级别可能有晋级重叠，不相加；不是体验者转学徒人数。"
+    },
+    {
+      "id": "fish-performance-team",
+      "stage": "practice",
+      "label": "瞻淇嬉鱼灯技艺专业队伍人数",
+      "valueText": "32",
+      "unit": "人",
+      "period": "截至2024年2月9日报道",
+      "scope": "瞻淇村一支嬉鱼灯技艺专业队伍",
+      "sourceId": "pub-pan-2024",
+      "interpretation": "鱼灯表演有具体的组织与职业实践。",
+      "limitation": "单一队伍时点人数，不是歙县全县总人数；未提供成员学习起点。"
+    },
+    {
+      "id": "fish-performance-income",
+      "stage": "practice",
+      "label": "瞻淇鱼灯专业队伍每场商演收入",
+      "valueText": "约3",
+      "unit": "万元／场",
+      "period": "2024年2月9日报道口径",
+      "scope": "报道中32人专业队伍赴苏州杭州温州等地商演",
+      "sourceId": "pub-pan-2024",
+      "interpretation": "商演给技艺实践提供收入渠道。",
+      "limitation": "团队每场收入，不是个人工资、利润或年度收入；不能乘人数。"
+    },
+    {
+      "id": "fish-student-day-pay",
+      "stage": "participation",
+      "label": "瞻淇返乡大学生参与制作的劳务补助",
+      "valueText": "80",
+      "unit": "元／日",
+      "period": "2024年寒假，2月9日报道",
+      "scope": "瞻淇鼓励返乡大学生参与制作；郑懿袁上色的现场",
+      "sourceId": "pub-pan-2024",
+      "interpretation": "学习和参与制作有具体的劳动补助安排。",
+      "limitation": "不是所有学员的工资或补助；不推算长期从业收入。"
+    },
+    {
+      "id": "fish-design-time",
+      "stage": "craft-time",
+      "label": "张佳乐设计制作一盏龙头鱼灯的用时",
+      "valueText": "半个月",
+      "unit": "制作时间",
+      "period": "2024年春节前，2月9日报道",
+      "scope": "21岁的张佳乐先做小样再等比例放大的这件作品",
+      "sourceId": "pub-pan-2024",
+      "interpretation": "一次创新制作包含试样和放大，需要持续投入时间。",
+      "limitation": "只是这一件作品的制作耗时，不是鱼灯学艺周期或所有鱼灯的标准工期。"
     }
   ],
   "people": [

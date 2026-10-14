@@ -45,7 +45,8 @@ ${edition} 本地交付版 / ${releaseDate}
 2. Windows自带PowerShell会启动本地预览，无需Node或npm。
 3. 保持启动窗口打开；浏览器会打开实际空闲端口，请以窗口显示的地址为准。
 
-阅读顺序：手艺来历与印谱 → 灯火出圈 → 课堂与工坊 → 三维制作 → 日常接续 → 证据中心。
+阅读顺序：提出问题与手艺来历 → 灯火出圈 → 有人来学吗 → 制作门槛与亲手体验 → 同名人物的后来 → 传承支持与结论 → 证据中心。
+新增课程名额、同名跨年实践、青年占比与师带徒认定图表；主线分两次追问揭示答案。
 顶栏可随时打开阅读设置、减少动态。开篇另有制作和资料的直达入口。
 地图已移除；人物时间线、方法和采集台账默认收在卷末折叠项。
 
@@ -204,11 +205,17 @@ for (const file of [
   'v12-final-delivery.md',
   'v14-readable-delivery.md',
   'v14-independent-review.md',
+  'v141-question-led-delivery.md',
 ]) {
   await cp(path.join(project, 'docs', file), path.join(source, 'docs', file));
 }
 await mkdir(path.join(source, 'docs/research'), { recursive: true });
-for (const file of ['corpus-audit.md', 'lantern-film.md', '2026-10-12-readable-story-sources.md']) {
+for (const file of [
+  'corpus-audit.md',
+  'lantern-film.md',
+  '2026-10-12-readable-story-sources.md',
+  '2026-10-14-question-led-sources.md',
+]) {
   await cp(path.join(project, 'docs/research', file), path.join(source, 'docs/research', file));
 }
 await writeFile(

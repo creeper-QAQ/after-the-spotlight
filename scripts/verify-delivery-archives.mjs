@@ -4,7 +4,7 @@ import { createHash } from 'node:crypto';
 import { mkdir, readFile, writeFile } from 'node:fs/promises';
 import path from 'node:path';
 
-const bundle = path.resolve(process.argv[2] || '../交付文件/网站交付/V1.4-清晰主线版');
+const bundle = path.resolve(process.argv[2] || '../交付文件/网站交付/V1.4-追问与接续版');
 const manifest = JSON.parse(await readFile(path.join(bundle, '文件清单.json'), 'utf8'));
 const releaseDate = new Intl.DateTimeFormat('en-CA', {
   timeZone: 'Asia/Shanghai',

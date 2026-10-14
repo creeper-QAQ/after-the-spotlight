@@ -1,8 +1,8 @@
 export const readableChapters = [
   { id: 'history', number: '01', title: '手艺来历', en: 'THE CRAFT' },
   { id: 'phenomenon', number: '02', title: '灯火出圈', en: 'THE ATTENTION' },
-  { id: 'participation', number: '03', title: '坐下学艺', en: 'THE LEARNING' },
-  { id: 'after', number: '04', title: '日常接续', en: 'THE CONTINUITY' },
+  { id: 'participation', number: '03', title: '有人来学吗', en: 'THE LEARNING' },
+  { id: 'after', number: '04', title: '后来还在做吗', en: 'THE CONTINUITY' },
 ] as const;
 
 export const craftHistories = [

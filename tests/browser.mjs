@@ -35,7 +35,7 @@ async function check(width, height, mobile = false) {
     true,
     `${width}px horizontal overflow`,
   );
-  assert.match(await page.locator('#after').innerText(), /制作和教学继续/);
+  assert.match(await page.locator('#after').innerText(), /学来的手艺继续做下去/);
   assert.match(await page.locator('#phenomenon').innerText(), /17\.1/);
   const catalogue = page.locator('.catalogue-viz');
   if (!(await page.locator('.catalogue-annex').evaluate((node) => node.open)))

@@ -1,6 +1,6 @@
 {
   "name": "after-the-spotlight",
-  "version": "1.4.0",
+  "version": "1.4.1",
   "private": true,
   "type": "module",
   "scripts": {
@@ -26,7 +26,8 @@
     "test:games": "node tests/games.mjs",
     "test:corpus": "node tests/corpus-audit.mjs && node tests/corpus-reader.mjs",
     "test:media": "node tests/submission-media.mjs",
-    "test:reply": "node --test tests/local-reply.test.mjs && node tests/local-reply-browser.mjs"
+    "test:reply": "node --test tests/local-reply.test.mjs && node tests/local-reply-browser.mjs",
+    "test:story": "node tests/question-led-story.mjs"
   },
   "dependencies": {
     "@remotion/player": "^4.0.506",

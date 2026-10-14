@@ -1,25 +1,7 @@
-import { publicEvidence, publicMeasure } from '../content/evidence';
+import { SourceNote } from './StorySourceNote';
+import { CourseChart, ContinuityTrails, YouthChart, MentoringChart } from './StoryCharts';
+import { publicMeasure } from '../content/evidence';
 import { craftHistories, trainingMeasureIds } from '../content/readable-story';
-
-export function SourceNote({ id }: { id: string }) {
-  const index = publicEvidence.sources.findIndex((s) => s.id === id);
-  if (index < 0) throw new Error(`Unresolved story source: ${id}`);
-  return (
-    <a
-      className="story-source-note"
-      href={`#source-${id}`}
-      onClick={() => {
-        let parent = document.getElementById(`source-${id}`)?.parentElement;
-        while (parent) {
-          if (parent instanceof HTMLDetailsElement) parent.open = true;
-          parent = parent.parentElement;
-        }
-      }}
-    >
-      资料 {String(index + 1).padStart(2, '0')} ↗
-    </a>
-  );
-}
 
 function SectionHeading({
   number,
@@ -64,8 +46,8 @@ export function History() {
       <SectionHeading
         number="01"
         label="手艺来历"
-        title="从年俗与文房，走进今天的生活。"
-        text="一盏鱼灯，是村落共同守着的年俗；一方徽墨，是写在纸上的手艺。它们的故事，都由一代代亲手制作的人接着往下写。"
+        title="一门老手艺，靠什么走到今天？"
+        text="嬉鱼灯曾是村里的年俗，徽墨曾是书桌上的日用。今天，越来越多人在屏幕上看见它们。可看见的人多了，愿意接手的人也会多吗？先从这盏灯和这方墨的来处说起。"
       />
       <div className="craft-history-pair">
         {craftHistories.map((craft) => (
@@ -99,7 +81,7 @@ export function AttentionStory() {
       <SectionHeading
         number="02"
         label="灯火出圈"
-        title="村里的灯火，被更多人看见。"
+        title="灯火出圈，热闹传到了多远？"
         text="短视频让远方的人看见徽州的鱼灯。春节的巡游走进屏幕，扎灯、绘鳞、嬉鱼的画面，也把人们的目光带向制作这盏灯的手。"
       />
       <div className="attention-record">
@@ -113,7 +95,7 @@ export function AttentionStory() {
         </div>
         <div>
           <p>
-            这个数字记录了内容被播放的规模。接下来，把视线从屏幕移到现场：学生学做鱼灯，游客坐到描金台前，老师把手艺带进课堂。
+            画面传开了，制作这盏灯的手艺也进入公众视野。但播放记录只告诉我们内容被看过多少次。屏幕外，究竟有没有人愿意坐下来学？
           </p>
           <small>1月7日—2月12日 · 多关键词合集播放次数</small>
           <SourceNote id={views.sourceId} />
@@ -130,8 +112,8 @@ export function LearningStory() {
       <SectionHeading
         number="03"
         label="坐下学艺"
-        title="从看灯，到学做灯。"
-        text="学习已经发生在村落、学校和开放的工坊。亲手扎起竹骨、覆上纸面，手艺也就在这些具体动作里被认识。"
+        title="屏幕外，真的有人来学吗？"
+        text="把目光从播放数字移到现场。报道里，既有来村里学扎灯的学生，也有提前为体验课留出时间的家庭。他们第一次动手，留下了哪些记录？"
       />
       <div className="learning-pair">
         <article className="fish-learning">
@@ -167,7 +149,33 @@ export function LearningStory() {
           </div>
         </article>
       </div>
-      <p className="readable-join">接下来，跟着几道工序，亲手做一盏鱼灯，或体验一方徽墨的成形。</p>
+      <div className="learning-person-intro">
+        <span className="eyebrow">来学的人里，也有人专门去找师傅</span>
+        <p>
+          潘敏因喜欢嬉鱼表演，向瞻淇老人学习鱼灯制作。申易鑫在民宿工作时接触徽墨，跟随程国胜学艺。他们后来是否还在做？先把这两个名字留在这条路上。
+        </p>
+        <SourceNote id="pub-pan-2024" />
+        <SourceNote id="pub-shen-2025b" />
+      </div>
+      <CourseChart />
+      <div className="story-answer">
+        <span className="eyebrow">第一个答案 / 有人来了</span>
+        <h3>有人进课堂，也有人把课程排进假期。</h3>
+        <p>鱼灯进入学校，墨厂迎来研学家庭，课程也有了分期预约。第一次动手，已经有了具体的现场。</p>
+      </div>
+      <div className="story-turn">
+        <span className="eyebrow">追问 / 再往后一步</span>
+        <h3>来过一次，就会留下来吗？</h3>
+        <p>
+          体验结束可以带走一件作品，独立制作却要多下功夫。21岁的张佳乐先做小样、再放大，一盏龙头鱼灯就花了
+          {publicMeasure('fish-design-time').valueText}
+          。这是这一件作品的用时。真正接下一门手艺，还要反复练习。
+        </p>
+        <SourceNote id="pub-pan-2024" />
+        <a className="question-craft-link" href="#craft">
+          先动一次手，再去找他们的后来 ↓
+        </a>
+      </div>
     </section>
   );
 }
@@ -178,26 +186,45 @@ export function DailyLifeStory() {
       <SectionHeading
         number="04"
         label="日常接续"
-        title="灯会散场，制作和教学继续。"
-        text="传承也在节日之外发生：有人修灯、扎灯，有人带学生动手，有人把手艺做成可以维持生活的工作。"
+        title="再找同一个人，后来还在做吗？"
+        text="不再只数来过多少人，把名字留住，再沿着不同年份的报道往后找：曾经向师傅学艺的人，后来去了哪里？潘敏和申易鑫留下了这样的记录。"
       />
+      <ContinuityTrails />
+      <div className="story-answer">
+        <span className="eyebrow">第二个答案 / 有人接着做，也开始教</span>
+        <h3>下一次见到他们，手艺还在手上。</h3>
+        <p>
+          潘敏把学来的鱼灯制作变成专职教学，申易鑫从接触徽墨走到授课。不同年份的报道再次记录他们的教学现场。这里接起的是这两位实践者的路径；来体验的那批家庭，其后续仍需另行回访。
+        </p>
+      </div>
+      <YouthChart />
+      <div className="readable-heading sustaining-heading">
+        <span className="eyebrow">最后再问 / 怎样接着做</span>
+        <h3>热爱之外，学艺的人靠什么留下？</h3>
+        <p>有教室、有师傅，还要有可以维持生活的工作。继续看看传艺、补助和收入的具体安排。</p>
+      </div>
+      <MentoringChart />
       <div className="daily-fish">
         <div>
           <span className="eyebrow">鱼灯 / 村落的组织与生产</span>
-          <h3>有人组织灯会，也有人接着做灯。</h3>
+          <h3>做灯之外，表演也能成为工作。</h3>
           <p>
-            2024年的汪满田，{publicMeasure('fish-associations-2024').valueText}
-            个鱼会共同参加“嬉鱼灯”。村里的工匠修缮大灯，也制作小鱼灯；年轻人回乡组织活动，把年俗接在自己手里。
+            瞻淇村把嬉鱼灯组织成{publicMeasure('fish-performance-team').valueText}
+            人的专业队伍，走到苏州、杭州、温州等地演出，报道中的每场团队收入
+            {publicMeasure('fish-performance-income').valueText}
+            万元。返乡大学生参与村里制灯，也有每天{publicMeasure('fish-student-day-pay').valueText}
+            元劳务补助。{' '}
           </p>
-          <SourceNote id="pub-fish-history-2024" />
+          <SourceNote id="pub-pan-2024" />
         </div>
-        <Measure id="fish-annual-capacity" caption="汪满田村工匠的年制作能力" />
+        <Measure id="fish-performance-income" caption="瞻淇32人专业队伍每场商演的团队收入" />
       </div>
       <div className="daily-pair">
         <article>
-          <Measure id="fish-young-workers" caption="歙县鱼灯相关行业中，35岁以下从业者占比" />
+          <Measure id="fish-talents" caption="歙县纳入非遗人才库的鱼灯手艺人" />
           <p>
-            年轻人已经参与制作、演出与相关经营。新华社2025年11月报道记录的，是县域鱼灯相关行业的年龄结构。
+            当地给予入库手艺人带徒补贴；{publicMeasure('fish-workshops').valueText}
+            家鱼灯工坊提供制作场所。教人、做灯，也有了日常的安排。
           </p>
         </article>
         <article>
@@ -222,8 +249,8 @@ export function DailyLifeStory() {
       </div>
       <div className="readable-ending">
         <span className="eyebrow">被看见之后</span>
-        <p>课堂里有人学，工坊里有人做，村落里有人把灯举起来。</p>
-        <p>手艺的接续，正在这些日常中发生。</p>
+        <p>鱼灯不只被围观：有人来学，有人把学来的手艺继续做下去，也教给下一个人。</p>
+        <p>热闹把人带到手艺面前。让手艺接续的，是学过之后仍愿意坐回工作台的那些人。</p>
         <a href="#research">翻开证据中心，查阅人物与原文 ↗</a>
       </div>
     </section>

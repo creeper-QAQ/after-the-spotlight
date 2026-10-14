@@ -125,7 +125,7 @@ export function composeLocalReply(input: string, previous?: ReplyContext): Local
     intents = ['impact', 'interview'];
   if (!intents.length) intents = ['fallback'];
   intents = [...new Set(intents)];
-  const newFacts =
+  let newFacts =
     /研培|研修/.test(normalized) && /多少|规模|院校|数量|人次/.test(normalized)
       ? ['training-colleges', 'training-classes', 'training-person-times']
       : topic === 'ink' &&
@@ -138,6 +138,20 @@ export function composeLocalReply(input: string, previous?: ReplyContext): Local
             /多少|数量|规模|几家/.test(normalized)
           ? ['ink-partners']
           : [];
+  if (
+    topic === 'ink' &&
+    /青年|年轻|90后|00后/.test(normalized) &&
+    /比例|占比|几成|百分/.test(normalized)
+  )
+    newFacts = ['ink-young-workers'];
+  else if (
+    topic === 'ink' &&
+    /培养|带出|师带徒/.test(normalized) &&
+    /多少|几|人数/.test(normalized)
+  )
+    newFacts = ['ink-trained-province', 'ink-trained-city', 'ink-trained-county'];
+  else if (topic === 'ink' && /课程|体验课|寒假/.test(normalized) && /家庭|每期/.test(normalized))
+    newFacts = ['ink-course', 'ink-course-families'];
   if (newFacts.length) intents = ['data'];
   const sourceIds: string[] = [];
   const cite = (id: string) => {
