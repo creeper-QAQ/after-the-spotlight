@@ -143,7 +143,10 @@ export function composeLocalReply(input: string, previous?: ReplyContext): Local
     /青年|年轻|90后|00后/.test(normalized) &&
     /比例|占比|几成|百分/.test(normalized)
   )
-    newFacts = ['ink-young-workers'];
+    newFacts =
+      /游客|研学|来访|客人|体验者|青少年/.test(normalized) && !/员工|工人|从业/.test(normalized)
+        ? ['ink-youth']
+        : ['ink-young-workers'];
   else if (
     topic === 'ink' &&
     /培养|带出|师带徒/.test(normalized) &&
@@ -209,6 +212,8 @@ export function composeLocalReply(input: string, previous?: ReplyContext): Local
       );
     // Specific fact questions are answered before broad advice, regardless of keyword order.
     if (newFacts.length) {
+      if (newFacts.includes('ink-youth'))
+        paragraphs.push('报道给出的年龄口径是暑期研学群体中的青少年，未单列所有年轻游客的比例。');
       paragraphs.push(...newFacts.map(fact));
     } else if (detailedData && intents.includes('data')) {
       if (
@@ -306,7 +311,7 @@ export function composeLocalReply(input: string, previous?: ReplyContext): Local
           '作品里的地点包括歙县汪满田、瞻淇和老胡开文墨厂，以及黟县相关教学场景；它们对应不同的人与项目。资料没有实时门票、开放时间和预约信息，出发前需通过场所官方渠道核实。我可以先帮你整理去现场要问的问题。',
         );
     }
-    if (intents.length === 1 && intents[0] === 'data' && !detailedData)
+    if (intents.length === 1 && intents[0] === 'data' && !detailedData && !newFacts.length)
       paragraphs.push(
         '你可以说明想查哪个数字。资料里的播放次数、接待人次、县域从业人数和个人订单，都保留各自的时间与范围；其中持续学习比例仍未知。',
       );

@@ -24,6 +24,15 @@ test('new story chart questions retain the reporting scopes and non-additive men
   assert.match(course.text, /8个家庭/);
   assert.ok(course.sourceIds.includes('pub-shen-2025b'));
 });
+test('young visitor questions are not routed to employee share and exact data replies need no generic clarification', () => {
+  const visitors = composeLocalReply('徽墨年轻游客占比多少？');
+  assert.match(visitors.text, /青少年/);
+  assert.match(visitors.text, /超80%/);
+  assert.doesNotMatch(visitors.text, /超30%/);
+  const employees = composeLocalReply('墨厂90后员工占比几成？');
+  assert.match(employees.text, /超30%/);
+  assert.doesNotMatch(employees.text, /你可以说明想查哪个数字/);
+});
 test('new research and operating facts are available in local answers with their own sources', () => {
   const training = composeLocalReply('全国研培计划培训了多少人？');
   assert.match(training.text, /5\.1万人次/);

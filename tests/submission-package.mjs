@@ -61,7 +61,7 @@ const browser = await chromium.launch({
 });
 try {
   for (const width of [390, 1440]) {
-    const page = await browser.newPage({ viewport: { width, height: 900 } });
+    const page = await browser.newPage({ viewport: { width, height: 900 }, reducedMotion: 'no-preference' });
     const errors = [];
     const failedLocal = [];
     page.on('pageerror', (e) => errors.push(e.message));
@@ -75,7 +75,7 @@ try {
     assert.ok((await page.locator('.site-footer').innerText()).includes(edition));
     await page.locator('.overture-shortcuts a[href="#craft"]').click();
     await page.getByRole('button', { name: '扎起这一圈竹篾 ↗' }).waitFor();
-    await page.locator('#viral-burst').scrollIntoViewIfNeeded();
+    await page.locator('#viral-burst').evaluate(node => scrollTo({ top: node.getBoundingClientRect().top + scrollY - 100, behavior: 'instant' }));
     await page.waitForFunction(
       () => document.querySelector('#viral-burst video')?.currentTime > 0.1,
     );
