@@ -58,10 +58,10 @@ try {
       evidence.measures.length,
     );
     assert.match(
-      await page.locator('[data-fact-id="fish-young-workers"]').innerText(),
+      await page.locator('.youth-plot').innerText(),
       /35岁以下[\s\S]*超50/,
     );
-    assert.match(await page.locator('#after').innerText(), /制作和教学继续/);
+    assert.match(await page.locator('#after').innerText(), /学来的手艺继续做下去/);
     assert.equal(await page.locator('.verdict-unknown').count(), 0);
     assert.equal(
       await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth),
