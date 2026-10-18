@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="256" height="256" viewBox="0 0 256 256">
+  <defs><filter id="fiber"><feTurbulence type="fractalNoise" baseFrequency=".62 .48" numOctaves="3" seed="19"/><feColorMatrix type="saturate" values="0"/></filter></defs>
+  <path d="M0 0H256V256H0Z" filter="url(#fiber)" opacity=".17"/>
+  <g fill="none" stroke="#897349" stroke-width=".45" stroke-opacity=".24" stroke-linecap="round">
+    <path d="M14 29L17 39M70 8L68 18M147 16Q145 24 149 29M225 32L230 42M93 57L95 66M32 79L31 89M180 60Q177 67 180 71M241 95L238 108M121 107L125 119M56 123L60 128M206 138Q209 146 207 153M12 165L13 174M150 157L147 169M86 191Q84 200 87 207M238 186L239 196M44 225L48 234M173 230L169 240M117 244L119 252"/>
+  </g>
+  <g fill="none" stroke="#fff9e6" stroke-width=".55" stroke-opacity=".37"><path d="M38 15L35 27M123 40L127 54M211 71L207 78M73 104L71 117M166 122L169 137M227 171L224 180M111 177L115 192M24 203L27 214M191 203L193 215"/></g>
+</svg>

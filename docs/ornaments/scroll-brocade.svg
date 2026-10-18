@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="192" height="192" viewBox="0 0 192 192">
+  <defs>
+    <pattern id="weave" width="6" height="6" patternUnits="userSpaceOnUse">
+      <path d="M0 1H6M1 0V6" stroke="#c4bc91" stroke-opacity=".04" stroke-width=".6"/>
+      <path d="M0 4H6M4 0V6" stroke="#000" stroke-opacity=".09" stroke-width=".5"/>
+    </pattern>
+    <g id="flower" fill="none" stroke="#9fa484" stroke-width=".7">
+      <path d="M0-34C11-26 15-19 8-9C22-16 29-13 34 0C26 11 19 15 9 8C16 22 13 29 0 34C-11 26-15 19-8 9C-22 16-29 13-34 0C-26-11-19-15-9-8C-16-22-13-29 0-34Z"/>
+      <path d="M0-23C7-17 8-10 0-5C-8-10-7-17 0-23ZM23 0C17 7 10 8 5 0C10-8 17-7 23 0ZM0 23C-7 17-8 10 0 5C8 10 7 17 0 23ZM-23 0C-17-7-10-8-5 0C-10 8-17 7-23 0Z"/>
+      <path d="M-4 0L0-4L4 0L0 4Z"/>
+    </g>
+  </defs>
+  <path fill="url(#weave)" d="M0 0H192V192H0Z"/>
+  <g fill="none" stroke="#99a185" stroke-opacity=".05" stroke-width=".65">
+    <path d="M96 0L192 96L96 192L0 96ZM0 0L192 192M192 0L0 192"/>
+    <path d="M96 12L180 96L96 180L12 96Z"/>
+  </g>
+  <g opacity=".065"><use href="#flower" x="96" y="96"/><use href="#flower" x="0" y="0"/><use href="#flower" x="192" y="0"/><use href="#flower" x="0" y="192"/><use href="#flower" x="192" y="192"/></g>
+</svg>
