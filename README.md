@@ -12,6 +12,6 @@
 
 V2.0 增加阅读动效设置、数据逐位显现、图表入场、证据表横向查看辅助和界面反馈，并支持尊重系统减少动态偏好。
 
-发布前线上版本已归档至分支 [archive/before-v2.0-20261019-d90ae94](https://github.com/creeper-QAQ/after-the-spotlight/tree/archive/before-v2.0-20261019-d90ae94)。此前 V1.4.1、V1.4、V1.3 与完整旧仓库归档继续保留。
+发布前线上版本已归档至分支 [archive/before-hide-version-switch-20261019-b83e93d](https://github.com/creeper-QAQ/after-the-spotlight/tree/archive/before-hide-version-switch-20261019-b83e93d)。此前 V1.4.1、V1.4、V1.3 与完整旧仓库归档继续保留。
 
 网站通过 GitHub Pages 从 main 分支 /docs 发布。

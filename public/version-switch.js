@@ -2,6 +2,7 @@
   const script = document.currentScript;
   const root = new URL('.', script.src);
   const edition = script.dataset.version || 'current';
+  if (edition === 'current') return;
   const versions = [
     { label: '纸上叙事版', number: 'V2.0', path: './', id: 'current' },
     { label: '改版前', number: 'V1.4.1', path: 'v1.4.1/', id: 'v141' },
