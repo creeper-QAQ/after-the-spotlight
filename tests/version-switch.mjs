@@ -55,12 +55,12 @@ try {
     const editions = [
       {
         id: 'current',
-        label: /图表增强版.*V1\.5/,
+        label: /纸上叙事版.*V2\.0/,
         next: { path: 'v1.4.1/', link: '改版前 · V1.4.1' },
       },
       { id: 'v141', label: /改版前.*V1\.4\.1/, next: { path: 'v1.4/', link: '上一版 · V1.4' } },
       { id: 'v14', label: /上一版.*V1\.4/, next: { path: 'legacy/', link: '旧版 · V1.3' } },
-      { id: 'legacy', label: /旧版.*V1\.3/, next: { path: '', link: '图表增强版 · V1.5' } },
+      { id: 'legacy', label: /旧版.*V1\.3/, next: { path: '', link: '纸上叙事版 · V2.0' } },
     ];
     for (const edition of editions) {
       const selector = page.locator('#website-versions');

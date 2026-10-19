@@ -3,7 +3,7 @@
   const root = new URL('.', script.src);
   const edition = script.dataset.version || 'current';
   const versions = [
-    { label: '图表增强版', number: 'V1.5', path: './', id: 'current' },
+    { label: '纸上叙事版', number: 'V2.0', path: './', id: 'current' },
     { label: '改版前', number: 'V1.4.1', path: 'v1.4.1/', id: 'v141' },
     { label: '上一版', number: 'V1.4', path: 'v1.4/', id: 'v14' },
     { label: '旧版', number: 'V1.3', path: 'legacy/', id: 'legacy' },
